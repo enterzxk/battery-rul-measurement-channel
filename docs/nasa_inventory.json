@@ -1,0 +1,306 @@
+[
+ {
+  "file": "5. Battery Data Set/1. BatteryAgingARC-FY08Q4.zip::B0007.mat",
+  "var": "B0007",
+  "charge": 170,
+  "discharge": 168,
+  "impedance": 278,
+  "eis_freq_median": 48
+ },
+ {
+  "file": "5. Battery Data Set/1. BatteryAgingARC-FY08Q4.zip::B0018.mat",
+  "var": "B0018",
+  "charge": 134,
+  "discharge": 132,
+  "impedance": 53,
+  "eis_freq_median": 48
+ },
+ {
+  "file": "5. Battery Data Set/1. BatteryAgingARC-FY08Q4.zip::B0005.mat",
+  "var": "B0005",
+  "charge": 170,
+  "discharge": 168,
+  "impedance": 278,
+  "eis_freq_median": 48
+ },
+ {
+  "file": "5. Battery Data Set/1. BatteryAgingARC-FY08Q4.zip::B0006.mat",
+  "var": "B0006",
+  "charge": 170,
+  "discharge": 168,
+  "impedance": 278,
+  "eis_freq_median": 48
+ },
+ {
+  "file": "5. Battery Data Set/2. BatteryAgingARC_25_26_27_28_P1.zip::B0028.mat",
+  "var": "B0028",
+  "charge": 31,
+  "discharge": 28,
+  "impedance": 21,
+  "eis_freq_median": 48
+ },
+ {
+  "file": "5. Battery Data Set/2. BatteryAgingARC_25_26_27_28_P1.zip::B0025.mat",
+  "var": "B0025",
+  "charge": 31,
+  "discharge": 28,
+  "impedance": 21,
+  "eis_freq_median": 48
+ },
+ {
+  "file": "5. Battery Data Set/2. BatteryAgingARC_25_26_27_28_P1.zip::B0026.mat",
+  "var": "B0026",
+  "charge": 31,
+  "discharge": 28,
+  "impedance": 21,
+  "eis_freq_median": 48
+ },
+ {
+  "file": "5. Battery Data Set/2. BatteryAgingARC_25_26_27_28_P1.zip::B0027.mat",
+  "var": "B0027",
+  "charge": 31,
+  "discharge": 28,
+  "impedance": 21,
+  "eis_freq_median": 48
+ },
+ {
+  "file": "5. Battery Data Set/3. BatteryAgingARC_25-44.zip::B0025.mat",
+  "var": "B0025",
+  "charge": 31,
+  "discharge": 28,
+  "impedance": 21,
+  "eis_freq_median": 48
+ },
+ {
+  "file": "5. Battery Data Set/3. BatteryAgingARC_25-44.zip::B0026.mat",
+  "var": "B0026",
+  "charge": 31,
+  "discharge": 28,
+  "impedance": 21,
+  "eis_freq_median": 48
+ },
+ {
+  "file": "5. Battery Data Set/3. BatteryAgingARC_25-44.zip::B0027.mat",
+  "var": "B0027",
+  "charge": 31,
+  "discharge": 28,
+  "impedance": 21,
+  "eis_freq_median": 48
+ },
+ {
+  "file": "5. Battery Data Set/3. BatteryAgingARC_25-44.zip::B0028.mat",
+  "var": "B0028",
+  "charge": 31,
+  "discharge": 28,
+  "impedance": 21,
+  "eis_freq_median": 48
+ },
+ {
+  "file": "5. Battery Data Set/3. BatteryAgingARC_25-44.zip::B0029.mat",
+  "var": "B0029",
+  "charge": 40,
+  "discharge": 40,
+  "impedance": 17,
+  "eis_freq_median": 48
+ },
+ {
+  "file": "5. Battery Data Set/3. BatteryAgingARC_25-44.zip::B0030.mat",
+  "var": "B0030",
+  "charge": 40,
+  "discharge": 40,
+  "impedance": 17,
+  "eis_freq_median": 48
+ },
+ {
+  "file": "5. Battery Data Set/3. BatteryAgingARC_25-44.zip::B0031.mat",
+  "var": "B0031",
+  "charge": 40,
+  "discharge": 40,
+  "impedance": 17,
+  "eis_freq_median": 48
+ },
+ {
+  "file": "5. Battery Data Set/3. BatteryAgingARC_25-44.zip::B0032.mat",
+  "var": "B0032",
+  "charge": 40,
+  "discharge": 40,
+  "impedance": 17,
+  "eis_freq_median": 48
+ },
+ {
+  "file": "5. Battery Data Set/3. BatteryAgingARC_25-44.zip::B0033.mat",
+  "var": "B0033",
+  "charge": 197,
+  "discharge": 197,
+  "impedance": 92,
+  "eis_freq_median": 48
+ },
+ {
+  "file": "5. Battery Data Set/3. BatteryAgingARC_25-44.zip::B0034.mat",
+  "var": "B0034",
+  "charge": 197,
+  "discharge": 197,
+  "impedance": 92,
+  "eis_freq_median": 48
+ },
+ {
+  "file": "5. Battery Data Set/3. BatteryAgingARC_25-44.zip::B0036.mat",
+  "var": "B0036",
+  "charge": 197,
+  "discharge": 197,
+  "impedance": 92,
+  "eis_freq_median": 48
+ },
+ {
+  "file": "5. Battery Data Set/3. BatteryAgingARC_25-44.zip::B0038.mat",
+  "var": "B0038",
+  "charge": 47,
+  "discharge": 47,
+  "impedance": 28,
+  "eis_freq_median": 48
+ },
+ {
+  "file": "5. Battery Data Set/3. BatteryAgingARC_25-44.zip::B0039.mat",
+  "var": "B0039",
+  "charge": 47,
+  "discharge": 47,
+  "impedance": 28,
+  "eis_freq_median": 48
+ },
+ {
+  "file": "5. Battery Data Set/3. BatteryAgingARC_25-44.zip::B0040.mat",
+  "var": "B0040",
+  "charge": 47,
+  "discharge": 47,
+  "impedance": 28,
+  "eis_freq_median": 48
+ },
+ {
+  "file": "5. Battery Data Set/3. BatteryAgingARC_25-44.zip::B0041.mat",
+  "var": "B0041",
+  "charge": 67,
+  "discharge": 67,
+  "impedance": 29,
+  "eis_freq_median": 48
+ },
+ {
+  "file": "5. Battery Data Set/3. BatteryAgingARC_25-44.zip::B0042.mat",
+  "var": "B0042",
+  "charge": 113,
+  "discharge": 112,
+  "impedance": 50,
+  "eis_freq_median": 48
+ },
+ {
+  "file": "5. Battery Data Set/3. BatteryAgingARC_25-44.zip::B0043.mat",
+  "var": "B0043",
+  "charge": 113,
+  "discharge": 112,
+  "impedance": 50,
+  "eis_freq_median": 48
+ },
+ {
+  "file": "5. Battery Data Set/3. BatteryAgingARC_25-44.zip::B0044.mat",
+  "var": "B0044",
+  "charge": 113,
+  "discharge": 112,
+  "impedance": 50,
+  "eis_freq_median": 48
+ },
+ {
+  "file": "5. Battery Data Set/4. BatteryAgingARC_45_46_47_48.zip::B0045.mat",
+  "var": "B0045",
+  "charge": 72,
+  "discharge": 72,
+  "impedance": 40,
+  "eis_freq_median": 48
+ },
+ {
+  "file": "5. Battery Data Set/4. BatteryAgingARC_45_46_47_48.zip::B0046.mat",
+  "var": "B0046",
+  "charge": 72,
+  "discharge": 72,
+  "impedance": 40,
+  "eis_freq_median": 48
+ },
+ {
+  "file": "5. Battery Data Set/4. BatteryAgingARC_45_46_47_48.zip::B0047.mat",
+  "var": "B0047",
+  "charge": 72,
+  "discharge": 72,
+  "impedance": 40,
+  "eis_freq_median": 48
+ },
+ {
+  "file": "5. Battery Data Set/4. BatteryAgingARC_45_46_47_48.zip::B0048.mat",
+  "var": "B0048",
+  "charge": 72,
+  "discharge": 72,
+  "impedance": 40,
+  "eis_freq_median": 48
+ },
+ {
+  "file": "5. Battery Data Set/5. BatteryAgingARC_49_50_51_52.zip::B0049.mat",
+  "var": "B0049",
+  "charge": 25,
+  "discharge": 25,
+  "impedance": 12,
+  "eis_freq_median": 48
+ },
+ {
+  "file": "5. Battery Data Set/5. BatteryAgingARC_49_50_51_52.zip::B0050.mat",
+  "var": "B0050",
+  "charge": 25,
+  "discharge": 25,
+  "impedance": 12,
+  "eis_freq_median": 48
+ },
+ {
+  "file": "5. Battery Data Set/5. BatteryAgingARC_49_50_51_52.zip::B0051.mat",
+  "var": "B0051",
+  "charge": 25,
+  "discharge": 25,
+  "impedance": 12,
+  "eis_freq_median": 48
+ },
+ {
+  "file": "5. Battery Data Set/5. BatteryAgingARC_49_50_51_52.zip::B0052.mat",
+  "var": "B0052",
+  "charge": 25,
+  "discharge": 25,
+  "impedance": 12,
+  "eis_freq_median": 48
+ },
+ {
+  "file": "5. Battery Data Set/6. BatteryAgingARC_53_54_55_56.zip::B0053.mat",
+  "var": "B0053",
+  "charge": 55,
+  "discharge": 56,
+  "impedance": 26,
+  "eis_freq_median": 48
+ },
+ {
+  "file": "5. Battery Data Set/6. BatteryAgingARC_53_54_55_56.zip::B0054.mat",
+  "var": "B0054",
+  "charge": 102,
+  "discharge": 103,
+  "impedance": 48,
+  "eis_freq_median": 48
+ },
+ {
+  "file": "5. Battery Data Set/6. BatteryAgingARC_53_54_55_56.zip::B0055.mat",
+  "var": "B0055",
+  "charge": 102,
+  "discharge": 102,
+  "impedance": 48,
+  "eis_freq_median": 48
+ },
+ {
+  "file": "5. Battery Data Set/6. BatteryAgingARC_53_54_55_56.zip::B0056.mat",
+  "var": "B0056",
+  "charge": 102,
+  "discharge": 102,
+  "impedance": 48,
+  "eis_freq_median": 48
+ }
+]

@@ -1,0 +1,794 @@
+schema_version: bsebench-dataset-prospect-catalog/v1
+generated_on: "2026-05-01"
+policy: >
+  This catalog is the broad BSEBench discovery layer. A prospect is not an
+  official downloadable BSEBench dataset until a strict manifest exists under
+  manifests/ with verified SHA-256 hashes and a Hugging Face Tier 1 mirror.
+  Records with redistribution=unknown or blocked must not be mirrored until
+  licensing is resolved.
+
+prospects:
+  - name: severson_2019_lfp
+    display_name: "Severson 2019 LFP fast-charge cycle-life dataset"
+    source_kind: dataset
+    institution: "MIT / Stanford / Toyota Research Institute"
+    source_confidence: high
+    canonical_url: https://data.matr.io/1/projects/5c48dd2bc625d700019f3204
+    canonical_doi: "10.1038/s41560-019-0356-8"
+    publication_year: 2019
+    chemistries: [LFP]
+    profiles: [fast_charge, constant_current_discharge]
+    bsebench_tasks: [soh, rul, soc]
+    named_variants:
+      - "2017-05-12 batch"
+      - "2017-06-30 batch"
+      - "2018-04-12 batch"
+    temperatures_C: [30]
+    n_cells_total: 124
+    sampling_rate_hz: 0.2
+    total_size_gb: 8.27
+    license: CC-BY-4.0
+    redistribution: allowed
+    access_friction: registration_required
+    ingestion_status: mirrored_tier2
+    priority: p0
+    huggingface_tier1_repo: bsebench-org/severson-2019-raw
+    huggingface_tier2_repo: bsebench-org/severson-2019
+    references:
+      - label: "MATR project"
+        url: https://data.matr.io/1/projects/5c48dd2bc625d700019f3204
+    notes: "Canonical BSEBench proof-of-pipeline dataset."
+
+  - name: oxford_birkl_2017
+    display_name: "Oxford Battery Degradation Dataset 1"
+    source_kind: dataset
+    institution: "University of Oxford"
+    source_confidence: high
+    canonical_url: https://ora.ox.ac.uk/objects/uuid:03ba4b01-cfed-46d3-9b1a-7d4a7bdf6fac
+    canonical_doi: "10.5287/bodleian:KO2kdmYGg"
+    publication_year: 2017
+    chemistries: [NMC]
+    profiles: [artemis_urban_drive_cycle, rpt]
+    bsebench_tasks: [soc, soh, rul, ecm]
+    named_variants:
+      - "Cell1"
+      - "Cell2"
+      - "Cell3"
+      - "Cell4"
+      - "Cell5"
+      - "Cell6"
+      - "Cell7"
+      - "Cell8"
+    temperatures_C: [40]
+    n_cells_total: 8
+    sampling_rate_hz: 1.0
+    total_size_gb: 0.26
+    license: ODbL-1.0
+    redistribution: allowed
+    access_friction: open
+    ingestion_status: mirrored_tier2
+    priority: p0
+    huggingface_tier1_repo: bsebench-org/oxford-birkl-2017-raw
+    huggingface_tier2_repo: bsebench-org/oxford-birkl-2017
+    references:
+      - label: "Oxford ORA record"
+        url: https://ora.ox.ac.uk/objects/uuid:03ba4b01-cfed-46d3-9b1a-7d4a7bdf6fac
+
+  - name: nasa_rw_2014
+    display_name: "NASA PCoE Randomized Battery Usage Data Set"
+    source_kind: dataset
+    institution: "NASA Ames Prognostics Center of Excellence"
+    source_confidence: high
+    canonical_url: https://www.nasa.gov/intelligent-systems-division/discovery-and-systems-health/pcoe/pcoe-data-set-repository/
+    publication_year: 2014
+    chemistries: [LCO]
+    profiles: [random_walk, reference_performance_test]
+    bsebench_tasks: [soc, soh, rul]
+    named_variants:
+      - "Randomized Battery Usage 1"
+      - "Randomized Battery Usage 2"
+      - "Randomized Battery Usage 3"
+      - "Randomized Battery Usage 4"
+      - "Randomized Battery Usage 5"
+      - "Randomized Battery Usage 6"
+      - "Randomized Battery Usage 7"
+      - "Small Satellite Power Simulation BP930"
+      - "Randomized and Recommissioned Battery Dataset"
+    n_cells_total: 28
+    sampling_rate_hz: 1.0
+    total_size_gb: 1.07
+    license: CC0-1.0
+    redistribution: allowed
+    access_friction: open
+    ingestion_status: mirrored_tier1
+    priority: p0
+    huggingface_tier1_repo: bsebench-org/nasa-rw-2014-raw
+    references:
+      - label: "NASA PCoE repository"
+        url: https://www.nasa.gov/intelligent-systems-division/discovery-and-systems-health/pcoe/pcoe-data-set-repository/
+
+  - name: empa_aurora_2025
+    display_name: "Empa Aurora BDF-native robotic battery dataset"
+    source_kind: dataset
+    institution: "Empa / ETH Zurich / EPFL / SINTEF"
+    source_confidence: high
+    canonical_url: https://zenodo.org/records/15481956
+    canonical_doi: "10.5281/zenodo.15481956"
+    publication_year: 2025
+    chemistries: [NMC, LFP]
+    profiles: [automated_cycling]
+    bsebench_tasks: [soc, soh, rul]
+    named_variants:
+      - "NMC graphite coin cells"
+      - "LFP graphite coin cells"
+    n_cells_total: 199
+    sampling_rate_hz: 1.0
+    total_size_gb: 2.51
+    license: CC-BY-4.0
+    redistribution: allowed
+    access_friction: open
+    ingestion_status: mirrored_tier1
+    priority: p0
+    huggingface_tier1_repo: bsebench-org/empa-aurora-2025-raw
+    references:
+      - label: "LF Energy BDA release"
+        url: https://batterydataalliance.energy/news/largest-dataset-release
+      - label: "Zenodo record"
+        url: https://zenodo.org/records/15481956
+
+  - name: yao_tu_berlin_2024
+    display_name: "TU Berlin lithium-ion drive-cycle dataset"
+    source_kind: dataset
+    institution: "Technische Universitaet Berlin"
+    source_confidence: high
+    canonical_url: https://github.com/JiaqiYaoTUB/Lithium-Ion-Battery-Drive-Cycle-Dataset
+    publication_year: 2024
+    chemistries: [NMC]
+    profiles: [BCDC, LA92, HHDDT, IM, CSHVC, FTP72, FTP75, HWFET, US06, PDTCB, PDMHC, OCTBC]
+    bsebench_tasks: [soc, soh, ecm]
+    named_variants:
+      - "NMC063"
+      - "NMC068"
+      - "NMC069"
+    temperatures_C: [5, 15, 25, 35, 45]
+    n_cells_total: 3
+    sampling_rate_hz: 10.0
+    total_size_gb: 1.1
+    license: CC-BY-4.0
+    redistribution: allowed
+    access_friction: open
+    ingestion_status: mirrored_tier1
+    priority: p1
+    huggingface_tier1_repo: bsebench-org/yao-tu-berlin-2024-raw
+    references:
+      - label: "GitHub repository"
+        url: https://github.com/JiaqiYaoTUB/Lithium-Ion-Battery-Drive-Cycle-Dataset
+
+  - name: lg_hg2_stroebl_2024
+    display_name: "KIT LG HG2 NMC/C-SiO aging dataset subset"
+    source_kind: dataset_subset
+    institution: "Karlsruhe Institute of Technology"
+    source_confidence: high
+    canonical_url: https://radar4kit.kit.edu/radar/en/dataset/sZmjUlDKNpkpWFFC
+    canonical_doi: "10.35097/1947"
+    publication_year: 2024
+    chemistries: [NMC_C_SiO]
+    profiles: [calendar_aging, cyclic_aging, wltc]
+    bsebench_tasks: [soc, soh, eis]
+    named_variants:
+      - "WLTC truncated 28-cell subset"
+      - "full 228-cell raw log archive"
+      - "capacity fade records"
+      - "impedance fade records"
+    n_cells_total: 228
+    sampling_rate_hz: 0.5
+    total_size_gb: 69.0
+    license: CC-BY-4.0
+    redistribution: allowed
+    access_friction: open
+    ingestion_status: mirrored_tier1
+    priority: p1
+    huggingface_tier1_repo: bsebench-org/lg-hg2-stroebl-2024-raw
+    references:
+      - label: "Scientific Data article"
+        url: https://www.nature.com/articles/s41597-024-03831-x
+      - label: "Zenodo log data"
+        url: https://zenodo.org/records/14555843
+
+  - name: batterylife_calb
+    display_name: "BatteryLife CALB LFP dataset"
+    source_kind: dataset
+    institution: "BatteryLife Project"
+    source_confidence: high
+    canonical_url: https://github.com/Ruifeng-Tan/BatteryLife
+    publication_year: 2024
+    chemistries: [LFP]
+    profiles: [industrial_cycle_life]
+    bsebench_tasks: [soc, soh, rul]
+    named_variants:
+      - "CALB B173-B225"
+      - "CALB T25 reference"
+      - "CALB 25C aging"
+      - "CALB 35C aging"
+    n_cells_total: 16
+    sampling_rate_hz: 1.0
+    license: CC-BY-4.0
+    redistribution: allowed
+    access_friction: open
+    ingestion_status: mirrored_tier1
+    priority: p1
+    huggingface_tier1_repo: bsebench-org/batterylife-calb-raw
+    references:
+      - label: "BatteryLife GitHub"
+        url: https://github.com/Ruifeng-Tan/BatteryLife
+
+  - name: batterylife_naion
+    display_name: "BatteryLife sodium-ion dataset"
+    source_kind: dataset
+    institution: "BatteryLife Project"
+    source_confidence: high
+    canonical_url: https://github.com/Ruifeng-Tan/BatteryLife
+    publication_year: 2024
+    chemistries: [Na_ion]
+    profiles: [cycle_life]
+    bsebench_tasks: [soc, soh, rul]
+    named_variants:
+      - "Na-ion 270040 campaign"
+      - "Na-ion multi-campaign cycle-life records"
+    n_cells_total: 16
+    sampling_rate_hz: 1.0
+    license: CC-BY-4.0
+    redistribution: allowed
+    access_friction: open
+    ingestion_status: mirrored_tier1
+    priority: p1
+    huggingface_tier1_repo: bsebench-org/batterylife-naion-raw
+    references:
+      - label: "BatteryLife GitHub"
+        url: https://github.com/Ruifeng-Tan/BatteryLife
+
+  - name: battery_life_aggregate
+    display_name: "BatteryLife aggregate benchmark"
+    source_kind: aggregate
+    institution: "HKUST(GZ) / BatteryLife Project"
+    source_confidence: high
+    canonical_url: https://github.com/Ruifeng-Tan/BatteryLife
+    canonical_doi: "10.1145/3711896.3737372"
+    publication_year: 2025
+    chemistries: [Li_ion, Zn_ion, Na_ion, LFP, NMC, LCO]
+    profiles: [cycle_life, battery_life_prediction]
+    bsebench_tasks: [soh, rul]
+    named_variants:
+      - "CALCE"
+      - "MATR"
+      - "HUST"
+      - "RWTH"
+      - "ISU_ILCC"
+      - "XJTU"
+      - "Tongji"
+      - "Stanford"
+      - "HNEI"
+      - "SNL"
+      - "MICH"
+      - "MICH_EXP"
+      - "UL_PUR"
+      - "CALB"
+      - "Na-ion"
+      - "Zn-ion"
+      - "SDU"
+      - "Stanford_2"
+    n_cells_total: 990
+    license: MIT for code; data licenses vary by upstream source
+    redistribution: unknown
+    access_friction: open
+    ingestion_status: license_review
+    priority: p1
+    blockers:
+      - "Upstream aggregate mixes datasets with different licenses; mirror only source-by-source after license audit."
+    references:
+      - label: "BatteryLife README"
+        url: https://github.com/Ruifeng-Tan/BatteryLife
+
+  - name: nasa_pcoe_liion_aging
+    display_name: "NASA PCoE Li-ion Battery Aging Datasets"
+    source_kind: dataset_family
+    institution: "NASA Ames Prognostics Center of Excellence"
+    source_confidence: high
+    canonical_url: https://data.nasa.gov/dataset/li-ion-battery-aging-datasets
+    publication_year: 2010
+    chemistries: [LCO]
+    profiles: [charge, discharge, eis, deep_discharge]
+    bsebench_tasks: [soc, soh, rul, eis]
+    named_variants:
+      - "NASA B0005"
+      - "NASA B0006"
+      - "NASA B0007"
+      - "NASA B0018"
+      - "NASA EIS Impedance Aging Dataset"
+    sampling_rate_hz: 10.0
+    license: NASA open data / license not specified on current data.nasa.gov record
+    redistribution: unknown
+    access_friction: open
+    ingestion_status: license_review
+    priority: p1
+    blockers:
+      - "Current NASA Open Data page says license not specified; verify NASA public-domain status for raw files before mirroring."
+    references:
+      - label: "NASA Open Data record"
+        url: https://data.nasa.gov/dataset/li-ion-battery-aging-datasets
+
+  - name: calce_battery_portal
+    display_name: "CALCE Battery Research Data portal"
+    source_kind: portal
+    institution: "University of Maryland CALCE"
+    source_confidence: high
+    canonical_url: https://calce.umd.edu/data
+    chemistries: [LCO, LFP, NMC, NCA]
+    profiles: [full_cycling, partial_cycling, storage, dst, fuds, us06, ocv, eis]
+    bsebench_tasks: [soc, soh, rul, eis, ecm]
+    named_variants:
+      - "CS2 Series"
+      - "CX2 Series"
+      - "PL Series"
+      - "IN Series"
+      - "A123 Series"
+      - "K2 Series"
+      - "Moli Series"
+      - "LG 18650HG2 Degradation Data"
+      - "Samsung 35E Degradation Data"
+      - "Sony Murata VTC4 Degradation Data"
+      - "Sony Murata VTC5 Degradation Data"
+      - "Dynamic Stress Test Profile Data"
+      - "Federal Urban Driving Schedule Profile Data"
+      - "US06 Highway Driving Profile Data"
+      - "BJD Series Data"
+    license: open access, explicit redistribution license not found
+    redistribution: unknown
+    access_friction: open
+    ingestion_status: license_review
+    priority: p1
+    blockers:
+      - "CALCE asks for citation but does not expose a standard redistribution license on the portal."
+    references:
+      - label: "CALCE data portal"
+        url: https://calce.umd.edu/data
+
+  - name: mit_stanford_toyota_fast_charge
+    display_name: "MIT-Stanford-Toyota fast charging MATR family"
+    source_kind: dataset_family
+    institution: "MIT / Stanford / Toyota Research Institute"
+    source_confidence: high
+    canonical_url: https://data.matr.io/
+    chemistries: [LFP]
+    profiles: [fast_charge, closed_loop_optimization, extreme_fast_charging]
+    bsebench_tasks: [soh, rul]
+    named_variants:
+      - "MIT Fast-Charging Batch 1"
+      - "MIT Fast-Charging Batch 2"
+      - "MIT Fast-Charging Batch 3"
+      - "MIT Fast-Charging Batch 4"
+      - "MIT Fast-Charging Batch 5"
+      - "MIT Fast-Charging Batch 6"
+      - "MIT Fast-Charging Batch 7"
+      - "MIT Fast-Charging Batch 8"
+      - "MIT Fast-Charging Batch 9"
+    redistribution: unknown
+    access_friction: registration_required
+    ingestion_status: source_verification
+    priority: p1
+    blockers:
+      - "Split exact MATR project IDs and license terms for each later batch before mirroring."
+    references:
+      - label: "MATR data portal"
+        url: https://data.matr.io/
+
+  - name: sandia_battery_archive
+    display_name: "Sandia / Battery Archive aging and abuse datasets"
+    source_kind: dataset_family
+    institution: "Sandia National Laboratories / Battery Archive"
+    source_confidence: high
+    canonical_url: https://batteryarchive.org/study_summaries.html
+    chemistries: [LFP, NCA, NMC]
+    profiles: [cycle_life, temperature_matrix, abuse, thermal_runaway]
+    bsebench_tasks: [soc, soh, rul, thermal, abuse]
+    named_variants:
+      - "SNL 18650 LFP Aging at 15C"
+      - "SNL 18650 LFP Aging at 25C"
+      - "SNL 18650 LFP Aging at 35C"
+      - "SNL 18650 NCA Aging at 15C"
+      - "SNL 18650 NCA Aging at 25C"
+      - "SNL 18650 NCA Aging at 35C"
+      - "SNL 18650 NMC Aging at 15C"
+      - "SNL 18650 NMC Aging at 25C"
+      - "SNL 18650 NMC Aging at 35C"
+      - "SNL Mechanically Induced Thermal Runaway Dataset"
+      - "SNL High Depth of Discharge Extreme Cycling"
+    n_cells_total: 50
+    temperatures_C: [15, 25, 35]
+    license: Battery Archive permission-based; source publications vary
+    redistribution: unknown
+    access_friction: open
+    ingestion_status: license_review
+    priority: p1
+    blockers:
+      - "Battery Archive states uploads have permission, but dataset-specific mirror rights must be verified."
+    references:
+      - label: "Battery Archive studies"
+        url: https://batteryarchive.org/study_summaries.html
+
+  - name: oxford_battery_intelligence
+    display_name: "Oxford Battery Intelligence / Howey lab datasets"
+    source_kind: dataset_family
+    institution: "University of Oxford"
+    source_confidence: medium
+    canonical_url: https://ora.ox.ac.uk/
+    chemistries: [NMC, mixed]
+    profiles: [artemis, energy_trading, calendar_cyclic_mixed, thermal_imaging, ev_fleet]
+    bsebench_tasks: [soc, soh, rul, thermal, fleet]
+    named_variants:
+      - "Oxford Battery Degradation Dataset 1"
+      - "Oxford Energy Trading Battery Degradation Dataset"
+      - "Oxford Path Dependence Dataset"
+      - "Oxford Thermal Image Battery Dataset"
+      - "Oxford EV Fleet Real-World Data"
+    redistribution: unknown
+    access_friction: open
+    ingestion_status: source_verification
+    priority: p2
+    references:
+      - label: "Oxford Research Archive"
+        url: https://ora.ox.ac.uk/
+
+  - name: mcmaster_kollmeyer_datasets
+    display_name: "McMaster / Kollmeyer automotive battery datasets"
+    source_kind: dataset_family
+    institution: "McMaster Automotive Resource Centre"
+    source_confidence: medium
+    canonical_url: https://data.mendeley.com/datasets/cp3473x7xv/3
+    publication_year: 2020
+    chemistries: [NMC, LFP, mixed]
+    profiles: [udds, hwfet, us06, la92, temperature_sweep]
+    bsebench_tasks: [soc, ecm]
+    named_variants:
+      - "McMaster LG HG2 18650 Dataset"
+      - "McMaster Samsung INR18650-20R Dataset"
+      - "McMaster Panasonic NCR18650B Dataset"
+      - "McMaster Sanyo UR18650E Dataset"
+      - "McMaster A123 ANR26650M1-B Dataset"
+    temperatures_C: [-20, -10, 0, 10, 25, 40]
+    redistribution: unknown
+    access_friction: open
+    ingestion_status: source_verification
+    priority: p2
+    blockers:
+      - "Several McMaster records are single-cell characterization datasets; separate SOC validation value from SOH benchmark value."
+    references:
+      - label: "Mendeley LG HG2 dataset"
+        url: https://data.mendeley.com/datasets/cp3473x7xv/3
+
+  - name: hnei_isu_variability
+    display_name: "HNEI and ISU-ILCC intrinsic variability datasets"
+    source_kind: dataset_family
+    institution: "Hawaii Natural Energy Institute / Iowa State University"
+    source_confidence: high
+    canonical_url: https://batteryarchive.org/study_summaries.html
+    chemistries: [NMC_LCO, NMC]
+    profiles: [constant_current, varying_usage, high_c_rate, extreme_dod, calendar]
+    bsebench_tasks: [soh, rul]
+    named_variants:
+      - "HNEI 18650 NMC/LCO Intrinsic Variability Batch 1"
+      - "HNEI 18650 NMC/LCO Intrinsic Variability Batch 2"
+      - "HNEI 18650 NMC/LCO Intrinsic Variability Batch 3"
+      - "HNEI Long-term Calendar Aging Dataset"
+      - "HNEI Low-Temperature Cycling Dataset"
+      - "ISU-ILCC Varying Usage Conditions"
+      - "ISU-ILCC Extreme DoD Pouch Cell Dataset"
+      - "ISU-ILCC High C-Rate Charge/Discharge Dataset"
+    n_cells_total: 252
+    license: Battery Archive and author policies vary
+    redistribution: unknown
+    access_friction: open
+    ingestion_status: license_review
+    priority: p1
+    references:
+      - label: "Battery Archive HNEI and ISU summaries"
+        url: https://batteryarchive.org/study_summaries.html
+
+  - name: european_institution_pool
+    display_name: "European institutional battery dataset pool"
+    source_kind: dataset_family
+    institution: "RWTH Aachen / Aalborg / TUM / VUB / KTH / WMG / Imperial"
+    source_confidence: medium
+    canonical_url: https://github.com/Ruifeng-Tan/BatteryLife
+    chemistries: [LFP, NMC, NCA, Li_Sulfur, Na_ion, solid_state]
+    profiles: [drive_cycle, forklift, ferry, v2g, swelling, eis, thermal_management]
+    bsebench_tasks: [soc, soh, rul, eis, thermal, fleet]
+    named_variants:
+      - "RWTH Aachen CARL Drive Cycle Aging Dataset"
+      - "RWTH Aachen CARL High-Power Cycling Dataset"
+      - "Aalborg University Forklift Operation Profile Dataset"
+      - "Aalborg University EV Driving Profile Dataset"
+      - "Aalborg University E-Ferry Profile Dataset"
+      - "TUM LFP Aging Dataset"
+      - "TUM NMC Battery Swelling and Aging Dataset"
+      - "VUB Li-ion EIS Dataset"
+      - "VUB Solid State Battery Aging Dataset"
+      - "KTH Fast Charging Dataset"
+      - "WMG Battery Aging under V2G operations"
+      - "WMG Li-Sulfur Battery Dataset"
+      - "WMG Sodium-Ion Battery Cycling Dataset"
+      - "Imperial College London Pulse Power Battery Dataset"
+      - "Imperial College London Thermal Management Dataset"
+    redistribution: unknown
+    access_friction: unknown
+    ingestion_status: source_verification
+    priority: p2
+    references:
+      - label: "BatteryLife source list"
+        url: https://github.com/Ruifeng-Tan/BatteryLife
+
+  - name: rwth_isea_drive_cycle_2021
+    display_name: "RWTH ISEA drive-cycle aging test of 28 NCA/C+Si 18650 cells"
+    source_kind: dataset
+    institution: "RWTH Aachen ISEA"
+    source_confidence: high
+    canonical_url: https://publications.rwth-aachen.de/record/815749/files/
+    publication_year: 2021
+    chemistries: [NCA_C_Si]
+    profiles: [drive_cycle_aging]
+    bsebench_tasks: [soc, soh, rul]
+    named_variants:
+      - "28 high-energy NCA/C+Si 18650 round cells"
+    n_cells_total: 28
+    redistribution: unknown
+    access_friction: open
+    ingestion_status: license_review
+    priority: p1
+    references:
+      - label: "RWTH Publications record"
+        url: https://publications.rwth-aachen.de/record/815749/files/
+
+  - name: imperial_kirkaldy_21700_2024
+    display_name: "Faraday / Imperial 21700 cycle-aging dataset"
+    source_kind: dataset
+    institution: "Imperial College London / The Faraday Institution"
+    source_confidence: high
+    canonical_url: https://zenodo.org/records/10637534
+    canonical_doi: "10.5281/zenodo.10637534"
+    publication_year: 2024
+    chemistries: [NMC811]
+    profiles: [cycle_aging, drive_cycle_aging, pocv, gitt]
+    bsebench_tasks: [soc, soh, rul, ecm]
+    named_variants:
+      - "Expt 1 Si-based Degradation"
+      - "Expt 2 Mixed Degradation"
+      - "Expt 3 Cathode Degradation and Li-Plating"
+      - "Expt 4 Drive Cycle Aging Control"
+      - "Expt 5 Standard Cycle Aging Control"
+    temperatures_C: [10, 25, 40]
+    total_size_gb: 49.4
+    license: CC-BY-4.0
+    redistribution: allowed
+    access_friction: open
+    ingestion_status: ready_for_tier1
+    priority: p0
+    references:
+      - label: "Zenodo record"
+        url: https://zenodo.org/records/10637534
+
+  - name: imperial_pack_thermal_gradient_2023
+    display_name: "Imperial pack degradation under thermal gradients"
+    source_kind: dataset
+    institution: "Imperial College London"
+    source_confidence: high
+    canonical_url: https://zenodo.org/records/10207731
+    canonical_doi: "10.5281/zenodo.10207731"
+    publication_year: 2023
+    chemistries: [Li_ion]
+    profiles: [pack_aging, thermal_gradient]
+    bsebench_tasks: [pack, soh, thermal]
+    named_variants:
+      - "parallel-connected pack degradation raw data"
+      - "parallel-connected pack processed data"
+    redistribution: unknown
+    access_friction: open
+    ingestion_status: license_review
+    priority: p2
+    references:
+      - label: "Zenodo record"
+        url: https://zenodo.org/records/10207731
+
+  - name: xjtu_55_cell_dataset
+    display_name: "XJTU battery dataset"
+    source_kind: dataset
+    institution: "Xi'an Jiaotong University"
+    source_confidence: high
+    canonical_url: https://wang-fujin.github.io/
+    publication_year: 2024
+    chemistries: [NCM523]
+    profiles: [six_charge_discharge_strategies]
+    bsebench_tasks: [soh, rul]
+    named_variants:
+      - "XJTU Batch 1"
+      - "XJTU Batch 2"
+      - "XJTU Batch 3"
+      - "XJTU Batch 4"
+      - "XJTU Batch 5"
+      - "XJTU Batch 6"
+      - "XJTU RUL Prediction Benchmark Dataset"
+    n_cells_total: 55
+    sampling_rate_hz: 1.0
+    redistribution: unknown
+    access_friction: open
+    ingestion_status: license_review
+    priority: p1
+    references:
+      - label: "XJTU dataset page"
+        url: https://wang-fujin.github.io/
+      - label: "XJTU papers summary"
+        url: https://github.com/wang-fujin/XJTU-Battery-Dataset-Papers-Summary
+
+  - name: asian_institution_pool
+    display_name: "Asian institutional EV, fast-charge, and thermal-runaway pool"
+    source_kind: dataset_family
+    institution: "XJTU / BIT / Tsinghua / Tongji / CAAM"
+    source_confidence: medium
+    canonical_url: https://github.com/Ruifeng-Tan/BatteryLife
+    chemistries: [NMC, NCM, LFP, mixed]
+    profiles: [fast_charging, ev_real_world, thermal_runaway, hybrid_fuel_cell]
+    bsebench_tasks: [soc, soh, rul, thermal, fleet]
+    named_variants:
+      - "XJTU Battery Degradation Dataset 1"
+      - "XJTU Battery Degradation Dataset 2"
+      - "XJTU RUL Prediction Benchmark Dataset"
+      - "BIT EV Battery Real-world Driving Dataset"
+      - "Tsinghua University Battery Fast Charging Dataset"
+      - "Tsinghua University Thermal Runaway Dataset"
+      - "Tongji University Fuel Cell and Li-ion Hybrid Dataset"
+      - "CAAM EV Real-world Operation Dataset"
+    redistribution: unknown
+    access_friction: unknown
+    ingestion_status: source_verification
+    priority: p2
+    references:
+      - label: "BatteryLife source list"
+        url: https://github.com/Ruifeng-Tan/BatteryLife
+
+  - name: industry_second_life_bess_pool
+    display_name: "Industrial, second-life, abuse, and BESS dataset pool"
+    source_kind: dataset_family
+    institution: "ANL / NREL / Purdue / Michigan / UW-Madison / PyBaMM / BEEP"
+    source_confidence: medium
+    canonical_url: https://batteryarchive.org/
+    chemistries: [LFP, NMC, NCA, mixed]
+    profiles: [automotive, second_life, abuse, bess_operation, validation]
+    bsebench_tasks: [soc, soh, rul, abuse, thermal, second_life, fleet]
+    named_variants:
+      - "Argonne National Lab Automotive Usage Dataset"
+      - "NREL Second-Life Battery Dataset"
+      - "NREL Battery Abuse Testing Dataset"
+      - "University of Michigan Battery Degradation and Expansion Dataset"
+      - "Energy Storage Power Station Real-World BESS Dataset"
+      - "UL-PUR Thermal Runaway Mitigation Dataset"
+      - "Panasonic 18650PF Temperature Dependent Dataset"
+      - "BEEP Validation Datasets"
+      - "PyBaMM Open Validation Datasets"
+      - "Battery Failure Databank"
+    redistribution: unknown
+    access_friction: unknown
+    ingestion_status: source_verification
+    priority: p2
+    references:
+      - label: "Battery Archive"
+        url: https://batteryarchive.org/
+
+  - name: energy_storage_power_station_2026
+    display_name: "Energy Storage Power Station Li-ion real-world operation dataset"
+    source_kind: dataset
+    institution: "Zenodo community contributor"
+    source_confidence: medium
+    canonical_url: https://zenodo.org/records/18471156
+    publication_year: 2026
+    chemistries: [Li_ion]
+    profiles: [bess_operation, charging, discharging, power_fluctuation]
+    bsebench_tasks: [soc, soh, thermal, fault]
+    named_variants:
+      - "BatteryData.zip"
+    total_size_gb: 0.0192
+    redistribution: unknown
+    access_friction: open
+    ingestion_status: license_review
+    priority: p2
+    references:
+      - label: "Zenodo record"
+        url: https://zenodo.org/records/18471156
+
+  - name: bayreuth_degradation_path_indicators_2025
+    display_name: "Degradation path indicators for lithium-ion batteries"
+    source_kind: dataset
+    institution: "University of Bayreuth"
+    source_confidence: high
+    canonical_url: https://zenodo.org/records/15755725
+    publication_year: 2025
+    chemistries: [Li_ion]
+    profiles: [cccv_discharge_capacity, pulse_measurements, pseudo_ocv, eis, nfra]
+    bsebench_tasks: [soh, eis, ecm]
+    named_variants:
+      - "48-cell beginning-of-life records"
+      - "48-cell aging records"
+      - "48-cell end-of-life records"
+    n_cells_total: 48
+    redistribution: unknown
+    access_friction: open
+    ingestion_status: license_review
+    priority: p2
+    references:
+      - label: "Zenodo record"
+        url: https://zenodo.org/records/15755725
+
+  - name: battery_life_unprocessed_watchlist
+    display_name: "BatteryLife open-source unprocessed dataset watchlist"
+    source_kind: aggregate
+    institution: "BatteryLife Project / community sources"
+    source_confidence: high
+    canonical_url: https://github.com/Ruifeng-Tan/BatteryLife
+    chemistries: [Li_ion, Na_ion, mixed]
+    profiles: [evtols, dynamic_cycling, aging_matrix, ct_scans, mixed_sources]
+    bsebench_tasks: [soh, rul, thermal, fault]
+    named_variants:
+      - "CMU eVTOL Battery Dataset"
+      - "Stanford Dynamic Cycling Enhances Battery Lifetime"
+      - "MATR Aging Matrix 2025"
+      - "Degradation Path Prediction under Dynamic Operating Sequences"
+      - "Physics-informed Degradation Pattern Decoupling"
+      - "Computed Tomography Scans of Battery Cells"
+      - "Lithium to Sodium Lifetime Prognosis Transfer"
+      - "Large Battery Model Mixed Sources"
+      - "Discovery Learning Cycle Life Dataset"
+    redistribution: unknown
+    access_friction: unknown
+    ingestion_status: source_verification
+    priority: p2
+    references:
+      - label: "BatteryLife README watchlist"
+        url: https://github.com/Ruifeng-Tan/BatteryLife
+
+  - name: pybamm_validation_datasets
+    display_name: "PyBaMM open validation datasets"
+    source_kind: benchmark
+    institution: "PyBaMM community"
+    source_confidence: medium
+    canonical_url: https://github.com/pybamm-team/PyBaMM
+    chemistries: [Li_ion]
+    profiles: [model_validation]
+    bsebench_tasks: [ecm, soc, soh]
+    named_variants:
+      - "PyBaMM lithium-ion validation examples"
+      - "PyBaMM parameter-set validation references"
+    redistribution: unknown
+    access_friction: open
+    ingestion_status: source_verification
+    priority: p3
+    references:
+      - label: "PyBaMM GitHub"
+        url: https://github.com/pybamm-team/PyBaMM
+
+  - name: beep_validation_datasets
+    display_name: "BEEP validation datasets"
+    source_kind: benchmark
+    institution: "Toyota Research Institute / Stanford / BEEP community"
+    source_confidence: medium
+    canonical_url: https://github.com/TRI-AMDD/beep
+    chemistries: [Li_ion, LFP, NMC]
+    profiles: [early_prediction, validation]
+    bsebench_tasks: [soh, rul]
+    named_variants:
+      - "BEEP validation split"
+      - "BEEP processed cycle-life records"
+    redistribution: unknown
+    access_friction: open
+    ingestion_status: source_verification
+    priority: p3
+    references:
+      - label: "BEEP GitHub"
+        url: https://github.com/TRI-AMDD/beep

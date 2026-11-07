@@ -1,0 +1,10 @@
+# 版权材料：已下载的论文 PDF 与抽取的全文文本，不随仓库分发
+docs/papers/*.pdf
+docs/papers/_extracted/
+
+# 运行时缓存
+__pycache__/
+*.pyc
+*.npz
+*.pkl
+.pytest_cache/
