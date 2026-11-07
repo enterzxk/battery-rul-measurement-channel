@@ -118,10 +118,10 @@ design effect = 1 + (组均大小 − 1) × ICC
 
 | 资源 | 状态 |
 |---|---|
-| 本机 GPU | **NVIDIA RTX 3060 12 GB 存在**，但当前 torch 是 CPU-only 构建（`2.4.1+cpu`，`cuda.is_available()==False`）→ 要用 GPU 须先装 CUDA 版 torch |
+| 本机 GPU | RTX 3060 12 GB 存在，但 torch 为 CPU-only 构建（`2.4.1+cpu`）→ 需装 CUDA 版 torch 才可用 |
 | 本机 CPU | i5-13400F，10 物理核 / 16 线程，16 GB |
-| lab-server | 172.25.52.97:22 可达（SSH key `id_ed25519_lab_server`）；**GPU 未核实** |
-| campus-h3 | 10.50.1.240:2022 可达（SSH key `id_ed25519_campus_h3`）；**GPU 未核实** |
+| **lab-server** | ✅ **NVIDIA A40 48 GB**（SSH `lab-server`，key `id_ed25519_lab_server`）；32 核 / 62 GB RAM |
+| **campus-h3** | ✅ **2 × RTX 3090 24 GB**（SSH `campus-h3`，key `id_ed25519_campus_h3`）；64 核 / 125 GB RAM |
 
 **政策**：
 
@@ -130,6 +130,8 @@ design effect = 1 + (组均大小 − 1) × ICC
 - 每个实验跑之前先回答：**如果失败，我得到什么信息？** 答不出来就不跑。
 - 神经网络实验要多 seed；但本项目已实测 HGB 在此规模**确定性**（std=0），不要浪费算力跑多 seed，改用 bootstrap 承载方差。
 - 上服务器跑之前先探测 GPU（`nvidia-smi`），没探测不许声明"已部署到 GPU"。
+- **优先 campus-h3**（2×3090，64 核，125 GB）；A40 在 lab-server，单卡 48 GB 适合大显存单任务。
+- 远程跑一律 `nohup`/`tmux` + 日志落盘，结果拉回本地 `results/` 后才算数。
 
 ---
 
