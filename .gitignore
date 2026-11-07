@@ -8,3 +8,9 @@ __pycache__/
 *.npz
 *.pkl
 .pytest_cache/
+
+# 外部仓库的 clone（代码层面审计用，不随本仓库分发）
+external/repos/
+
+# ARIS 运行期
+.aris/tools/*.pyc
