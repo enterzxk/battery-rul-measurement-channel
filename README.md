@@ -1,76 +1,72 @@
-# 非循环测量通道对电池 RUL 预测的增量价值
+# 一个不存在的增益：脉冲弛豫 RUL 预测中的拟合窗与标签单位伪影
 
-> 实证研究草稿。全部数字可追溯到 `docs/` 下的结果文件。
+> 实证研究草稿（v2，2026-11-07）。全部数字可追溯到 `docs/e1_v2_fixed_results.md`。
 
 ## 一句话
 
-在 64 个 LFP 电芯、11 个工况组上，把脉冲弛豫的两节 RC 拟合参数加入放电曲线基线，电芯宏平均误差从 **6.587 降到 6.020（−8.6%）**，95% CI **[−0.999, −0.133]**，留一电芯下同向，62.5% 电芯改善。
+我们曾报告脉冲弛豫参数把跨工况 RUL 误差降低 8.6%。**审计发现这是两个实现缺陷的产物。** 修复后增益降到 5.3%，且在两种统计单位下都不显著。
 
-## 核心结论
+## 两个伪影
 
-| 项 | 结果 |
-|---|---|
-| 通道增量（LOGO） | 6.587 → 6.020，−8.6%，CI [−0.999, −0.133] |
-| 通道增量（LOCO） | 5.069 → 4.591 |
-| 维度匹配后的参数化优势 | 从 0.135 缩到 0.089（约 1/3–1/2 是维度效应）|
-| 方法层（轨迹编码 + 测试时适配） | 7.825，劣于基线 |
-| 方法层（因果物理正则） | 6.274，劣于基线 |
-| 跨工况稳健性（Bayreuth 23 工况） | 6 个参数中仅 a1、c 过 Bonferroni 校正 |
+**伪影一：拟合窗起点。** 弛豫拟合从载流采样点开始，模型必须用一个指数去桥接占总量 52.3% 的电压跳变。结果：tau1 在 **17,130 条波形的 100%** 上被钉死在下界 1.0，30 维特征里有 6 维是常数，a1 变成阶跃项而非物理极化。
 
-## 这个结果为什么可信
+**伪影二：标签单位。** `num_cycles` 是相邻体检之间的**循环段长**，不是累计量。按体检次数计的 MAE 等价于给不同电芯 0.5–1.0 的隐式权重（体检节奏 67.6–133.7 循环/次，比值 1.98）。
 
-1. **模型完全固定**，只更换输入特征集——增益只能归因到通道
-2. **用一组更强的方法排除"拟合能力"解释**——四种更强的表征方案全部劣于固定模型
-3. **转导结果被明确排除**——唯一更好的 5.724 使用整批查询，标注为不可部署
-4. **跨工况判据预注册**——统计单位锁定为工况（n=23），避免芯级 p-hacking
-5. **数字单一来源**——`scripts/e1_final.py` 一次跑出，4 个种子结果完全相同（HGB 在此规模确定性）
+## 修复后
+
+| 特征集 | 体检次数单位 | 循环单位 |
+|---|---:|---:|
+| 仅放电曲线 | 6.587 | 729.8 |
+| + 弛豫参数（修复后） | **6.238（−5.3%）** | **694.1（−4.9%）** |
+| + 波形描述量 | 6.155 | 696.8 |
+| 仅弛豫参数 | 8.596 | 832.1 |
+| 仅体检序号 | 13.501 | 1154.3 |
+
+主对比（cycle 单位）：Δ = −12.11 循环，电芯级 95% CI **[−80.77, +10.45]**，工况簇 95% CI **[−115.02, +39.07]**，6/11 工况改善。**两边都跨零。**
+
+## 仍然成立的
+
+- **波形确实携带退化信息**：6.587 远优于仅体检序号（13.501）与仅 SOH（9.148）
+- **加容量/SOH 反而更差**（6.793）——脉冲不是容量代理
+- **工况级功效不足**：n=11，检出 d≈0.4 需约 49 个工况
+
+## 一个被否证的机制假设
+
+"可辨识性解释跨工况符号翻转"——预注册检验，**失败**。Spearman(+0.375)。最硬的反例：UConn 慢极化参数在 tau/W=0.345（最不可辨识档）同号率却是 1.000。详见 `docs/autonomous_research/B_SECTION_FALSIFIED.md`。
 
 ## 仓库结构
 
 ```
 docs/
-  idea_report.md            Part 1–3：动机、RQ、相关工作、方法、实验设计
-  e1_final_results.md       E1/E2 唯一权威数字
-  tier2_results.md          方法层负结果
-  bayreuth_D_results.md     跨工况判定与符号翻转表
-  nasa_results.md           NASA 为何不可用
-  second_dataset_check.md   CALCE 为何不可用
-  data_inventory.md         本地数据盘点
-  manuscripts/v1.0-draft.md 手稿初稿
-scripts/
-  e1_final.py               主实验（特征集对照 + bootstrap）
-  tier2_pass.py             轨迹编码器 + 测试时自监督
-  bayreuth_parse_all.py     48 电芯解析
-  bayreuth_D.py             跨工况一致性检验
+  e1_v2_fixed_results.md          唯一权威数字（v2）
+  e1_final_results.md             历史结果，已标记作废
+  manuscripts/v2.0-postmortem.md  论文正文
+  manuscripts/v1.0-draft.md       旧稿，数字已作废
+  autonomous_research/            多代理审计记录
+    RESEARCH_STATE.md             项目状态
+    LITERATURE_MATRIX.md          77 篇文献
+    GAP_ANALYSIS.md               六类 gap
+    AUDIT_AGENT3.md               28 条审计判定
+    REVIEW_AGENT5.md              审稿意见
+    DECISION_LOG.md               决策记录
+    B_SECTION_FALSIFIED.md        否证记录
+code/rulkit/                      实验框架（含 _ecm_fit 与 _ecm_fit_legacy）
+scripts/                          历史脚本（保留，含 bug 版本）
 ```
 
 ## 复现
 
 ```bash
-# 主实验（约 32 分钟，单核 CPU）
-python scripts/e1_final.py
-
-# Bayreuth 解析（约 30 秒）
-python scripts/bayreuth_parse_all.py
-
-# 跨工况检验（约 3 分钟）
-python scripts/bayreuth_D.py
+python code/run_baseline_a_curve.py          # A_curve 基线，期望 6.587
+python code/run_e1_reproduce.py              # 完整主表
 ```
 
-依赖：numpy、scipy、scikit-learn、openpyxl（Bayreuth 部分）。
+注意：`code/rulkit/features.py` 中的 `_ecm_fit` 是修正版；`_ecm_fit_legacy` 保留旧实现，**仅用于复现论文第 3 节的伪影**。
 
 ## 数据
 
-| 数据集 | 获取方式 |
-|---|---|
-| UConn-ISU-ILCC | 本地 `data/external/uconn/`；公开数据集，见 UConn REIL |
-| Bayreuth 2025 | Zenodo [10.5281/zenodo.15755725](https://zenodo.org/records/15755725)，CC-BY-4.0，875 MB |
-| NASA PCoE | 经核查仅 4 个电芯有完整寿命轨迹，本项目**未使用** |
-| CALCE | 无随寿命阻抗，本项目**未使用** |
-
-数据不随仓库分发。
+UConn-ISU-ILCC（本地）、Bayreuth 2025（Zenodo 10.5281/zenodo.15755725, CC-BY-4.0）。NASA 与 CALCE 经核查不可用，原因见 `docs/nasa_results.md` 与 `docs/second_dataset_check.md`。数据不随仓库分发。
 
 ## 状态
 
-草稿，未投稿。未完成项见 `docs/manuscripts/v1.0-draft.md` 末尾的 Pending 列表：
-E3 分层分析未跑、图未画、参考文献作者待补。
+草稿，未投稿。定位：方法学 / 负结果。目标期刊 IEEE TIM 或 J. Energy Storage。
