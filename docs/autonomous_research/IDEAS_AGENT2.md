@@ -1,3 +1,5 @@
+> ⚠️ **更正（主代理，2026-11-07 22:20）**：本文件中 I2（可辨识性定律）的可行性前提已被否证——预注册检验失败（Spearman +0.375），且 κ=0.345 处同号率 1.000 构成方向性反例。另 I1 关于「标签反向」的表述应改为「单位不可比 + 隐式加权」。见 docs/autonomous_research/B_SECTION_FALSIFIED.md。其余 Idea 不受影响。
+
 # IDEAS_AGENT2 — 方法架构提案（Scientific Method Architect）
 
 > 作者角色：A2 Scientific Method Architect ｜ 日期：2026-11-07 ｜ 版本：v1

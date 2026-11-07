@@ -1,3 +1,5 @@
+> ⚠️ **更正（主代理，2026-11-07 22:20）**：本文件第 79、86、302、344 行引用的 −0.583 与「保序重建循环轴」**均已作废**。`num_cycles` 是相邻 RPT 之间的段长，正确重建是 cumsum（spearman(soh,cum) 在 52/64 电芯上 = −1.0000），corr(EOL_rpt, EOL_cum) = +0.811。本文件其余审计意见（含 ICC=0.414、逐参数消融、a1 零增益等独立复算）仍然有效，权威数字见 docs/e1_v2_fixed_results.md。
+
 # REVIEW_AGENT5 · Critical Review
 
 > **审稿人**：Agent 5（Critical Reviewer），按 IEEE TIM / TII / Applied Energy 审稿标准执行
