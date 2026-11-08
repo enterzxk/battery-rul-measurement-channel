@@ -1,0 +1,7 @@
+groups n=11  mean diff=-37.92  sd=133.46
+group-level 95% CI: [-127.58, 51.74]
+paired t: t=-0.942  p=0.368
+groups improved: 6 / 11
+sign test p=1.000
+MDE at alpha=.05 power=.8, n=11: 125.03 cycles (17.1% of A_curve MAE 729.8)
+groups needed to detect observed effect (d=0.28): 120

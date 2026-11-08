@@ -1,0 +1,9 @@
+EXP-005 raw stdout
+rows per cell: min 20  median 42  max 77
+cells with >=64 rows: 9 / 64
+SINGLE FIXED DONOR, scan k within that donor's own rows:
+  k= 8  MAE 5.558  (n=17)
+  k=16  MAE 5.437  (n=17)
+  k=32  MAE 5.405  (n=17)
+  k=64  MAE 5.375  (n=17)
+k=16 -> 64: delta -0.062  t=-3.453  p=0.0033  (n=17 paired units)

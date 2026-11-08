@@ -1,0 +1,14 @@
+{"id":"L-0001","ts":"2026-11-07T19:55","phase":0,"event":"session_start","note":"自主科研计划启动，6 个子代理创建"}
+{"id":"L-0002","ts":"2026-11-07T20:15","phase":6,"event":"bug_found","note":"ECM 拟合窗 seg=v[ip:] 把载流点当 x=0，tau1 100% 触界"}
+{"id":"L-0003","ts":"2026-11-07T20:36","phase":6,"event":"label_corrected","note":"num_cycles 是段长非累计；cumsum 后 spearman(soh,cum)=−1.0000"}
+{"id":"L-0004","ts":"2026-11-07T21:20","phase":6,"event":"result_overturned","note":"修复后 −5.3%，双单位 CI 跨零"}
+{"id":"L-0005","ts":"2026-11-07T21:35","phase":7,"event":"decision","note":"D-14：A 负结果为骨架 + B 可辨识性为受界探索节"}
+{"id":"L-0006","ts":"2026-11-07T22:20","phase":6,"event":"hypothesis_falsified","note":"可辨识性定律 Spearman +0.375，反例 κ=0.345 同号率 1.000"}
+{"id":"L-0007","ts":"2026-11-07T23:10","phase":6,"event":"power_audit","note":"MDE=17.1%（n=11），检出 d=0.28 需 120 工况；LOCO 34/64 p=0.873"}
+{"id":"L-0008","ts":"2026-11-07T23:49","phase":3,"event":"gap_constraint","note":"非循环通道×工况级推断公开数据做不到 n≥30"}
+{"id":"L-0009","ts":"2026-11-07T23:59","phase":7,"event":"decision_pending","note":"T2 / T1 / T6 三选一"}
+{"id":"L-0010","ts":"2026-11-08T00:20","phase":7,"event":"label_budget_verified","note":"k=16: 6.516→4.235, wilcoxon p=0.0010, 11/11 工况改善"}
+{"id":"L-0011","ts":"2026-11-08T00:25","phase":7,"event":"direction_selected","note":"主攻改为标签预算（D2）；T2 降为备选；T1 否决"}
+{"id":"L-0012","ts":"2026-11-08T00:20","phase":6,"event":"gate_passed","note":"G-D2a: 电芯不相交下 k=16 仍显著（−2.010, wilcoxon p=0.0049, 9/11），F1 未触发"}
+{"id":"L-0013","ts":"2026-11-08T00:22","phase":6,"event":"number_corrected","note":"49%→31%（leaky→strict）；k=8 不显著（p=0.196）"}
+{"id":"L-0014","ts":"2026-11-08T01:05","phase":0,"event":"config","note":"AGENTS.md 合并写入 git 仓库根；research-wiki 初始化并 seed"}

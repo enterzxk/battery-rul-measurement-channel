@@ -29,32 +29,70 @@
 
 ---
 
-## 2. 决策权
+## 2. 三层科研决策权限
+
+> 目的：把「停下来问用户」从默认行为改成**例外**。非授权性质的科研问题一律自决或交 Codex。
+
+### L1 · DSH 自主决定（不问用户，也不必调 Codex）
+
+- 常规代码实现、重构、修复
+- 实验参数、运行计划、随机种子
+- GPU 任务调度（campus-h3 / lab-server）
+- 文献筛选、整理、精读
+- 可恢复的实验失败（报错、依赖缺失、显存不足）
+- 基线复现、数据分析、画图
+- 实验报告与科研记录
+
+### L2 · Codex 决定，DSH 执行（**不再问用户**）
+
+以下问题**必须**先交 Codex，拿到决定后立即执行：
+
+1. 多个科研 Idea 如何取舍
+2. 是否放弃当前技术路线
+3. 新方法是否真正具有创新性
+4. 重要的数学建模与架构设计选择
+5. 是否需要额外消融或实验
+6. 出现相互矛盾的实验结果
+7. 重要的论文方法学争议
+8. 是否进入下一个科研阶段
+
+**调用要求**：给足上下文（候选方案、文献证据、实验结果、判断标准），要求输出**决定 / 理由 / 反对证据 / 风险 / 下一步**。
+
+**辩论上限**：证据不足时允许 Codex 与 DSH 最多**三轮**针对性辩论；仍有争议则按预定义证据标准选**可验证**的那条，不得无限辩论。
+
+**路由**：
+
+| 场景 | 用哪个 |
+|---|---|
+| 需要多轮往返、要 threadId 续接 | `mcp__codex__codex` + `mcp__codex__codex-reply` |
+| 一次性独立决策/代码审查，异步即可 | ~~`subagent_codex`~~ **实测不可用**（`product-error`），改用 `mcp__codex__codex` |
+
+两者都走 ARIS codex-exec 桥，模型 **gpt-6.1-sol**，强度 **xhigh**（见 §8）。
+
+### L3 · 必须人工授权（Codex 不得代授）
+
+1. 不可逆删除已有重要数据
+2. 访问未经授权的外部资源
+3. 产生新的付费义务
+4. 修改安全与访问权限
+5. 对外投稿、发布成果、不可逆外部操作
+
+**Codex 不能替用户授予本来没有的权限。** 这三类之外，一律不停下来问。
+
+### 执行纪律
+
+- 不得为了「避免提问」而随手选一个方案——自决的前提是有证据。
+- **不得把 Codex 的主观评分当创新性证据**；它只能裁决「走哪条」，不能证明「够新」。
+- 重要结论必须能追溯到论文、代码或真实实验。
+- 不要让每个低价值问题都触发 Codex（L1 的事自己做完）。
+- 汇报 ≠ 提问：除非属于 L3，汇报里写「已自动选择 X 并继续」。
 
 ```yaml
 AUTO_PROCEED: true
 HUMAN_CHECKPOINT: false
 ```
 
-**自主决定，不停下来问**：
-
-- 选哪个研究假设、哪条技术路线
-- 选模型、基线、超参、特征集
-- 可恢复的实现失败（报错、依赖缺失、显存不足）
-- 负结果与方向内的转向
-- 实验配置、随机种子、批量大小
-- 是否下载公开数据、是否跑长实验
-
-**必须停下来问（仅这三类）**：
-
-1. **不可逆或破坏性操作**：删除历史结果、重写 git 历史、覆盖他人文件。
-2. **外部发布**：推公开仓库、投稿、对外声明。
-3. **产生真实费用**：租云 GPU、调用付费 API。
-
-**汇报不等于提问。** 除非属于上面三类，汇报里要写「已自动选择 X 并继续」，不要停在等回答——目标模式下没人回答，等待等于中断。
-
 ---
-
 ## 3. 子代理编制（真实创建，不是角色扮演）
 
 重要假设必须由**独立上下文**裁决，不得自己评估自己。
@@ -148,6 +186,10 @@ design effect = 1 + (组均大小 − 1) × ICC
 | `.research/reports/PHASE-N-*.md` | 每阶段报告 |
 | `.research/exp/EXP-*.md` | 实验记录（配置/种子/结果路径）|
 | `research-wiki/` | ARIS 知识库（论文/想法/实验/论断图谱）|
+| `.research/CODEX_DECISIONS.md` | **L2 决策记录**——新会话先读，不重复讨论已决问题 |
+| `.aris/runs/<run_id>.json` | ARIS 流水线阶段状态（done vs accepted），可 resume |
+| `refine-logs/FINAL_PROPOSAL.md` | 当前方案定稿 |
+| `refine-logs/EXPERIMENT_PLAN.md` | 当前实验计划（M0–M6）|
 | `docs/` | 论文证据与历史结果（只读，不覆盖）|
 
 **规则**：
@@ -178,6 +220,17 @@ design effect = 1 + (组均大小 − 1) × ICC
 | 图 | `paper-figure` / `nature-figure` / `figure-spec` |
 | 引用与诚信 | `citation-audit` / `integrity-forensics` |
 
+### 实际支持的参数（不要虚构）
+
+| 参数 | 支持 | 说明 |
+|---|---|---|
+| `AUTO_PROCEED` | ✅ | research-pipeline / idea-discovery / auto-review-loop |
+| `HUMAN_CHECKPOINT` | ✅ | 同上 |
+| `REVIEWER_DIFFICULTY` | ✅ | research-pipeline（medium / hard / nightmare）|
+| `CODE_REVIEW` | ✅ | research-pipeline |
+| `effort` | ❌ 不是 skill 参数 | 属 Codex 的 `model_reasoning_effort`，见 §8 |
+| `reviewer: codex` | ❌ 不是 skill 参数 | skill 用硬编码 `REVIEWER_MODEL`；由 §8 覆盖 |
+
 **禁令**：
 
 - 不修改 ARIS 原始 SKILL.md，不复制其内容到本文件。
@@ -189,6 +242,20 @@ design effect = 1 + (组均大小 − 1) × ICC
 ## 8. 模型配置
 
 **不改动现有 DeepSeek V4.1 Flash 配置。** 子代理沿用当前 provider/model；推理档位按任务需要选 `low/high/max`，但不新增、不替换、不重配任何模型路由。
+
+### 跨模型 Reviewer（Codex）
+
+| 项 | 值 | 依据 |
+|---|---|---|
+| 模型 | **gpt-6.1-sol** | `~/.codex/config.toml` + 会话元数据实测 |
+| 推理强度 | **xhigh** | 同上（`"effort":"xhigh"`）|
+| 桥 | ARIS `codex-exec` MCP（**不是**已废弃的 `codex mcp-server`）| `mcp__codex__codex` 实测可用 |
+| 配置位置 | `~/.codex/config.toml`（备份 `config.toml.before-xhigh-20261108`）| — |
+
+**调用约定**：所有审稿调用都显式传 `model: "gpt-6.1-sol"` 与 `config: {model_reasoning_effort: "xhigh"}`。
+ARIS 的 41 个 skill 里硬编码的是 `gpt-6-astra`——**不改 skill 文件**，由本文件覆盖。
+
+**可用性**：Codex 有额度上限。额度耗尽时审稿降级为 same-family `provisional`，必须写进 `.research/REVIEW_STATUS.md`，不得当 `accepted`。
 
 ---
 

@@ -1,0 +1,22 @@
+R0 re-analysis — random arm as EXPECTATION over 1000 draws (not a single sample)
+baseline k=0: 6.516
+
+  k   rand(med)  rand_clip   quant   endpoint   yoracle    p(quant vs rand)
+  2      7.093      6.276    5.985      5.985     8.724      0.0674
+  3      5.602      5.389    5.320      5.796     7.106      0.7002
+  4      5.089      4.998    5.117      5.792     5.900      0.7002
+  6      4.716      4.688    4.586      5.741     5.037      1.0000
+  8      4.552      4.539    4.410      5.699     4.916      0.2402
+ 16      4.350      4.344    4.377      5.431     4.409      1.0000
+
+vs k=0 baseline:
+k= 2  rand +0.577 (p=0.3652, 3/11) | rand_clip -0.239 (p=0.5195, 3/11) | quant -0.531 (p=0.5195, 4/11)
+k= 3  rand -0.914 (p=0.9658, 5/11) | rand_clip -1.127 (p=0.7002, 6/11) | quant -1.196 (p=0.4648, 6/11)
+k= 4  rand -1.426 (p=0.3652, 6/11) | rand_clip -1.518 (p=0.2061, 7/11) | quant -1.399 (p=0.2402, 6/11)
+k= 6  rand -1.800 (p=0.0420, 7/11) | rand_clip -1.828 (p=0.0322, 8/11) | quant -1.930 (p=0.0098, 9/11)
+k= 8  rand -1.964 (p=0.0186, 9/11) | rand_clip -1.977 (p=0.0186, 9/11) | quant -2.105 (p=0.0029, 10/11)
+k=16  rand -2.166 (p=0.0049, 9/11) | rand_clip -2.172 (p=0.0049, 9/11) | quant -2.139 (p=0.0020, 10/11)
+
+VERDICT: quant vs rand is NOT significant at any k (p 0.067-1.000).
+At k=16 quantile is slightly WORSE (4.377 vs 4.350).
+The EXP-002 'significance' was a single-draw artifact.

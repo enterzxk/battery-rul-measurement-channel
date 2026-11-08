@@ -1,0 +1,3 @@
+A_curve LOCO = 546.44
+A_curve+C_ecm LOCO = 542.72
+paired: delta=-3.72  CI [-48.72, 42.03]  t=-0.161 p=0.8725  cells improved 34/64

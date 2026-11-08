@@ -1,0 +1,5 @@
+A_curve            54 dims  LOGO 6.587
+A_curve+C_desc20   74 dims  LOGO 6.155
+A_curve+C_desc30   82 dims  LOGO 6.109
+A_curve+C_ecm      84 dims  LOGO 6.238
+C_ecm_only         30 dims  LOGO 8.596

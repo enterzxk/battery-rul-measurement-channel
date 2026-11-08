@@ -1,0 +1,18 @@
+EXP-001 strict (cell-disjoint calibration) — raw stdout
+script: .research/results/gd2a.py
+date: 2026-11-08 00:10
+
+  k   leaky MAE   strict MAE   strict delta vs k=0
+  0       6.516       6.516    +0.000
+  4       4.916       5.467    -1.049
+  8       4.570       5.185    -1.331
+ 16       4.435       4.505    -2.010
+ 32       4.155       4.248    -2.268
+
+STRICT k=8 : delta -1.331  t=-1.386 p=0.1959  wilcoxon p=0.4648  improved 5/11
+STRICT k=16: delta -2.010  t=-2.324 p=0.0425  wilcoxon p=0.0049  improved 9/11
+STRICT k=32: delta -2.268  t=-2.736 p=0.0210  wilcoxon p=0.0010  improved 11/11
+
+NOTE: estimator = affine correction y ~ a*pred + b fitted on the k labels.
+A2's PIVOT_OPTIONS used a 1-NN estimator (k=8->4.23, k=16->3.33). DIFFERENT estimator,
+not comparable; only the strict affine numbers in this file may be cited.

@@ -1,0 +1,78 @@
+{
+  "run_id": "label-budget-20261108",
+  "executor_model": "deepseek-v4.1-flash",
+  "executor_family": "deepseek",
+  "policy": {
+    "provisional_advances": false
+  },
+  "created": "2026-11-07T17:14:06Z",
+  "updated": "2026-11-08T06:41:00Z",
+  "gates": {},
+  "phases": [
+    {
+      "phase": "research-lit",
+      "status": "done",
+      "artifact": "idea-stage/LIT_SURVEY.md",
+      "verdict_id": null,
+      "reviewer": null,
+      "reviewer_family": null,
+      "review_independence": null,
+      "acceptance_status": null,
+      "executor_model": "deepseek-v4.1-flash",
+      "executor_family": "deepseek",
+      "updated": "2026-11-07T17:40:16Z"
+    },
+    {
+      "phase": "idea-creator",
+      "status": "done",
+      "artifact": "idea-stage/IDEA_CANDIDATES.md",
+      "verdict_id": null,
+      "reviewer": null,
+      "reviewer_family": null,
+      "review_independence": null,
+      "acceptance_status": null,
+      "executor_model": "deepseek-v4.1-flash",
+      "executor_family": "deepseek",
+      "updated": "2026-11-07T18:03:09Z"
+    },
+    {
+      "phase": "novelty-check",
+      "status": "accepted",
+      "artifact": "review-stage/NOVELTY_REVIEW.md",
+      "verdict_id": "NV-20261108-02",
+      "reviewer": "gpt-6.1-sol/xhigh",
+      "reviewer_family": "openai",
+      "review_independence": "cross-family",
+      "acceptance_status": "accepted",
+      "executor_model": "deepseek-v4.1-flash",
+      "executor_family": "deepseek",
+      "updated": "2026-11-08T06:00:47Z"
+    },
+    {
+      "phase": "research-review",
+      "status": "done",
+      "artifact": "review-stage/RESEARCH_REVIEW.md",
+      "verdict_id": null,
+      "reviewer": null,
+      "reviewer_family": null,
+      "review_independence": null,
+      "acceptance_status": null,
+      "executor_model": "deepseek-v4.1-flash",
+      "executor_family": "deepseek",
+      "updated": "2026-11-08T06:26:32Z"
+    },
+    {
+      "phase": "research-refine-pipeline",
+      "status": "done",
+      "artifact": "refine-logs/FINAL_PROPOSAL.md",
+      "verdict_id": null,
+      "reviewer": null,
+      "reviewer_family": null,
+      "review_independence": null,
+      "acceptance_status": null,
+      "executor_model": "deepseek-v4.1-flash",
+      "executor_family": "deepseek",
+      "updated": "2026-11-08T06:41:00Z"
+    }
+  ]
+}

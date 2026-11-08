@@ -1,0 +1,8 @@
+EXP-004 m-axis, full trajectories (all rows of each donor), NDRAW=300
+=== ALL conditions (n_cells=11) baseline=6.516 ===
+  m=1  MAE 4.509  (n=64)
+  m=2  MAE 4.333  (n=64)
+  m=3  MAE 4.270  (n=64)
+  m=4  MAE 4.317  (n=60)
+
+Shape: knee at m=3, m=4 regresses. Increments: 0.176 / 0.063 / -0.047
