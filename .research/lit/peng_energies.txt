@@ -1,0 +1,1388 @@
+Academic Editor: JongHoon Kim
+Received: 20 August 2026
+Revised: 3 October 2026
+Accepted: 5 October 2026
+Published: 12 October 2026
+Copyright:© 2026 by the authors.
+Licensee MDPI, Basel, Switzerland.
+This article is an open access article
+distributed under the terms and
+conditions of the Creative Commons
+Attribution (CC BY) license.
+Article
+Deployable Self-Referenced Features for Cross-Cell Battery
+State-of-Health Estimation: Randomized Pairing Controls
+and Benchmarking
+Bo Peng
+ , Xiaofen Wang and Ke Zhang *
+School of Computer Science and Engineering, University of Electronic Science and Technology of China,
+Chengdu 611731, China; 202421080712@std.uestc.edu.cn (B.P .); xfwang@uestc.edu.cn (X.W.)
+*Correspondence: kezhang@uestc.edu.cn
+Abstract
+Battery health estimation depends on feature references as well as learners. Changing
+one column’s normalization moves root-mean-square error (RMSE) by up to 108%. We
+construct a self-referenced lift (SRL) from each cell’s earliest retained record. Under the
+offline author protocol, learners with the full history stack improve on 9 of 11 units after
+Holm correction, with none significantly worse and two units per backbone not significantly
+different. Relative-change medians over all 11 units are−16.8% for the frozen foundation
+model and −19.1% for gradient boosting, including learner effects. Under a strict online
+reader excluding target-future and label information, compact SRL instead yields+4.3% for
+gradient boosting (5 of 11 improve) and +10.4% for the frozen foundation model (3 of
+11 improve): no overall online accuracy gain. Legacy offline pairing controls favour
+self-pairing ( p= 0.0099, 100 derangements). A companion benchmark with implicit
+self-comparison improves in 6 of 6 batches with per-batch selection (5 of 6 with a fixed
+configuration); an unseen-library legacy diagnostic improves by 22–33%. Deployability
+concerns feature computability, not a strict-online accuracy advantage.
+Keywords:battery state of health; lithium-ion batteries; feature engineering; self-referenced
+representation; tabular foundation model; battery management system
+1. Introduction
+Battery energy storage is central to sustainable power systems: it absorbs renewable
+variability, provides frequency and capacity services, and extends the life of costly, carbon-
+intensive assets. All these functions depend on knowing how healthy each cell is. State-of-
+health (SOH) estimation is thus not merely a diagnostic convenience but an operational
+and economic requirement for battery management systems (BMS) in grid-scale storage
+and electrified transport: accurate estimates enable deeper usable state-of-charge windows,
+better-timed maintenance, and defensible second-life decisions, reducing lifetime cost and
+material footprint.
+Data-driven SOH estimation has advanced rapidly: a prominent line embeds empiri-
+cal degradation equations into neural networks as soft constraints, establishing the four
+processed libraries, official cell-level splits, and per-experiment results used here [1], while a
+companion benchmark supplies five deep baselines under three input types [2]. It has since
+grown through 2025–2026 with physics-informed variants [3–5], physics-embedded trans-
+fer learning [6], few-shot cross-domain frameworks [7], and quantum-feature hybrids [8]. A
+Energies2026,19, 4805 https://doi.org/10.3390/en19204805
+Energies2026,19, 4805 2 of 29
+smaller parallel literature studies features, not architectures: a single interpretable quantity
+from early-cycle discharge curves predicts cycle life with a linear model [9]; cycle-difference
+features populate open battery machine-learning platforms [ 10]; recent work pairs in-
+terpretable feature fragments with spatio-temporal learners [11]; and in the wider time-
+series and tabular literature, simple transforms with standard learners form an established
+genre [12,13]. The closest of these, the early-cycle discharge-curve difference of [9], is also a
+within-cell comparison: a single hand-designed quantity, read from a fixed early window,
+predicting end of life. Here, however, the reference itself is the object of study: which past
+state each cycle is compared against, whether the pairing is responsible for the accuracy
+it buys, and whether it survives being computable in service. A third development is
+tabular foundation models, which infer training-free on small tabular tasks [14] yet require
+explicit time-derived features for temporal problems [15]; two recent efforts bring them
+into battery health—one distilling a time-series model [16], one coupling a tabular model
+to a physics-informed network by residual correction [ 17], and both are training-based
+hybrids—while large multi-source battery models begin to appear [18]. Retrieval-based
+context construction for these models works on i.i.d. benchmarks [19,20].
+Nearly all of this work rests on a rarely examined assumption: the representation
+fed to the model—per-cycle statistical features under standard normalization—is settled
+preprocessing. Two measurements contradict it: first, with data, model, split and every
+other column fixed and only the cycle-index normalization convention changed, pooled-
+cycle RMSE moves by +107.8% on one evaluation unit, −49.6% on another, and −0.5% on
+a third; second, the benefit of an explicit self-referenced feature on the 67-dimensional
+feature set reverses sign, from −5.3% to +4.5%, depending solely on whether features
+are normalized per cell or against source-fitted statistics. Normalization is where the
+representation’scomparison targetis decided, and it materially affects accuracy under the
+tested protocol.
+The motivation is a feature-reference question, not an identity imposed by the label:
+the benchmark SOH is present discharge capacity divided by nominal capacity, not the
+measured first-cycle capacity. Comparing each unit against its own baseline is standard
+practice in other longitudinal settings: change-from-baseline and ANCOVA analyses in
+clinical trials [21], within (fixed-effect) transformations in panel econometrics [ 22], and
+explicit handling of unknown initial wear in prognostics datasets [23]. Battery pipelines
+are implicitly consistent with this: normalizing each cell by its own full-lifetime extrema
+compares every cell against itself. That convention suits offline assessment with complete
+trajectories, but cannot be reproduced in service, because cells differ widely in lifetime and
+a cell in operation does not know its own lifetime extrema. Total life is not the cycle-level
+SOH target studied here; nevertheless, the offline-helpful comparison is unavailable online.
+This paper makes the comparison explicit, minimal, and deployment-computable, then
+tests—with a randomized mispairing control rather than a causal identification argument—
+whether the pairing itself is responsible for the observed gains. Our contributions are
+as follows.
+1. We identify and quantifywhat features are compared againstas a first-order design
+variable in degradation feature engineering, hidden inside routine normalization
+choices, and show its effect spans −49.6% to +107.8% across eleven evaluation units.
+2. We define the self-referenced lift (SRL), an explicit, deployment-computable, model-
+agnostic feature family, and separate its computability from its accuracy. The offline
+author protocol yields Holm-significant improvements over a physics-informed net-
+work on 9 of 11 units for each of two backbones, including learner effects; the corrected
+strict online evaluation does not reproduce an overall accuracy gain from adding com-
+pact SRL.
+https://doi.org/10.3390/en19204805
+Energies2026,19, 4805 3 of 29
+3. We introduce a randomization-based validation protocol for representation claims—
+randomized mispairing, affine negative controls, permutation inference, and pre-
+registration [24–27]—and use it to show that self-pairing, not generic trend informa-
+tion, is the active ingredient. Because the control manipulates the feature matrix and
+not the ageing process, this is evidence about the representation, not an interventional
+claim about the cell (Section 2.6).
+4. We describe a model- and protocol-specific carrier pattern consistent with HUST and
+TJU-3, with counterexamples on other units, and give the operating conditions for
+the method. The attribution is measured for the tree model under the author-protocol
+normalization; the foundation-model probe of Section 3.10 lacks that structure, so we
+present it as a model- and protocol-scoped account, not as a property of the data.
+The paper proceeds as follows. Section 2 describes the datasets, feature families, two
+evaluation pipelines, models, and statistical protocol; Section 3 reports the results; Section 4
+discusses the mechanism, comparability with published numbers, battery-management
+implications, and limitations; Section 5 concludes.
+2. Materials and Methods
+For readers coming from an electrochemistry background, the machine-learning vo-
+cabulary used below is fixed as follows.Cross-cell estimationmeans that the model is fitted
+on cells whose full trajectories are available and tested on cells it has never seen; the latter
+are theheld-out cellsof an official split, reserved by the dataset authors. Primary-benchmark
+settings are not selected on them; the companion best-of-four summary is explicitly a post
+hoc choice using held-out scores and is separated from its fixed configuration (Section 3.5).
+Anevaluation unitis the group of cells over which results are averaged, here one ageing
+batch or one library. Afeature familyis a set of columns obtained from one and the same
+comparison; anablationremoves one family at a time to measure what it contributes.Permu-
+tation importancemeasures how much error rises when a column’s values are shuffled, and
+apermutation testasks whether an observed difference survives relabelling. Aderangement
+is a relabelling with no element left in place, and anegative controlis an arm whose true
+effect is known to be zero, so that it can only reveal artefacts of the measurement itself.
+2.1. Datasets and Splits
+The primary benchmark consists of the four processed libraries released with the
+reference physics-informed work [1]: XJTU (six ageing batches), TJU (three batches) [28],
+HUST [29], and MIT [9], giving 11 evaluation units in total (387 cells, 82 of them held out);
+the MIT unit pools the three original sub-batches of that release (12 May 2017, 30 June 2017
+and 12 April 2018) into a single unit, so it is not broken out per sub-batch as the XJTU
+batches are. The libraries span three cathode chemistries (NCM, NCA and LFP), with one
+batch that mixes two of them, and nominal capacities from 1.1 to 3.5 Ah; Appendix A
+lists chemistry, nominal capacity, cell counts, per-cell cycle-count ranges and the lowest
+observed SOH for every unit. We adopt the official cell-level splits without modification;
+held-out cells are never used for fitting or model selection; normalization statistics follow
+the pipeline and are stated per pipeline below. In particular, Pipeline A scales each cell by
+its own full-lifetime extrema, which is same-cell future information that a cell in service
+cannot know; we treat that convention as offline-only and never pool its numbers with
+Pipeline B. The secondary benchmark is the companion deep-learning benchmark [2] on
+XJTU (55 cells, 67 handcrafted features, leave-one-cell-out splits). For external verification,
+we use an independent library, MATR-CLO (45 cells), the closed-loop-optimisation batch
+of Attia et al. [ 30]. It is disjoint from the three MIT batches in the primary benchmark
+and from the MATR batch used during development, and it took part in no design or
+https://doi.org/10.3390/en19204805
+Energies2026,19, 4805 4 of 29
+selection decision; every use of it was preceded by criteria frozen in the corresponding
+experiment script.
+Cell counts per evaluation unit are fixed by the official protocol and range from two
+or three held-out cells (each XJTU batch, TJU-3) to 20–23 held-out cells (HUST, MIT); this
+constrains per-unit statistical power and is treated explicitly in Section 4.5.
+2.2. Feature Families and the Self-Referenced Lift
+Each cycle t of a cell is described by a 16-dimensional vector xt of charge-segment
+statistics: the mean, standard deviation, skewness, kurtosis, slope and entropy of the
+voltage and current series, plus the constant-current and constant-voltage capacities and
+their durations (the columns CC Q, CC charge time, CV Q and CV charge time of the
+release), as released with the reference protocol [1]. Candidate feature lifts differ inwhat
+each cycle is compared against; Table 1 classifies them.
+Table 1.Candidate feature families classified by comparison target. “Online” indicates whether the
+quantity can be computed during service, when the cell’s total life is unknown.
+Family Definition Comparison Target Class Online
+rawx t — absolute snapshot yes
+lag1x t−1 own previous cycle recent self yes
+diff1x t −x t−1 own previous cycle recent self yes
+roll5x t −mean(x t−4:t )own recent mean recent self yes
+from_firstx t −x 1 own origin (BOL) origin self yes
+cycle (life fraction) 2(t−1)/ max(T−1, 1)−1 own entire lifetime life fraction no
+cycle (fixed scale)(t−1)/200 — absolute position yes
+Theself-referenced lift (SRL)makes the origin-self comparison explicit:
+˜xt = [ xt,c t,x t −x 1 ], (1)
+where ct is the cycle-position column under the convention of the pipeline in use
+(Section 2.3) and x1 is the earliest retained record of thesamecell—under Pipeline A the first
+row surviving the reference filter, which as Section 3.7 reports need not be the first recorded
+cycle, and under Pipeline B the first record whose inputs are valid. Throughout, the index t
+countsretained records, not rows of the released file: the reader of Section 2.3 drops rows
+whose inputs are unusable (and in the author protocol further rows by that protocol’s
+own filter), and every family above— lag1, diff1, the five-record rolling mean and the
+cycle-position column—is defined on that retained sequence. In particular a “previous
+cycle” means the previous retained record, and the five-cycle window means five retained
+records. Two configurations are used: compact SRL (33 dimensions) for the pairing and an-
+chor probes (Sections 3.9 and 3.11), and the full 81-dimensional stack, including all four history
+families, for the convention, ablation and published-reference analyses (Sections 3.1–3.3). The
+corrected-reader comparison evaluates both sets (Section 3.7); full-stack family importances
+are reported in Section 3.10. The external library retains its own 25 quality-checked features,
+giving a compact SRL set of 51 columns (Section 3.6). The companion deep-baseline compar-
+ison uses its 67-dimensional handcrafted features (Section 3.5), which the factorial analysis
+compares with the reference work’s 16-dimensional set (Section 3.1). A 49-dimensional
+variant that appends a rolling five-cycle term was evaluated only as a slimming probe
+and was not adopted; it uses a rolling-median anchor (the median of the first ten cycles),
+not x1, and differs from the full stack by a median of +0.4% on gradient boosting. The
+compact set is not equivalent to the full stack on the frozen foundation model either: under
+the corrected reader of Section 3.7 the compact set’s RMSE exceeds the full stack’s by a
+https://doi.org/10.3390/en19204805
+Energies2026,19, 4805 5 of 29
+per-unit median of +13.9% (median of the per-unit relative changes, with the full stack as
+the denominator, the same aggregation the tables of that section use). Every feature obeys
+alegality constrainton their temporal transforms: they use only records ≤t of the same cell.
+The cycle column is ct = (t− 1)/200 in Pipeline B and ct = 2(t− 1)/ max(T− 1, 1)− 1
+in Pipeline A, where T is the full retained length. Pipeline A’s reader and normalization
+still use future information; the feature-transform test does not certify that pipeline as
+online-legal. Algorithm 1 lists the construction as implemented. The constraint is enforced
+by unit tests that perturb future rows and assert that all earlier feature rows are unchanged.
+Algorithm 1.SRL construction for one cell, as implemented
+1. Read the anchor once per cell: x1 is the 16-dimensional charge-segment statistic vector
+of the earliest retained record, and it is cached with the cell’s identity.
+2. For every retained record t= 1, . . ., T, emit ˜xt = [xt, ct, xt −x 1 ], where ct is the cycle
+column of the pipeline in use and indices count retained records (Section 2.3).
+3. In service the construction is streaming: row t uses only cycles ≤t , and x1 is read from
+the retained commissioning record rather than recomputed.
+Legality test(shipped as a unit test and run on every build). For a random cycle index t,
+copy the cell, replace every row after t by noise, rebuild the history transforms on fixed
+input features, and assert that all rows up to t are bit-identical to the unperturbed build;
+any dependency on future rows fails the build.
+Two optional components were evaluated and are not used by default. A five-cycle
+median anchor, intended for libraries whose first cycle is noisy, replacesx1 with the median
+of the first five cycles; it was worse than the fixed first cycle on 9 of 11 units (a pre-
+registered criterion asking for no degradation on at least 7 of 11 was not met), and it
+changed the sign of only one unit (HUST, +7.1% → −4.2%), so the fixed anchor is retained.
+A recovery-ratio gate applies monotone post-processing only when the source cells show
+a capacity-recovery ratio below 0.15; its precondition was verified on the independent
+library, whose source-side ratio is 0.0750, but it acts on the offline convention rather than
+on the deployment-computable pipeline and is therefore not part of the configuration
+reported here.
+2.3. Two Evaluation Pipelines
+Because the central issue is what can be computed in service, all experiments are run
+in one of two clearly separated pipelines, and numbers from the two are never pooled.
+Pipeline A (reference convention, offline).Normalization follows the reference protocol:
+each cell is min–max scaled by its own full-lifetime extrema, and the cycle column is min–
+max scaled by the cell’s full retained length. Its author-offline reader also filters rows using
+full-lifetime statistics including the capacity label (Section 3.7). This pipeline is used for
+like-for-like comparison against published results, since both sides then operate under
+identical rules.
+Pipeline B (deployment-computable).Normalization statistics are fitted on source cells
+only and applied unchanged to held-out cells; the cycle column is scaled by a fixed constant
+((t− 1)/200) so that it does not depend on total life; all other features remain history-only.
+Each Pipeline B input is computable once the current cycle’s required charge segment has
+completed; this is cycle-level availability, not continuous estimation during a partial cycle.
+2.4. Models and Computational Setup
+Two model families are used as-is, without architecture search:
+https://doi.org/10.3390/en19204805
+Energies2026,19, 4805 6 of 29
+• GBDT: histogram-based gradient boosting with library default hyper-parameters, as
+implemented by scikit-learn’s HistGradientBoostingRegressor; five random seeds
+unless stated otherwise.
+• TabPFN: a frozen tabular foundation model [ 14] used for training-free inference,
+with its in-context sample budget self-limited to 2048 rows; five seeds for the main
+comparison, three where stated. When a unit’s training rows exceed that budget, the
+context is a uniform random sample without replacement, drawn per seed from the
+pooled training rows.
+A tuned multilayer perceptron (L2 grid selected on source-side validation) is included
+as a third family for coverage analysis. The context budget was frozen before the compar-
+isons of this paper and is not tuned per unit; a ladder over 2048, 8192 and the full training set
+(six units, two feature sets, three seeds) puts the median absolute change in per-cell RMSE
+at 5.8%, below the noise floor of Section 2.5, with the direction inconsistent (6 of 24 cells
+worsen). Four cells do exceed the floor, all of them the two TJU units with the history stack,
+so a larger budget helps where a unit has many training rows; we keep 2048 because it is
+protocol-frozen and because inference is 3–5 times cheaper. The subsampling rule is fixed
+and unit-independent: ten of the eleven units trigger it, and only XJTU-RW (1114 training
+rows) never does. The pools range from those 1114 rows to 107,850 for HUST. Because
+the sample is redrawn per seed, the seed-to-seed variance reported for a subsampled unit
+mixes model randomness with context sampling, and the ladder does not separate the two:
+a probe that crosses model seed with context seed at a fixed budget has not been run, so we
+report the mixing rather than an upper bound. The three-arm comparison of Section 3.9
+draws the same context rows in every arm at every seed—the subsampler depends only
+on the row count and the seed, and the row count is identical across arms—so the pairing
+contrast is not driven by the context draw; this is a property of the implementation (checked
+in Section 3.9), not an assumption. Timings are reported as three separate classes and never
+pooled.Archived runtimesare whatever each result file records: for the foundation-model
+archive the “runtime” includes context preparation, its denominator includes training
+rows, and the hardware is not identifiable, so we derive no per-cell or per-unit figure from
+them.This revision’s measurement( bexp61) was taken on one machine under the released
+environment (Python 3.14.6, NumPy 2.5.3 and scikit-learn 1.9.1): macOS arm64, 10 cores,
+the thread pools reporting threads=10, and the per-configuration load average in the
+result file. It covers the 17-, 33- and 81-dimensional stacks, a 2048-row context on two
+timing units (XJTU-2C and MIT), 24 repetitions at a batch of one and 24 at a batch of 1024:
+fitting takes 0.6–0.8 s per evaluation unit; a single-row prediction takes 2.8–4.3 ms (median;
+p95 ≤ 12.3 ms, n= 24 per configuration); serving a batch of 1024 costs 3.7–5.1 µs per row
+(medians; the slowest configuration’s p95 is 5.7 µs); the process peak RSS is 181–328 MiB
+across the three stacks; and building one cell’s full feature matrix costs 0.14–1.52 µs per
+retained row (amortized over the matrix; no in-service single-row update was measured).
+Thefrozen foundation-model arm of Section 3.7was run in this revision on CPU with the
+released v3 weights; each of its evaluation runs (one unit × view × seed, including context
+preparation and the predictions for that unit’s held-out rows) took 1.3–60 s, with the device
+recorded in every record. The archived foundation-model replication of Section 3.10 was
+run on CUDA, also recorded per record. For reference, the physics-informed baseline trains
+repeatedly per unit (up to 200 epochs × ten repetitions) on its own hardware, and the deep
+baselines of the companion benchmark take about 170 s per run × five repetitions on theirs.
+2.5. Metrics and Effect-Size Reference
+The primary metric is root-mean-square error (RMSE) computed per held-out cell and
+then averaged across cells, which we verified to be the metric implemented in the reference
+https://doi.org/10.3390/en19204805
+Energies2026,19, 4805 7 of 29
+work’s own scoring code. Published opponent values are taken from the officially released
+per-experiment results (ten repetitions per unit); we additionally executed the reference
+training code in our environment on one representative unit (XJTU-2C) and confirmed that
+the released values are consistent with code behaviour (ten-run distributions statistically
+indistinguishable, Mann–Whitney p= 0.273; our rerun mean is 9.4% higher, i.e., favourable
+to the reference).
+Effect sizes are interpreted against ahistorical threshold of 11.3%. The value was
+fixed early in the study as a working scale and is reused unchanged; its original derivation
+is not documented, so we describe it as a heuristic of this study rather than as a measured
+property. A post hoc reconstruction from archived per-seed values is retained in the
+research archive: for each of 20 (unit × context-sampling-mode) groups on the history
+feature set, three seeds were run with nothing else changed, and the mean relative range
+(max−min)/mean of per-cell RMSE across those groups is 11.35%. The agreement is
+consistent with the threshold’s origin but does not establish it. Single-run differences below
+the threshold are not treated as findings. The threshold is a per-seed quantity: paired
+designs and twenty-seed means resolve smaller differences, and win counts are sign counts,
+so a 1–2% entry can decide a unit’s sign without itself being claimed as an effect.
+For the main comparison we test our per-seed values against the ten published per-
+experiment values with two-sided Mann–Whitney U tests, apply Holm correction across
+the 11 units within each backbone, and report bootstrap 95% confidence intervals of the
+relative difference. The corrected family is therefore composed of units, not of held-out
+cells, and a unit’s weight in it is not proportional to its statistical power: the underlying
+test is against the ten published per-experiment values regardless of how many cells the
+unit holds out, and held-out counts range from two to twenty-three (Appendix A). Five
+seeds per unit permit, but do not guarantee, a significant result against the ten published
+values: with 5 × 10 observations the smallest attainable two-sided p is 6.7 × 10−4, which
+can survive Holm correction across eleven units. Observed effects include small changes
+below the 11.3% descriptive noise floor (including significant GBDT improvements of 5.5%
+and 6.2%); that floor is not a significance threshold. Where an effect is of the order of the
+floor, as in Sections 3.9 and 3.11, we use twenty seeds instead.
+2.6. Randomization-Based Validation Design
+Feature-level claims are easily confounded, so the mechanism is tested with a three-
+arm randomized design in the tradition of randomization inference [24,25].
+•Treatment arm: the true origin-self offset,x t −x 1.
+• Mispairing arm: the anchor is replaced by the first cycle of a randomly assignedother
+cell, using a fixed-seed derangement (no fixed points). The multiset of anchors is
+therefore unchanged, as are the arithmetic and the dimensionality of the transform: the
+same first cycles are reassigned. What changes is which origin each cycle is compared
+against, and with it the joint distribution of the resulting difference. This arm rules out
+the alternative that any difference feature would serve, whatever it is referenced to.
+• Instrument arm: the anchor is the mean first cycle of the source cells, a per-column
+constant whose effect should be near zero for translation-invariant tree splits with
+matched randomness; finite implementations need not be exactly invariant. This is a
+negative control on the measurement apparatus itself [26]: its measured value tests
+the harness rather than the method, since a non-zero reading would mean the pipeline
+manufactures differences of its own.
+For permutation inference we repeat the mispairing arm under M independent
+derangements and compute the Monte Carlo randomization p-value p= ( 1 + #{m:
+Tm ≤T self})/(M+ 1), where T is the unit-averaged RMSE. We use M= 100 for GBDT
+https://doi.org/10.3390/en19204805
+Energies2026,19, 4805 8 of 29
+across all 11 units, and M= 20 for TabPFN on three representative units (chosen to
+span both carrier regimes of Section 3.10), reusing the identical derangements so that the
+two families are directly comparable. These are sampled randomization probabilities with
+the plus-one correction, not exhaustive enumeration of all possible anchor assignments; the
+minimum attainable values are 1/101 and 1/21.
+Feature attribution uses permutation importance on held-out cells, aggregated by
+family, to describe fitted-model reliance on the feature families.
+What the design does and does not establish. The manipulation acts on the feature
+matrix, not on the ageing process: the arithmetic and the dimensionality of the difference
+feature are held fixed and the anchor values are held fixed as a multiset, so what is broken
+is only the pairing between a cycle and the origin it is referenced to. The result is a
+randomization test of a representation claim, in the sense of permutation inference [24,25],
+and it supports statements of the form “the self-pairing, and not generic differencing,
+carries the gain”. It does not identify a mechanism of electrochemical degradation, it does
+not estimate an interventional effect on a cell, and Pearl-style identification and do-calculus
+are outside its scope; the instrument arm is a negative control on the measurement harness
+rather than on the physical system [26]. Statements elsewhere in this paper about physical
+behaviour are mechanistic interpretations of that randomization result, not independent
+causal claims.
+2.7. Pre-Registration and Reproducibility
+Following pre-registration practice [27], 24 of the original 44 experiments carry 34 de-
+cision criteria in their frozen docstrings; this is not a claim that every experiment was
+pre-registered. Their documents are retained in the archive. The experiments added during
+this revision also state their criteria in the script docstring, and we grade their evidence
+rather than pooling it. For the scripts written first (the strict-reader re-run, the cost measure-
+ment, the curve-feature extraction and the two simple-baseline experiments), the commit
+carrying the criteria precedes the commit carrying the results, so the criteria are verifiable
+in the version history. One script family is weaker evidence: the TabPFN re-run on the
+second device shares its commit with its result, because it re-executes an already-frozen
+protocol on different hardware rather than introducing a new criterion. We therefore claim
+prior registration only for the former group. Other revision analyses whose script and
+first result share a commit (including bexp50–55) have explicit criteria but no separately
+timestamped pre-run commit; we do not claim prior registration for them. All outcomes,
+including falsified hypotheses, are retained in the research archive. Implementation cor-
+rections made during this revision carry per-script version notes rather than new criteria:
+the row-mapping rewrite and the CC/CV window correction of the raw-data manifest
+and curve extraction, the corrected MIT unit convention, the identity-gate exclusion in the
+baseline experiments, and the warm-up fix in the cost measurement; superseded archives
+are retained next to their replacements. Two of the notes record post-diagnostic rule cor-
+rections rather than pure implementation fixes—the cycle-duration quality gate and the
+identity-coverage threshold were added after inspecting the mapping diagnostics—and
+are marked as such in the scripts. Thirteen criteria relevant to this manuscript—those
+frozen in the previous revision, i.e., before the implementation corrections above—were
+not met, and the corresponding claims were downgraded or retracted rather than quietly
+re-worded. From the original study: the convention–importance correlation (Section 3.1),
+the five-seed win count (Section 3.9), the learned-anchor improvement and its autonomy
+variant (Section 3.11), the two distillation criteria and the injection criterion (Section 4.5).
+From this revision: two criteria that required the archived importance table to be repro-
+duced within ten percentage points, by the ten-seed tree arm and by the foundation-model
+https://doi.org/10.3390/en19204805
+Energies2026,19, 4805 9 of 29
+arm (Section 3.10); two that required the corrected deployable pipeline to show an accuracy
+gain for the compact set and for the full stack under gradient boosting (Section 3.7); the
+corresponding criterion under the frozen foundation model (Section 3.7); and the fleet-cost
+criterion under its primary amortised reading (Section 3.7).
+3. Results
+3.1. The Normalization Convention Is a First-Order Variable
+We first isolate the effect of the comparison target with a single-column manipulation.
+Holding data, model, splits, and all other columns fixed, we replace the life-fraction cycle
+column with the deployment-computable fixed-scale column (GBDT, five seeds, all 11 units).
+Table 2 reports the outcome and Figure 1 visualizes it.
+Table 2.Effect of replacing the life-fraction cycle column with a deployment-computable column. All
+other factors are held fixed under the author-offline reader and per-cell normalization. RMSE pools
+test-cycle rows within each unit before averaging over five seeds; it is not equal-cell macro RMSE.
+Positive∆means the deployable convention increases error. The last column gives the permutation
+importance of the life-fraction column for that unit (Section 3.10; ten-seed mean).
+Evaluation Unit Life-Fraction (RMSE) Deployable (RMSE) ∆(%) Life-Fraction Imp. (%)
+HUST 0.00944 0.01961+107.8 95.6
+TJU-3 0.00586 0.01011+72.6 81.1
+XJTU-R2.5 0.00804 0.00955+18.8 79.2
+XJTU-2C 0.00512 0.00570+11.4 33.9
+XJTU-satellite 0.00807 0.00850+5.3 34.3
+MIT 0.00762 0.00758−0.5 5.7
+TJU-1 0.01162 0.01076−7.4 30.3
+XJTU-3C 0.01172 0.01085−7.4 75.7
+XJTU-R3 0.00796 0.00692−13.1 22.0
+XJTU-RW 0.01117 0.00960−14.1 93.8
+TJU-2 0.01143 0.00577−49.6 1.2
+Figure 1.Effect of the cycle-column convention across all 11 evaluation units. (a) The same single-
+column manipulation moves error from −49.6% to +107.8%. (b) Sensitivity plotted against the
+permutation importance of the life-fraction column; the trend is consistent with the carrier account
+of Section 3.10 but is not statistically significant at this sample size (Spearman ρ= +0.54, p= 0.09,
+n= 11); at this sample size the confidence interval around ρ is wide, so the trend should not
+be over-read.
+Two features of Table 2 matter. The magnitude is large: a single-column convention
+changes error by tens of percent on several units. The companion benchmark’s architecture
+https://doi.org/10.3390/en19204805
+Energies2026,19, 4805 10 of 29
+spread is a separate MSE comparison under different features and splits, so its numerical
+range is not a calibrated measure of this effect’s relative importance. The direction is not
+fixed: replacing the column helps TJU-2 (−49.6%), while it raises error on HUST and TJU-3.
+Those two units have high life-fraction importance, but XJTU-RW ranks second at 93.8%
+and improves with replacement. The positive rank correlation across 11 units (ρ= +0.54,
+p=0.09) is therefore descriptive, not a predictive rule.
+A second manipulation confirms that the convention governs thefate of featuresand
+not only accuracy. In a 2 × 2 factorial over feature richness (16-dimensional reference
+features versus 67-dimensional benchmark features) and normalization (per-cell versus
+source-fitted), the benefit of adding the explicit origin-self column reverses sign, as shown
+in Table 3. This probe was run under the author-preprocessing reader, whose row filter
+uses each cell’s full-lifetime statistics; we therefore cite it as a legacy diagnostic about the
+normalization convention and not as evidence about the corrected deployable pipeline of
+Section 3.7 (the 67-dimensional cells follow the companion benchmark’s own feature path,
+which has its own protocol).
+Table 3.Median SRL gain relative to the corresponding baseline within each cell of a 2 × 2 factorial
+(GBDT, five seeds, XJTU, official held-out cells; author-preprocessing reader, i.e., a legacy diagnostic
+rather than the corrected deployable pipeline of Section 3.7). Negative values indicate improvement.
+Feature Set Normalization Median SRL Gain (%) Batches Improved
+16-dimensional per-cell (offline convention)−6.7 6/6
+16-dimensional source-fitted statistics−1.0 3/6
+67-dimensional per-cell (offline convention)−5.3 4/6
+67-dimensional source-fitted statistics+4.5 3/6
+3.2. Which Comparison Target Carries the Benefit
+An ablation over the four history families isolates the effective one. Table 4 reports
+median changes across the 11 units (GBDT, 550 runs).
+Table 4.Ablation of history feature families relative to raw features (GBDT, author-offline reader,
+author normalization; negative is better). Each seed is scored by overall RMSE over all test-cycle
+rows pooled within a unit, then averaged over five seeds; relative changes are summarized by their
+median across 11 units. Longer cell trajectories therefore receive more weight than shorter ones. The
+equal-cell macro counterpart of this ablation is reported in Section 3.4; the two are different scoring
+experiments, not interchangeable estimates of the same contrast.
+Configuration Median∆RMSE (%)
+from_first (origin self)−4.4(up to−32.6 on TJU-1)
++lag1 (recent self)−1.8
++roll5 (recent self)−1.9
++diff1 (recent self)−0.1
+Full 81-dimensional stack−10.9
+Full stack minus from_first−2.2
+Full stack minus diff1−11.0
+Bold highlights the origin-self-only configuration; it does not denote the lowest RMSE change.
+The metric difference reconciles Table 4 and the unit-level comparison in Section 3.4:
+their offset medians are −4.4% (pooled-cycle) and −5.6% (equal-cell), full-stack medians
+−10.9% and −7.2%, and TJU-1 offset changes −32.6% and −22.1%. Both use five-seed
+means within units, but the scoring weights differ. The equal-cell ladder of Section 3.4
+https://doi.org/10.3390/en19204805
+Energies2026,19, 4805 11 of 29
+additionally uses seed medians within units and is labelled separately. We retain both
+archived experiments and do not attribute their difference to seed aggregation alone.
+Recent-self comparisons contribute little and the per-cycle difference is dispensable,
+whereas removing the origin-self family collapses the benefit from −10.9% to −2.2%. Two
+targeted manipulations test the dependence on the earliest retained own-cell record under
+the legacy protocol. Discarding each cell’s first ten cycles, so that the anchor becomes
+the earliestavailablecycle rather than the original retained record, eliminates the benefit
+(median −5.8% →+ 2.2%; full curve in Section 3.11). Replacing the anchor with another
+cell’s first cycle is not merely less useful but often harmful (Section 3.9).
+3.3. Comparison with a Physics-Informed Network Under Its Own Protocol
+We now enter the reference protocol of [1] without modification (its splits, its features,
+its normalization convention (Pipeline A), and its metric) and compare against its officially
+published per-experiment results. Table 5 reports the TabPFN backbone; Figure 2 shows
+both backbones.
+Table 5.TabPFN with the full 81-dimensional history stack versus the published physics-informed
+results, under the reference protocol. Raw is the same backbone without the history families. ∆ is the
+relative difference in per-cell RMSE; the 95% interval is a two-sample bootstrap over the per-seed
+runs reported here and the ten published per-experiment values of the reference (5000 resamples), so
+it describes run-to-run variability under the fixed official split and the fixed held-out cells, and isnot
+an interval for a population of new cells; p values are Holm-corrected across the 11 units. Asterisks
+mark units where our result is significantly better. Seven of the eleven units hold out only two or
+three cells (the six XJTU batches and TJU-3); they enter the comparison as units, exactly as in the
+published protocol, and no cell-level inference is offered for them.
+Evaluation
+Unit Raw This Work Ref. [1]∆(%) 95% CI (%) p (Holm)
+XJTU-2C 0.00452 0.00425 0.00941−54.8[− 60.0, −49.2]0.0073 *
+XJTU-3C 0.01317 0.01034 0.01218−15.2[− 19.5, −10.6]0.0073 *
+XJTU-R2.5 0.00930 0.00832 0.01000−16.8[−25.7,−7.3]0.0240 *
+XJTU-R3 0.00935 0.00703 0.01051−33.1[− 39.3, −24.7]0.0073 *
+XJTU-RW 0.01442 0.01196 0.01351−11.5[−16.8,−5.8]0.0559
+XJTU-satellite 0.00900 0.00569 0.00967−41.1[− 44.8, −36.1]0.0073 *
+TJU-1 0.02050 0.01113 0.01579−29.5[− 33.4, −25.2]0.0073 *
+TJU-2 0.00970 0.01319 0.01315+0.3[−9.6,+8.9]0.9530
+TJU-3 0.00513 0.00525 0.00789−33.5[− 38.7, −27.7]0.0073 *
+HUST 0.00768 0.00781 0.00869−10.1[−14.6,−6.0]0.0073 *
+MIT 0.00743 0.00629 0.00740−15.0[− 16.9, −13.0]0.0073 *
+Asterisks mark Holm-corrected p< 0.05; p values are from two-sided Mann–Whitney U tests comparing our
+per-seed results with the published per-experiment results.
+The Raw column compares the same backbone without any history families against
+the full 81-dimensional stack; it does not isolate the offset alone. The raw backbones already
+sit near the published reference (median −7.0% for TabPFN and −4.7% for GBDT, lower on
+7 and 6 of 11 units, respectively), and the full stack is lower on 10 of 11 for each backbone.
+For TabPFN, raw features outperform the full stack on HUST and TJU-3, consistent with,
+but not explained uniquely by, their high life-fraction importance. On TJU-2, TabPFN raw
+is 26% below the reference (0.00970 versus 0.01315), whereas the full stack reaches 0.01319.
+The separate GBDT attribution assigns that unit 77.9% offset importance, below MIT’s
+79.2% (Section 3.10); this is cross-model context, not attribution of the TabPFN contrast.
+Section 3.4 isolates the compact offset within GBDT.
+The GBDT backbone reaches the same count: 9 of 11 units significantly better (−45.7,
+−17.4, −21.1, −24.3, −25.7, −19.1, −26.0, −5.5 and −6.2% on the significant units), with
+https://doi.org/10.3390/en19204805
+Energies2026,19, 4805 12 of 29
+TJU-1 (−5.6%) and TJU-2 (+2.7%) not significant. Across both model families the summary
+is therefore9/11 significantly better, 2/11 not significantly different, and 0/11 significantly
+worseforeachbackbone; the two non-significant units are not the same two from one
+backbone to the other (XJTU-RW and TJU-2 for the foundation model, TJU-1 and TJU-2
+for gradient boosting), so neither is a single shared exception. Aggregated by library for
+the TabPFN backbone, the relative improvements are XJTU−27.1%, TJU −19.7%, HUST
+−10.1%, and MIT −15.0%; each aggregate is 100 ×[ ∑u RMSE
+ours
+u / ∑u RMSE
+ref
+u − 1] taken
+over the units of that library, which is a ratio of summed means and therefore differs from
+averaging the per-unit percentages.
+Figure 2.Per-unit relative error against the published physics-informed results for both backbones,
+each using the full 81-dimensional history stack. Bars are bootstrap 95% confidence intervals; asterisks
+mark Holm-correctedp<0.05. Twenty of the twenty-two intervals lie entirely below zero.
+3.4. How Much of the Margin Is the Representation?
+The comparison of Section 3.3 changes several things at once, so we separate them
+here: Table 6 presents two further rungs of the baseline ladder that distinguish the SRL
+columns’ contribution from the learner’s, and two deliberately simple references place the
+machine-learning numbers in a familiar frame.
+Under the author protocol the explicit offset does not help a linear model (median
++4.1%, better on 4 of 11 units) but does help the tree model ( −5.6%, 9 of 11); under the
+corrected deployable reader it helps neither ( +0.8% and 5 of 11 for ridge, +4.3% and 5
+of 11 for gradient boosting, from the same archive that Section 3.7 reports in full). The
+earlier positive entries came from the superseded preprocessing of Section 3.7 and are no
+longer used. The two learners still differ more than the two feature sets: with identical
+SRL features, gradient boosting beats ridge by about 36% under the author protocol and
+25% under the corrected reader (relative to the ridge value), so the learner choice matters
+a great deal. We do not, however, turn that gap into a share of the margin against the
+physics-informed network, because the two comparisons differ in protocol, training budget
+and seed aggregation, and a margin measured under one protocol cannot be decomposed
+additively using a gap measured under another. What the tables support is the weaker
+statement that the learner and the feature set both contribute, and that the alternative
+https://doi.org/10.3390/en19204805
+Energies2026,19, 4805 13 of 29
+reading—one feature column making a simple learner beat a physics-informed network—is
+not what the data show.
+Table 7 resolves the same question at unit level, within one backbone and one protocol,
+which the reference comparison of Section 3.3 cannot do on its own.
+Table 6.Baseline ladder. Ridge regression (library default regularisation) and the gradient-boosted
+model on the same features, in both pipelines. The aggregation is two-stage: the median over five
+seeds within each unit, then the median across the eleven units;∆ is the median of the per-unit relative
+changes, so it is not the ratio of the two medians. “SRL” is the compact 33-dimensional self-referenced
+feature set; ∆ is the relative change in per-cell RMSE from adding it to the corresponding raw baseline
+of the same row group, so a negative entry means the explicit offset helps. Rows labelled A are read
+under the author protocol, whose cycle column is the per-cell full-lifetime min–max convention of the
+reference work; rows labelled B are read under the corrected deployable reader of Section 3.7, whose
+cycle column is the fixed-scale one, and they are the same archive that Section 3.7 reports in full.
+Pipeline Learner
+Median
+RMSE,
+Raw
+Median
+RMSE,
+SRL
+∆(%),
+Units
+Improved
+A (per-cell extrema) Ridge 0.01203 0.01292+ 4.1, 4/11
+A (per-cell extrema) GBDT 0.00915 0.00825− 5.6, 9/11
+B (source-fitted, corrected reader) Ridge 0.01167 0.01398+ 0.8, 5/11
+B (source-fitted, corrected reader) GBDT 0.00918 0.01044+ 4.3, 5/11
+Table 7.Unit-level decomposition of the margin under one backbone and one protocol. Gradient
+boosting, Pipeline A, library defaults, 2048-row context, five seeds; each “ours” column is the mean
+of that unit’s five per-seed per-cell macro RMSE values, so the three columns differ only in the
+feature set handed to the same learner, and the published column is the mean of the ten published
+per-experiment values for the unit. “Raw” is the 17-dimensional stack: the 16 cycle statistics plus the
+per-cell full-lifetime min–max cycle column of the author protocol, which is the cycle convention of
+every Pipeline A result here. “+SRL” adds the 16 offset columns (compact 33-dimensional set) and
+“+history” instead adds the four history families (full 81-dimensional stack). ∆1 compares our raw
+arm with the published reference, ∆2 the compact set with our raw arm and ∆3 the full stack with
+our raw arm; the three are separate contrasts against different baselines and are not shares of a single
+margin. Negative is better. The archived runs of the frozen foundation model hold only the raw and
+81-dimensional stacks, so its compact rung is missing here rather than interpolated.
+Evaluation Unit Published Ref. Our Raw Our +SRL Our +History∆ 1 (%)∆ 2 (%)∆ 3 (%)
+XJTU-2C 0.00941 0.00524 0.00520 0.00511−44.3−0.6−2.5
+XJTU-3C 0.01218 0.01238 0.01029 0.01006+1.6−16.8−18.7
+XJTU-R2.5 0.01000 0.01025 0.00883 0.00789+2.5−13.8−23.0
+XJTU-R3 0.01051 0.00843 0.00818 0.00796−19.8−2.9−5.6
+XJTU-RW 0.01351 0.01082 0.01021 0.01004−19.9−5.6−7.2
+XJTU-satellite 0.00967 0.00835 0.00790 0.00782−13.6−5.3−6.4
+TJU-1 0.01579 0.01930 0.01504 0.01490+22.2−22.1−22.8
+TJU-2 0.01315 0.01540 0.01448 0.01350+17.1−6.0−12.3
+TJU-3 0.00789 0.00530 0.00601 0.00584−32.9+13.5+10.2
+HUST 0.00869 0.00827 0.00823 0.00820−4.7−0.5−0.9
+MIT 0.00740 0.00908 0.00695 0.00694+22.8−23.4−23.6
+The learner on raw features already sits below the published reference on 6 of 11 units
+(median −4.7%), and above it on TJU-1, TJU-2 and MIT (+22.2%, +17.1%, +22.8%), so it
+is not a uniform advantage. Adding the 16 offset columns to that learner helps on 10 of
+11 units in sign terms (median −5.6%), as does the full history stack (median −7.2%); only
+TJU-3 worsens in sign, and HUST improves by an amount well below the noise floor of
+https://doi.org/10.3390/en19204805
+Energies2026,19, 4805 14 of 29
+Section 2.5 (−0.5% and −0.9%), so these are small descriptive changes rather than material
+gains. This pattern is consistent with high life-fraction reliance on those two units, but the
+counterexamples of Section 4.1 prevent extending it to a cross-unit rule. What the table
+does not license is adding ∆2 and ∆3 into one share of the headline margin of Section 3.3:
+those increments are measured against our own raw arm rather than the reference, the
+published column comes from a different training budget and scoring set, and the gap
+between our learner and the reference is itself unit-dependent.
+The ladder of Section 3.4 is complemented by the simple references of Section 3.8,
+rebuilt from the raw curve releases under a protocol fixed before any model was fitted.
+The Coulomb- and fade-slope proxies reported in the first submission have been retired
+from the evidence: their input columns could not be traced to a verifiable definition in
+the released preprocessing code, so their numbers (a median per-cell RMSE of 0.113 and
+0.115) are no longer used to rank against the learned models or to interpret why self-
+references work; they remain in the research archive as a historical record only. On the
+Severson comparison specifically, the landmark feature is the log variance of ∆Q(V) over
+an early cycle window; the processed releases used here retain no voltage curves, but the
+raw releases do—Section 3.8 reports the classic curve scalar adapted to the SOH task (the
+original early-life task itself remains unreproduced), rather than a proxy built from the
+released columns.
+3.5. Comparison with Five Published Deep Baselines
+Entering the companion benchmark’s protocol [ 2] (leave-one-cell-out splits, 67-
+dimensional handcrafted features, its own normalization) we compare against the five deep
+baselines using its published appendix values (Table 8).
+Table 8.Companion benchmark protocol: published deep baselines (MSE ×103, three-run means)
+versus our results. “Fixed” is one configuration chosen in advance and applied to every batch (the
+frozen foundation model on the benchmark’s own features); “Best of four” selects per batch among
+two feature sets × two backbones, so it is a per-batch choice among four configurations and is
+therefore more optimistic than the single fixed configuration tabulated beside it; the ratio is the best
+baseline divided by the best-of-four column as tabulated. The MSE ×103 scale is the companion
+benchmark’s own and is not comparable with the per-cell RMSE of Table 5 and Section 3.7: no
+conversion is shown, and rankings need not be invariant between the two metrics. Batches 1 and 4
+differ by less than the per-run spread and are not individually decisive.
+Batch CNN LSTM GRU MLP Attention Best Base. Fixed Best of Four Ratio
+1 0.060 0.039 0.028 0.034 0.078 0.028 0.0440.0241.17×
+2 0.294 0.135 0.109 0.104 0.171 0.1040.034 0.0343.06×
+3 0.042 0.039 0.026 0.024 0.058 0.0240.019 0.0191.26×
+4 0.045 0.057 0.045 0.038 0.065 0.0380.037 0.0371.03×
+5 0.237 0.172 0.154 0.451 0.180 0.154 0.0960.0941.64×
+6 0.171 0.248 0.218 0.214 0.227 0.1710.164 0.1641.04×
+Bold marks the best value in each row.
+Selecting per batch among four configurations improves on the best of the five pub-
+lished baselines on all six batches; the single fixed configuration, which involves no per-
+batch choice, does so on five of six and loses only on batch 1. Because this protocol’s per-cell
+normalization already supplies the self-comparison implicitly (Section 3.1), the margin here
+demonstrates the sufficiency of off-the-shelf carriers rather than an increment attributable
+to the explicit lift.
+https://doi.org/10.3390/en19204805
+Energies2026,19, 4805 15 of 29
+3.6. External Verification on an Independent Library
+Table 9 reports an independent library excluded from feature design and model
+selection. Its raw statistics plus own-cell offset provide a separate pairing diagnostic under
+the legacy reader stated in the caption. The 100 sampled derangements characterize the
+randomized comparison, rather than a single mispairing draw. The row-selection path is
+not strict-online, so this is not external deployment validation.
+Table 9.Independent library (45 cells): three normalization conventions × three arms (GBDT).
+“Mispaired” is the median of 100 independent derangements, each replacing the anchor with another
+cell’s first cycle; p is the Monte Carlo randomization p value of the true pairing against that null.
+“Deterministic” here means a single run of the gradient-boosted model on all available training rows,
+with no context subsampling and no seed averaging; RMSE pools all held-out cycle rows, unlike the
+five-seed default used elsewhere; the derangement schedule is likewise fixed. The MATR-CLO legacy
+reader first screens cycles by label (0.3<Q t/Qnom < 1.3), selects columns using a full-trajectory cross-
+cell availability check, and drops remaining rows with missing inputs; all three normalization arms
+share this row set. Source-fitted normalization alone does not make this a strict-online reader result.
+Normalization Raw SRL Mispaired SRL Gain (%) p(100 Perm.)
+per-cell full lifetime 0.022560.017510.02474−22.4 0.0099
+source-fitted statistics 0.017790.012190.01728−31.5 0.0099
+source-fitted+fixed-scale cycle 0.018060.012170.01715−32.6 0.0099
+Bold marks the lowest RMSE among Raw, SRL and Mispaired in each row.
+The true pairing beats all 100 mispaired draws under each of the three normalization
+conventions, so on this library the self-pairing requirement holds whether or not the offline
+convention is in place.
+3.7. Deployment-Computable Pipeline and Computational Cost
+Table 10 reports Pipeline B re-run with a corrected reader that cannot see the target’s
+future. The earlier implementation of both pipelines filtered rows using each cell’s full-
+lifetime statisticsincluding its capacity label, and its anchor was the first row surviving that
+filter rather than the first recorded cycle; measured on the released files, those anchors fall
+on records 1 to 4, and the filter changes the row set as well. Because that procedure uses
+target-future and label information, it cannot support a deployment claim. The corrected
+reader keeps a row only when the current row’s inputs are finite, so nothing about the
+target’s future enters either the row set or the anchor; the source-fitted normalization and
+the fixed-scale cycle column are unchanged.
+In this corrected configuration the explicit reference families do not reach the pre-
+registered bar for a uniform gain, and their direction depends on the model and the feature
+set. Relative to raw features of the same backbone, the compact SRL set changes the median
+per-cell RMSE by +4.3% and improves 5 of 11 units for gradient boosting, and by +10.4%
+and 3 of 11 for the frozen foundation model; the full 81-dimensional stack gives +0.3% and
+5 of 11 for gradient boosting and −1.2% and 6 of 11 for the foundation model; ridge shows
+the same pattern as the tree model ( +0.8%, 5 of 11). Against a pre-registered criterion
+requiring improvement on at least 7 of 11 units, every arm fails, and we report the result
+as it stands. Direction is not uniform across models either: the foundation model pays
+substantially for the compact set while gaining slightly from the full stack. On XJTU-3C
+the compact set inflates that model’s error by +154% (0.00780 to 0.01980) while the same
+columns move the tree model by +8%—the largest regression in Table 10—so the in-context
+learner is markedly more sensitive to the added offset block than the tree ensemble is. The
+earlier numbers are retained as a historical record and are not used. The corrected result
+https://doi.org/10.3390/en19204805
+Energies2026,19, 4805 16 of 29
+supports less than the earlier text claimed: the features are computable in service and the
+offline comparisons of Sections 3.3–3.5 stand under the reference protocol, but we no longer
+claim an accuracy benefit from the self-referenced lift under deployment conditions. The
+computational profile differs by backbone: a library-default gradient-boosted model fits
+in under one second per evaluation unit and predicts in milliseconds, whereas the frozen
+foundation model’s CPU runs in this revision took 1.3–60 s per evaluation run (context
+preparation included, device recorded per record). The lift is also not uniformly harmless
+in this pipeline, as the XJTU-3C regression above shows. On cost we report only what
+was measured, under a stated scenario: a cell arriving with one computable current-cycle
+feature, a model already fitted, context already prepared, and the feature state updated
+incrementally. Note that “one cycle feature is available” is not the same as “a complete
+charge segment is available at any moment”, which the scenario therefore assumes rather
+than derives. Under it, a gradient-boosted model fitted once on the 2048-row context costs
+0.6–0.8 s per evaluation unit, a single-row prediction 2.8–4.3 ms at a batch of one, batched
+serving 3.7–5.1 µs per row at a batch of 1024, and the process peak RSS 181–328 MiB over the
+17/33/81-dimensional stacks (Section 2.4); the measuring machine, its thread count and the
+library versions are recorded in the archived result file, and the models and environment
+in Section 2.4. Multiplying the measured model-prediction medians by 10,000 rows gives
+28–43 s at a batch of one, or 0.037–0.051 s in batches of 1024; these arithmetic scenarios
+exclude fitting, feature acquisition and construction, scheduling and data transfer, and are
+not measured fleet runtimes. We report these as compute times only: no energy or carbon
+figure is derived from them, and no per-cell figure for the archived foundation-model runs
+(Section 2.4). The companion benchmark’s deep baselines take about 170 s per run on
+their own hardware. Embedded feasibility is therefore left unverified: no measurement on
+microcontroller-class hardware was performed, and a pretrained transformer of this size
+is not in that class, so we claim neither embedded nor fleet-scale throughput. Section 3.8
+reports the two validated simple references that a deployment-minded reader would
+try first.
+Table 10.Pipeline B under the corrected reader: a row is kept only when its own inputs are finite, so
+no target-future or label information enters the row set or the anchor. Source-fitted normalization,
+fixed-scale cycle column, five seeds; medians of per-cell RMSE. “G” is the gradient-boosted backbone,
+“R” ridge and “T” the frozen foundation model (CPU, released v3 weights); “srl” is the compact
+33-dimensional set and “hist” the full 81-dimensional stack. Bold marks the best configuration per
+unit. The values of the earlier implementation are kept in the research archive as a historical record
+and are not comparable.
+Evaluation Unit G-Raw G-SRL G-Hist R-Raw R-SRL T-Raw T-SRL T-Hist
+XJTU-2C 0.00918 0.008350.008300.01332 0.01982 0.00930 0.01027 0.01089
+XJTU-3C 0.00864 0.00934 0.00914 0.01080 0.009290.007800.01980 0.01448
+XJTU-R2.50.008410.01442 0.01239 0.01128 0.02146 0.01251 0.01217 0.01422
+XJTU-R3 0.013430.011770.01356 0.01516 0.02434 0.01552 0.01608 0.01379
+XJTU-RW 0.00664 0.00703 0.00654 0.00974 0.009890.006070.00832 0.00731
+XJTU-satellite 0.01224 0.01281 0.01228 0.01514 0.01242 0.01021 0.015550.00926
+TJU-1 0.00922 0.01044 0.01019 0.01781 0.013980.006550.00983 0.00839
+TJU-2 0.00473 0.00434 0.00436 0.00666 0.00671 0.004150.003630.00387
+TJU-30.011190.01167 0.01130 0.01167 0.01549 0.01262 0.01361 0.01247
+HUST 0.02172 0.020710.020590.02485 0.02409 0.02374 0.02323 0.02141
+MIT 0.00383 0.00380 0.00373 0.00569 0.00545 0.00204 0.002310.00178
+https://doi.org/10.3390/en19204805
+Energies2026,19, 4805 17 of 29
+3.8. Validated Simple Baselines on Raw Curves
+Beyond the released-feature ladder of Section 3.4, a deployment-minded reader would
+try two simpler references. We rebuilt both from the raw releases under a protocol fixed
+before any model was fitted: official splits unchanged, deployable reader, the five learner
+arms of Table 11 scored on the same rows (retained-record index≥ 100), GBDT at default
+settings; the physical reference reported below is scored on a subset of cells (one further
+requirement, stated below) and is therefore not placed in the same table as evidence of
+superiority. The first is the curve-difference scalar used for early life prediction on the MIT
+library [9], the base-ten logarithm of the variance of ∆Q(V) between the hundredth and
+the tenth discharge curves; it is computable after the first hundred cycles and therefore
+deployable. Its inputs are the XJTU archive and the MIT structs, which we obtained and
+aligned to the released cells (55 and 125 cells). The alignment is explicit per row: for 152
+of the 180 cells the released discharge-capacity series reproduces a subsequence of the
+raw cycles to within 10−6 relative tolerance. Exclusion works in three layers, each stated
+where it applies: cells failing the identity gate are dropped from both the source and the
+target side of every learner arm; a target cell additionally needs its scored rows to pass the
+cycle-availability check (the curve scalar is only usable once the hundredth raw cycle has
+completed); and the physical reference below needs every scored row to map one-to-one
+onto a raw cycle, which is the strictest of the three. Failures at every layer are listed in the
+archived manifest.
+Table 11.Simple curve-based references on the raw releases, scored on the rows with retained-record
+index ≥ 100 under the deployable reader; all values are cell-macro RMSE (medians over five seeds),
+lower is better. “raw”, “+SRL” and “+history” are the released-feature learners onthisscoring set
+and are not comparable with the full-life rows of Tables 5 and 10. Coverage is four of eleven units:
+the three TJU units and HUST have no raw curves in this study; the XJTU satellite batch and the
+R3/RW batches fail the identity gate (their released capacity series could not be verified against the
+raw cycles) and are excluded from every arm; within MIT one further held-out cell is excluded by the
+cycle-availability check.
+Evaluation Unit Cycle Only Cycle + Scalar Raw +SRL +History
+XJTU-2C 0.01015 0.00645 0.00991 0.00917 0.00902
+XJTU-3C 0.03411 0.03802 0.00992 0.01113 0.01079
+XJTU-R2.5 0.01798 0.02511 0.00872 0.01640 0.01243
+MIT 0.02837 0.02288 0.00384 0.00405 0.00378
+Cross-unit median 0.02317 0.02400 0.00931 0.01015 0.00990
+The scalar helps on two of the four units and hurts on the other two (median change
++0.0001 RMSE), so we claim no uniform gain. The pre-registered improvement bar (7 of
+11 units) could not have been met at this coverage, so we report the observation and
+the coverage limit rather than a failed test; nor is the ordering exceptionless, because
+on XJTU-2C the cycle +scalar arm (0.00645) sitsbelowall three released-feature learners
+(0.00902–0.00991) on the same rows. On the remaining units the sixteen released statistics
+do carry information a cycle index plus one curve scalar does not (Table 11). The second
+reference is physical: the charge current integrated over the charge segment of the same
+cycle, divided by the nominal capacity, with one source-side efficiency calibrated on the
+first hundred cycles of the training cells (the label is discharge-side, so this is not a re-
+derivation of it). On the units whose rows map one-to-one onto raw cycles it reaches a
+cross-unit median cell-macro RMSE of 0.0053: on the three XJTU units 0.0009–0.0081 with
+η≈ 0.999–1.000, and on MIT 0.020 (cell median 0.004) with η= 1.001, where four cells
+are excluded by a cycle-duration data-quality gate. We therefore report it as a physical
+https://doi.org/10.3390/en19204805
+Energies2026,19, 4805 18 of 29
+consistency check rather than as an independent predictor, with its coverage (four of eleven
+units) stated.
+3.9. Self-Pairing Is the Active Ingredient
+Table 12 reports the three-arm randomized design of Section 2.6. The GBDT compar-
+isons in this section pool all held-out cycle rows within each unit before seed averaging;
+the pooled randomization statistic then weights the 11 units equally. These metrics differ
+from the equal-cell macro RMSE used for the primary baseline comparison.
+Table 12.Three-arm comparison, per-unit change relative to raw features (GBDT, twenty seeds;
+negative is better). The instrument arm is an affine negative control whose theoretical effect on tree
+models is zero. All arms use the author-offline reader and author-protocol normalization, including
+the full-lifetime, label-dependent row filter; these archived controls are offline diagnostics, not
+evidence for the corrected strict-online pipeline.
+Evaluation Unit Treatment: Self (%) Mispaired (%) Instrument (%)
+XJTU-2C−2.2+3.4 0.0
+XJTU-3C−12.4−13.2 0.0
+XJTU-R2.5−15.0−13.3 0.0
+XJTU-R3−1.0+4.0 0.0
+XJTU-RW−8.9+15.4 0.0
+XJTU-satellite−3.4+6.8 0.0
+TJU-1−33.7−1.7 0.0
+TJU-2−3.1+9.0 0.0
+TJU-3+12.6+5.0 0.0
+HUST+8.1+2.4 0.0
+MIT−23.5+5.7 0.0
+Three observations follow. First, the instrument arm is zero to within 0.04% on every
+unit across twenty seeds, as predicted by affine invariance, which confirms that the pipeline
+does not manufacture effects. Second, mispaired references are more often harmful than
+helpful: they raise error on 8 of 11 units (by up to +15.4% on XJTU-RW) and lower it
+on only 3, so the benefit is not generic trend information. On the frozen foundation
+model the contrast is larger still: on TJU-1 mispairing inflates error by a factor of 2.4
+(0.00965 → 0.02330). Third, within single-condition batches a mispaired anchor necessarily
+comes from a cell operated under thesamecondition, and self-pairing still wins on 5 of 6
+such units, which excludes condition matching as an alternative explanation.
+The evidence in this section has distinct roles. The primary result is the pooled
+randomization test on gradient boosting: 100 sampled derangements, p= 0.0099. The
+instrument arm measures zero to within 0.04% on every unit, checking the harness under
+this implementation. Per-unit signs are descriptive and non-uniform: on TJU-3 self-pairing
+raises error by 12.6% against 5.0% for mispairing, and on HUST by 8.1% against 2.4%. High
+life-fraction reliance is consistent with these two observations, but does not predict the
+counterexamples in Section 4.1. XJTU-RW (self −8.9%, mispaired +15.4%) illustrates why
+arbitrary differencing is insufficient in this control. Section 3.10 describes model reliance; it
+does not establish information equivalence or predict SRL benefit.
+Permutation inference quantifies this sampled comparison. Under 100 independent
+derangements the null distribution of unit-averaged RMSE has median 0.01107 and range
+[0.01023, 0.01213]; the true self-pairing attains 0.00916 and beats all 100 permutations, giving
+p= 0.0099 (Figure 3a). Repeating the procedure for the frozen foundation model with
+the identical derangements on three representative units yields 20/20 wins on TJU-1 and
+MIT and 18/20 on HUST, with a pooled permutation p= 0.0476 and a null median of
+0.02006 against an observed 0.00898. That arm supports the same conclusion on a second
+https://doi.org/10.3390/en19204805
+Energies2026,19, 4805 19 of 29
+model family, though with M= 20 its p value cannot fall below 0.0476 by construction; the
+stronger of the two tests is the 100-permutation result on gradient boosting. Taken together,
+the three arms separate the pairing from everything else that the feature changes: in the
+mispaired arm the arithmetic and the dimensionality are identical and the anchors are only
+reassigned across cells, so the multiset of anchors is preserved and what is broken is the
+pairing between a cycle and its origin; the advantage goes with it.
+Two pre-registered criteria in this analysis were not met and the corresponding claims
+were downgraded rather than removed. The rank correlation of Section 3.1 did not reach
+significance at n= 11, and extending the three-arm comparison from five to twenty seeds
+moves the per-unit win count from 9/11 to 8/11: XJTU-2C reverses to a win, while XJTU-3C
+and HUST reverse to losses; we report the twenty-seed value as the more reliable estimate.
+The two runs also resampled the mispairing permutation, so per-unit differences reflect
+both sources of variation; the estimate that does not depend on any single draw is the 100-
+permutationpvalue above. Directional outcomes on the large-effect units are unchanged.
+Figure 3.Pairing controls and model attribution. (a) Randomization inference: the true self-pairing
+(red line) against the null distribution of 100 mispaired references (p= 0.0099, gradient boosting).
+(b) Life-fraction and offset importance shares vary across units (ten-seed means of Section 3.10,
+gradient boosting, author-protocol normalization); shaded regions mark the offline-only and offset-
+dominant regimes; these regions do not imply information equivalence or predict accuracy.
+3.10. Life-Fraction and Offset Reliance
+Permutation importance, aggregated by family, describes reliance on the life-fraction
+and offset columns for the fitted tree model under author-protocol normalization. Their
+relative shares vary across units (the ten-seed replication below; Figure 3b). Table 13 retains
+the historical single-run importance analysis.
+Because the archived analysis in Table 13 motivated the carrier account, and because
+the configuration that generated it could not be confirmed from the research archive, we
+recomputed the attribution with a documented protocol (gradient boosting, ten seeds, full
+81-dimensional stack) and report that replication in Table 14; the importance statements
+in the text are taken from that replication, and the archived single-run values of Table 13
+are retained as the historical record they are. The new tree analysis shows distinct family-
+reliance patterns, and the replication also quantifies what a single run could not: the
+per-unit standard deviations span 0.3 to 11.3 percentage points, and the largest difference
+from the single archived run is 15 pp, concentrated in the cycle/from_first pair, whose
+features can be correlated, without demonstrating information equivalence. We read that as
+an explanation of the discrepancy rather than as an identification of the archived protocol,
+and the replication’s standard deviations describe the new ten-seed runs: they are not an
+error bar on the archived single values. We also asked whether the archived values came
+https://doi.org/10.3390/en19204805
+Energies2026,19, 4805 20 of 29
+from a different backbone, by replicating the same estimator with the frozen foundation
+model (two seeds, CUDA): that arm departs from the archived values by up to 62 pp (mean
+11.8 pp), against 15 pp (mean 3.0 pp) for gradient boosting. Neither arm reproduces the
+archive within 10 pp, so its exact configuration remains unconfirmed; the foundation-model
+arm is, however, much farther from it and does not exhibit the two-carrier structure, so
+the archived table is better described as consistent with the tree model than as reproduced.
+The unit where this matters most is XJTU-R3, where the two families are 22.0 ± 4.2 (life-
+fraction) and 44.5 ± 11.3 (offset), so a single run can legitimately report them as close or
+as separated. We therefore report Table 13 as a description of a regime and the standard
+deviations of Table 14 as uncertainty of the new replication only, rather than treating either
+as a calibrated quantity.
+Table 13.Permutation importance by feature family (%) on held-out cells, from one run of the
+archived importance analysis whose generating configuration could not be confirmed; it is retained as
+the historical record, and the importance statements in the text are taken from the ten-seed replication
+below. The life-fraction column exists only offline; the offset column is computable in service.
+Evaluation Unit Life-Fraction Cycle (%) Origin-Self Offset (%)
+HUST99.40.4
+XJTU-RW98.40.6
+TJU-396.10.6
+XJTU-R2.593.63.3
+XJTU-3C87.04.5
+XJTU-satellite35.83.9
+XJTU-2C35.30.7
+XJTU-R334.230.8
+TJU-1 24.346.2
+MIT 3.989.3
+TJU-2 0.886.6
+Bold marks the larger of the two importance shares in each row.
+Table 14.Ten-seed replication of the permutation importance of Table 13, and the source of the
+importance statements in the text (mean ± standard deviation, percentage points; gradient boosting,
+author-protocol normalization, full 81-dimensional stack, 2048-row context budget; per-column
+permutation with five repeats, scored by per-cell macro RMSE, negative importances clipped at zero,
+then summed within family and normalized to 100%). Only the life-fraction and offset families are
+shown; “gap” is the difference of the means in favour of the leading family.
+Evaluation Unit Life-Fraction Cycle Origin-Self Offset Leading Family (Gap)
+HUST 95.6±0.3 3.0±0.3 cycle (92.6)
+XJTU-RW 93.8±0.3 3.1±0.3 cycle (90.7)
+TJU-3 81.1±1.7 6.7±3.1 cycle (74.4)
+XJTU-R2.5 79.2±1.6 10.9±1.7 cycle (68.3)
+XJTU-3C 75.7±2.1 12.6±1.3 cycle (63.1)
+TJU-2 1.2±0.5 77.9±3.6 offset (76.7)
+MIT 5.7±2.9 79.2±3.1 offset (73.5)
+TJU-1 30.3±4.5 48.1±4.6 offset (17.8)
+XJTU-R3 22.0±4.2 44.5±11.3 offset (22.5)
+XJTU-satellite 34.3±3.2 4.6±0.8 cycle (29.7)
+XJTU-2C 33.9±2.5 1.2±0.4 cycle (32.7)
+3.11. Which Early Cycle Serves as the Anchor
+The mispairing control supports an advantage for own-cell anchors in the legacy
+aggregate comparison, with per-unit exceptions. To test whether the earliest retained
+https://doi.org/10.3390/en19204805
+Energies2026,19, 4805 21 of 29
+record is preferable within that protocol, we replaced it with a learned convex combination
+of each cell’s first ten retained records, r= ∑10 i=1 αixi. An attention scorer learned the
+weights on training cells; the same gradient-boosted learner then evaluated both anchors.
+This isolates the tested anchor construction from predictor choice. Both probes of this
+subsection use the author-offline row set; a ten-record anchor also requires that window to
+have completed.
+Accuracy does not improve, and with sufficient seeds the fixed choice is the better
+one. Under twenty seeds the learned anchor raises per-cell RMSE on 7 of 11 units, by a
+median of +2.0%; the individual differences are small but consistent enough to resolve,
+and after Holm correction across units the learned anchor is significantly worse on six units
+and significantly better on one (Figure 4b). The six penalised units are the six XJTU batches,
+while the single improvement is −18.6% on TJU-2; the split does not track cell counts or
+cycle counts (Spearman ρ= +0.22, p= 0.52 against the shortest cell length), so we report
+it as a pattern without offering a mechanism. A five-seed version of the same comparison
+put the median at +3.0% and resolved nothing; the twenty-seed run was pre-registered
+with an explicit reversal criterion (a Holm-corrected significant penalty on at least four
+units forces the boundary-condition reading), which is what triggered the present account.
+Repeating the comparison with the frozen foundation model points the same way (median
++3.2%, learned anchor lower on 5 of 11 units), though that arm cannot establish per-unit
+significance: with three seeds per arm the smallest attainable two-sided rank-test p is 0.10,
+so no unit can survive Holm correction across eleven of them by construction.
+The learned weights are only mildly tilted toward the earliest cycles (median weight
+0.15 on the first cycle against 0.10 for a uniform allocation, median mass 0.42 on the first
+three cycles, and the largest weight falling on the first cycle in 7 of 11 units), and the
+resulting anchor departs substantially from the first cycle in every unit (median maximum
+deviation 2.81 in normalized feature units). Averaged over units the weight profile de-
+creases monotonically across the window, from 0.16 on the first cycle to 0.07 on the tenth,
+crossing the uniform level near the fourth (Figure 4a): the preference for early cycles is
+systematic but not exclusive, and that residual spread is what costs accuracy.
+Figure 4.Two probes of the reference construction. (a) Learned attention weights over the early
+window; grey lines are the eleven evaluation units, the dashed line marks a uniform allocation.
+(b) Per-unit change in per-cell RMSE from replacing the fixed first cycle with the learned anchor
+(twenty seeds); red bars are significantly worse and the blue bar significantly better after Holm
+correction; grey bars indicate differences that are not statistically significant after Holm correction.
+Asterisks mark Holm-corrected p< 0.05. (c) Change in per-cell RMSE when predictions from a
+teacher using the offline-only carrier are blended into an online-computable student’s target, against
+the blending weight λ; grey lines show individual evaluation units, and the orange line shows their
+median. The shaded band is the historical 11.3% heuristic, not a confidence interval.
+Read together with Table 15, these probes favour the earliest retained own-cell record
+over the tested delayed and learned alternatives under the offline protocol. They do not
+establish a unique manufacturing state, exclude all other anchor constructions, or show that
+https://doi.org/10.3390/en19204805
+Energies2026,19, 4805 22 of 29
+the same advantage survives the corrected reader. Retaining early records is necessary to
+reproduce the tested SRL construction, but its online accuracy must be assessed separately
+(Section 3.7).
+Table 15.Sensitivity to anchor availability (GBDT, three seeds): median SRL gain when the first K
+cycles of every cell are discarded. The probe was run under the author-preprocessing reader (offline
+row set), so it is read as a diagnostic of the offline comparison rather than as a statement about the
+corrected deployable pipeline of Section 3.7.
+Cycles Discarded (K) Median SRL Gain (%) Units Improved
+0−5.8 8/11
+10+2.2 5/11
+50+4.9 3/11
+100+3.0 4/11
+4. Discussion
+4.1. Carrier Attribution: Scope and Counterexamples
+The carrier pattern of Table 14 is consistent with HUST and TJU-3, where life-fraction
+importance is high and the explicit offset provides little benefit in the legacy controls. It does
+not predict the sign of the benefit across units. XJTU-RW has 93.8% life-fraction importance,
+yet replacing the cycle column reduces error by 14.1% (Table 2), and true self-pairing reduces
+error by 8.9% against a 15.4% increase when mispaired (Table 12). XJTU-3C and XJTU-R2.5
+also improve despite high life-fraction shares (75.7% and 79.2%). Permutation importance
+describes reliance of a fitted model under one protocol; it neither establishes redundant
+information nor supplies a general rule for when SRL helps. We therefore restrict the carrier
+explanation to the observations it fits and report these counterexamples explicitly.
+Deployment removes the life-fraction channel because total life is unknown while a
+cell is in service, whereas the own-cell offset remains computable from retained records.
+Whether that improves accuracy is a separate question. The corrected evaluation of
+Section 3.7 answers it negatively for the learners tested: removing target-future and label
+information from the reader does not meet the cross-unit improvement criterion for any
+explicit-reference arm. The offline attribution therefore does not establish an accuracy
+advantage after deployment.
+The anchor experiments further delimit the legacy result: discarding the first ten
+retained cycles removes the median benefit under the tested offline protocol (Table 15).
+This supports retaining the earliest recorded cycle for that comparison; it does not identify
+a manufacturing state or establish a strict-online accuracy advantage.
+Subtracting a cell’s earliest record can remove a time-invariant component of its
+charge-segment statistics and retain changes associated with ageing. This is a physical
+interpretation of the representation, not an identity with the target. In the released primary
+benchmark and our adapter, SOH is cycle discharge capacity divided by the dataset’s
+nominal capacity, Qt/Qnom, not by the measured capacity of that cell’s earliest record. It
+therefore need not equal one at the anchor. A reference from another cell can introduce
+between-cell offsets; this interpretation is consistent with the legacy mispairing result
+but does not identify an electrochemical degradation mechanism or imply strict-online
+accuracy improvement.
+BatLiNet [31] distinguishes intra-cell early-cycle differences from inter-cell references
+to predict battery lifetime across ageing conditions. Our task is cycle-level SOH estimation,
+and our legacy control reassigns own-cell anchors while holding their values fixed. Its
+result concerns that representation under its reader and learner, not the usefulness of
+https://doi.org/10.3390/en19204805
+Energies2026,19, 4805 23 of 29
+inter-cell learning on a different prediction task; it does not contradict BatLiNet’s learned
+inter-cell reference.
+4.2. Design Implications of the Negative Results
+The negative results constrain three separate interpretations. First, the offline anchor
+probes favour the earliest retained record over the tested delayed and learned anchors;
+they do not show that later cycles cannot reconstruct a useful reference in general. Second,
+the tested teacher-target blending scheme does not meet its improvement criterion: the
+student improves on only 3 of 11 units and the median error increases with blending
+weight (Figure 4c). The mixed directions of the legacy cycle-convention contrast do not
+identify why blending fails because they concern a different manipulation and row protocol.
+Third, the corrected reader shows that compact SRL is not uniformly harmless: for TabPFN
+it raises error on XJTU-3C (Table 10). A deployment evaluation must therefore specify
+retained inputs, anchor availability and model-specific accuracy rather than assume the
+offline advantage transfers.
+4.3. Comparability with Published Numbers
+The XJTU dataset has an officially maintained summary of published results [ 32]
+spanning dozens of 2025–2026 papers, with reported RMSE values as low as 0.23%. That
+summary also records that evaluationmodesdiffer across papers (intra-cell interpolation
+versus cross-cell estimation, single batch versus all batches, and non-uniform splits), and its
+maintainers do not rank across papers. The XJTU-family studies cited in the Introduction
+were not audited paper by paper in this revision: we did not verify, from their full texts
+or released code, that they adopt the official splits or the per-cell normalization of the
+release used here, so we place no numbers side by side with theirs, and the comparability
+statement below is restricted to results published under the reference protocol itself. We
+follow the same discipline: comparisons are made only within protocols aligned position
+by position, by reading the reference implementation’s scoring code and by executing
+its training code. Our per-unit RMSE values (0.43–1.32%) are of the same magnitude as
+recent reports while being obtained entirely in the cross-cell mode under fixed official
+splits, which is the harder setting. One preprint [8] reports values below ours on the same
+four public libraries (387 cells), but it reports batch-level point values without run-to-run
+distributions, discloses neither its cell-level splits nor its code, and its chemistry description
+(four chemistries including LCO) is inconsistent with the official releases of these libraries
+(NCM, NCA and LFP; Appendix A); it is therefore cited without comparison. The follow-up
+studies cited in Section 1 are not uniformly comparable at this granularity: they do not all
+state whether the released cell-level splits are retained, and some report pooled rather than
+per-experiment error. We therefore restrict quantitative comparison to the protocol whose
+splits and scoring code we could verify directly [1].
+4.4. Implications for Battery Management in Sustainable Power Systems
+Three consequences concern potential deployment. First, source-trained default gradi-
+ent boosting and frozen-model inference provide baselines that do not require target-cell
+fitting; under the corrected reader, adding SRL does not establish an overall accuracy
+advantage. Second, CPU cost was measured for separate workloads: fitting the gradient-
+boosted model takes under one second, its single-row prediction 2.8–4.3 ms, and the frozen
+foundation model takes 1.3–60 s per unit × view × seed including context preparation
+(Section 3.7). The sub-second fitting measurement belongs only to GBDT. Third, reproduc-
+ing this SRL requires retaining the earliest valid charge-segment record with cell identity;
+doing so preserves feature availability, not a demonstrated online accuracy benefit. No mi-
+crocontroller measurement or field deployment was performed. Prior deployment-oriented
+https://doi.org/10.3390/en19204805
+Energies2026,19, 4805 24 of 29
+work has examined data sufficiency and short observation windows [33]; our reader audit
+concerns a separate constraint, the information available at scoring time.
+4.5. Limitations
+The claims of this paper hold under five stated conditions, which distinguish protocol-
+specific results from deployment hypotheses.
+Anchor availability.The implemented SRL requires an earliest retained own-cell
+record. Table 15 shows that discarding ten retained records removes the median benefit
+under the legacy offline reader. This does not prove that SRL is unusable for all second-life
+cells or fleets without commissioning data: a later observed anchor remains computable, but
+reproduces a different representation whose accuracy is unvalidated here. The corrected-
+online result must be distinguished from this offline sensitivity probe.
+Model-family coverage.A tuned MLP improves on only 5 of 11 units; adding offsets to
+the companion benchmark’s own MLP improves on only 1 of 6 batches. These observations
+do not identify why those networks fail to exploit the offsets. The positive full-stack
+comparisons for GBDT and TabPFN are offline and include learner effects; neither supports
+a universal model-family or deployment accuracy claim.
+The tested transfer scheme did not meet its criterion.Motivated by the offline carrier
+pattern, an obvious remedy is to train on that channel and transfer what it knows to a
+deployable model. This is legitimate: complete trajectories of thetrainingcells are available,
+so the constraint binds only at inference on the target cell (learning under privileged
+information [34]), and we tested it: a teacher using the life-fraction carrier supplied out-of-
+fold soft targets that were blended into an online-computable student’s regression objective.
+The tested blending scheme did not meet its improvement criterion. The student improved
+on only 3 of 11 units, the median change was +7.3% at a blending weight of 0.5, and
+degradation grew monotonically with that weight ( +2.6%, +7.3%, +13.9% at 0.3, 0.5
+and 0.7, Figure 4c). Per-unit Mann–Whitney tests with Holm correction leave one unit
+significantly better and none significantly worse, so the accurate reading is that this scheme
+did not meet its improvement criterion; neither universal transfer failure nor significant
+harm is established. One pattern is consistent with Table 2: the offline cycle convention is
+not a universal upper bound: it is better than the fixed-scale convention on 5 of 11 units,
+but exceeds the 11.3% noise floor on only 4 (XJTU-2C, XJTU-R2.5, TJU-3 and HUST), and
+is worse on the other 6. These are legacy convention diagnostics, not corrected-online
+comparisons, and do not identify the reason target blending fails. Whether a different
+transfer mechanism succeeds where target blending fails is open, and identifying the failure
+mechanism would require a different probe.
+Statistical power at the unit level.Cell-level generalization is limited by the two or
+three held-out cells in each XJTU batch and TJU-3. The legacy per-unit pairing effect-to-
+noise ratios span 0.5–11.9, and six of eleven units reach p≤ 0.1; the pooled randomization
+result concerns an average across units. These pairing tests differ from the run-level
+comparison against the published baseline: in the latter, two units per backbone are non-
+significant, with three distinct units in their union (TJU-2 for both, XJTU-RW for TabPFN,
+TJU-1 for GBDT). Non-significance does not establish equivalence.
+Scope of the data and of the claim.All libraries are laboratory ageing data acquired
+under controlled conditions; field data with dynamic loads, temperature excursions, and
+calendar ageing is not covered. All claims are scoped to battery SOH estimation, where the
+benchmark target is cycle capacity divided by nominal capacity; we make no claim about
+degradation tasks whose labels lack that structure.
+https://doi.org/10.3390/en19204805
+Energies2026,19, 4805 25 of 29
+5. Conclusions
+What a feature is compared against (other cells, a recent past, or the earliest retained
+record) is a design decision that has been made implicitly inside normalization choices,
+and it materially affects error under the tested legacy protocol: replacing a single column’s
+convention moves error from −49.6% to +107.8% across eleven evaluation units. The
+benchmark SOH label uses nominal capacity as its denominator, while the prevailing
+per-cell convention depends on full-lifetime extrema that a cell in service cannot know. We
+made the comparison explicit and online-computable as a self-referenced lift.
+Under the offline author protocol, off-the-shelf learners with the full history stack are
+significantly more accurate than the physics-informed network on 9 of 11 units for each
+of two backbones, with none significantly worse. Under the corrected strict-online reader,
+compact SRL instead changes median per-cell RMSE by +4.3% for gradient boosting (5
+of 11 improve) and +10.4% for the frozen foundation model (3 of 11 improve); feature
+computability does not translate into an overall accuracy gain. The companion benchmark
+improves on five published deep baselines in 6 of 6 batches with per-batch selection (5 of
+6 with a fixed configuration), but its normalization already supplies an implicit comparison.
+The unseen-library 22–33% improvement and the randomized pairing results (p= 0.0099
+for gradient boosting, p= 0.0476 for the frozen foundation model) are legacy diagnostics
+under their stated readers. Tree-model carrier attribution is consistent with HUST and
+TJU-3 but has counterexamples and does not establish a universal mechanism.
+For sustainable power and energy systems the practical message is economical rather
+than architectural. The measured CPU workloads have seconds-per-unit cost without
+training on the target system; the SRL feature contract additionally requires each cell’s
+earliest record to be retained, with the cost profiles of the two backbones reported as
+separate measurements of different workloads and neither presented as an embedded-
+deployment claim. Three qualifications travel with that statement. The deployability result
+is negative in our corrected evaluation: with target-future and label information removed
+from the reader, the reference families do not meet the stated cross-unit improvement
+criterion, so what survives is the feature contract rather than an accuracy claim. Every
+accuracy figure is obtained on laboratory ageing data under controlled protocols, so what is
+established is that each required quantity is computable at timet in service, not that the same
+accuracy transfers to field BMS conditions with dynamic loads, calendar ageing and sensor
+drift; extending the analysis to such field data, and to fleet-level deployment where per-cell
+origin records and cross-fleet heterogeneity interact, is left to future work. The whole
+account also presumes a retained commissioning record: without it, the reference cannot
+be reconstructed after the fact. We recommend that the comparison target be reported as a
+standard ablation in degradation modelling, that evaluation protocols distinguish channels
+available offline from those that survive deployment, and that commissioning records be
+treated as a functional part of the health-estimation pipeline.
+Author Contributions:Conceptualization, B.P . and K.Z.; validation, B.P .; resources, K.Z.; data
+curation, K.Z.; writing—original draft preparation, B.P .; writing—review and editing, B.P ., X.W. and
+K.Z.; visualization, B.P .; supervision, X.W. and K.Z.; project administration, K.Z. All authors have
+read and agreed to the published version of the manuscript.
+Funding:This research was supported by the National Natural Science Foundation of China (Grant
+No. 62372092).
+Data Availability Statement:All battery datasets analysed in this study are third-party open-access
+releases and are available from their original publications: the four processed libraries and official
+splits from [1], the companion benchmark data from [ 2]. The independent verification library is
+the closed-loop-optimisation batch of [30], used in preprocessed form. The analysis code, feature
+https://doi.org/10.3390/en19204805
+Energies2026,19, 4805 26 of 29
+implementations, experiment scripts with their decision criteria, and the result archives supporting
+the reported analyses, including the scripts and results added during revision, are openly available at
+https://github.com/13927/srl-battery-soh (accessed on 3 October 2026).
+Acknowledgments:The authors thank the maintainers of the open battery datasets and benchmark
+code used in this study.
+Conflicts of Interest:The authors declare no conflicts of interest.
+Abbreviations
+The following abbreviations are used in this manuscript:
+BMS Battery management system
+BOL Beginning of life
+CI Confidence interval
+GBDT Gradient-boosted decision trees
+LCO Lithium cobalt oxide
+LFP Lithium iron phosphate
+MLP Multilayer perceptron
+NCA Lithium nickel cobalt aluminium oxide
+NCM Lithium nickel cobalt manganese oxide
+RMSE Root-mean-square error
+SOH State of health
+SRL Self-referenced lift
+Appendix A. Dataset Characteristics
+Table A1 summarizes the eleven evaluation units. Cell counts, cycle-count ranges and
+the lowest observed SOH are computed from the preprocessed release actually used here;
+chemistry and nominal capacity are the metadata of that release. Ageing conditions differ
+by library: the six XJTU batches are released as separate charge/discharge protocols (2C,
+3C, R2.5, R3, a random-walk profile, and a satellite duty profile); the TJU cells span 25,
+35 and 45 ◦C with charge rates of 0.25C–1C and discharge rates of 1C–4C, as encoded in
+their cell identifiers; the HUST cells share one charge protocol and differ in 77 discharge
+protocols [29]; the MIT cells come from a fast-charging protocol study [9]. All are laboratory
+ageing data, which is the scope stated in Section 4.5.
+Table A1.The eleven evaluation units of the primary benchmark. Held-out cells follow the official
+splits without modification. Cycles per cell is the range across the cells of that unit; SOH min is the
+lowest state of health observed in the unit.
+Evaluation Unit Cathode Nominal Capacity (Ah) Cells Held Out Cycles per Cell SOH min
+XJTU-2C NCM 2.0 8 2 355–379 0.798
+XJTU-3C NCM 2.0 15 3 116–307 0.808
+XJTU-R2.5 NCM 2.0 8 2 490–641 0.775
+XJTU-R3 NCM 2.0 8 2 459–633 0.797
+XJTU-RW NCM 2.0 8 2 132–266 0.801
+XJTU-satellite NCM 2.0 8 2 602–869 0.805
+TJU-1 NCA 3.5 66 13 26–790 0.694
+TJU-2 NCM 3.5 55 11 42–1246 0.654
+TJU-3 NCM+NCA 2.5 9 2 857–964 0.659
+HUST LFP 1.1 77 20 1115–2672 0.800
+MIT LFP 1.1 125 23 34–2095 0.818
+https://doi.org/10.3390/en19204805
+Energies2026,19, 4805 27 of 29
+MATR-CLO (external verification library) is the closed-loop-optimisation batch of [30]:
+the same cell type, cycled at 30 ◦C, in which the charging protocol of each cell was se-
+lected by Bayesian optimisation from a candidate set of six-step, ten-minute fast-charging
+protocols, with a 4C discharge.
+Table A2 collects these ageing conditions in one place. It reports what the original
+releases and their source publications state, and marks a parameter as not reported rather
+than inferring it. The six XJTU batches are released as separate charge/discharge protocols
+and we keep their names literally: 2C and 3C denote a 2.0C and a 3.0C charge followed by
+a 1.0C discharge, R2.5 and R3 denote variable-rate discharge to 2.5 V and 3.0 V , respectively,
+RW is a random-walk discharge profile, and satellite is a geostationary duty profile. The
+TJU cells are named CY{temperature}-{charge rate}_{discharge rate}, so the three batches
+span 25, 35 and 45 ◦C with charge rates of 0.25C–1C and discharge rates of 1C–4C. For
+HUST, the release states that all cells share one fast-charging protocol whose rate is given
+only in the source paper’s supplementary information, while the 77 discharge protocols
+differ from cell to cell; the MIT unit is the fast-charging study of [9], whose cells were cycled
+at 30 ◦C with multi-step fast charging and a 4C discharge to 2.0 V .
+Table A2.Ageing conditions of the libraries behind the eleven evaluation units. Values are taken
+from the original releases and their source publications; “n.r.” marks a parameter the release does not
+state. Charge and discharge rates are given as C-rates relative to the nominal capacity of the cell.
+Library (Units) Cell Cathode Nominal (Ah) Charge Discharge Temperature (◦C)
+XJTU (6) LISHEN 18650 NCM 2.0
+2.0C (2C, R2.5, R3,
+satellite); 3.0C
+(3C);
+random-walk
+profile (RW)
+1.0C (2C, 3C); {0.5, 1,
+2, 3, 5}C to 2.5 V
+(R2.5) or 3.0 V (R3);
+random walk (RW);
+0.667C GEO duty
+(satellite)
+room (n.r.)
+TJU (3) 18650 NCA/NCM/ NCM+NCA 3.5/3.5/2.5 0.25–1C 1C (TJU-1, TJU-2); 1–4C (TJU-3) 25, 35, 45; 25 (TJU-3)
+HUST (1) A123 APR18650M1A LFP 1.1 one common fast-charging protocol (rate n.r.) 77 cell-specific multi-stage profiles 30
+MIT (1) A123 APR18650M1A LFP 1.1
+multi-step fast
+charging, 3.6–6C
+mean to 80% SOC,
+then 1C CC–CV
+4C to 2.0 V 30
+MATR-CLO
+(external)
+A123
+APR18650M1A LFP 1.1
+closed-loop-
+optimised six-step
+10-min fast
+charging
+4C 30
+References
+1. Wang, F.; Zhai, Z.; Zhao, Z.; Di, Y.; Chen, X. Physics-informed neural network for lithium-ion battery degradation stable modeling
+and prognosis.Nat. Commun.2024,15, 4332. [CrossRef] [PubMed]
+2. Wang, F.; Zhai, Z.; Liu, B.; Zheng, S.; Zhao, Z.; Chen, X. Open access dataset, code library and benchmarking deep learning
+approaches for state-of-health estimation of lithium-ion batteries.J. Energy Storage2024,77, 109884. [CrossRef]
+3. Tian, A.; He, L.; Ding, T.; Dong, K.; Wang, Y.; Jiang, J. A generic physics-informed neural network framework for lithium-ion
+batteries state of health estimation.Energy2025,332, 137215. [CrossRef]
+4. Hu, Z.; Wu, Z.; Wang, X.; Song, J.; Lu, S. SOH estimation and prediction of lithium-ion batteries based on a physically constrained
+hybrid neural network.J. Energy Storage2026,151, 120587. [CrossRef]
+5. Liu, Z.; Ye, S.; Cui, F.; Ma, Y. Physical Information-Guided Kolmogorov–Arnold Networks for Battery State of Health Estimation.
+Energies2025,18, 5865. [CrossRef]
+https://doi.org/10.3390/en19204805
+Energies2026,19, 4805 28 of 29
+6. Le, H.; Deng, W.; Nguyen, K.T.P .; Medjaher, K.; Gogu, C.; Wu, D. Physics-informed transfer learning by embedding physics into
+activation functions: An application in battery health management.Appl. Energy2026,406, 127161. [CrossRef]
+7. Nie, X.; Pan, Y.; Zhang, Y.; Luo, Z.; Wang, S. Battery health prediction under data scarcity: A cross-domain physics-informed
+5-shot framework with GRU-Transformer.Appl. Energy2026,402, 127012. [CrossRef]
+8. Hossain, M.I.; Rafy, M.F.; Solanki, S.K.; Srivastava, A.K. Battery health prognosis using Physics-informed neural network with
+Quantum Feature mapping.arXiv2026, arXiv:2604.10362.
+9. Severson, K.A.; Attia, P .M.; Jin, N.; Perkins, N.; Jiang, B.; Yang, Z.; Chen, M.H.; Aykol, M.; Herring, P .K.; Fraggedakis, D.; et al.
+Data-driven prediction of battery cycle life before capacity degradation.Nat. Energy2019,4, 383–391. [CrossRef]
+10. Zhang, H.; Gui, X.; Zheng, S.; Lu, Z.; Li, Y.; Bian, J. BatteryML: An Open-source Platform for Machine Learning on Battery
+Degradation. In Proceedings of the International Conference on Learning Representations (ICLR), Vienna, Austria, 7–11 May
+2024; OpenReview id sxGugrYhP9. Available online: https://github.com/microsoft/BatteryML (accessed on 3 October 2026).
+11. Luan, W.; Cai, H.; Wang, X.; Zhao, B. State of health for lithium-ion batteries based on explainable feature fragments via graph
+attention network and bi-directional gated recurrent unit.Sensors2025,25, 5953. [CrossRef] [PubMed]
+12. Dempster, A.; Petitjean, F.; Webb, G.I. ROCKET: Exceptionally fast and accurate time series classification using random
+convolutional kernels.Data Min. Knowl. Discov.2020,34, 1454–1495. [CrossRef]
+13. Gorishniy, Y.; Rubachev, I.; Babenko, A. On Embeddings for Numerical Features in Tabular Deep Learning. InProceedings of the
+Advances in Neural Information Processing Systems (NeurIPS); Curran Associates Inc.: Red Hook, NY, USA, 2022.
+14. Hollmann, N.; Müller, S.; Purucker, L.; Krishnakumar, A.; Körfer, M.; Hoo, S.B.; Schirrmeister, R.T.; Hutter, F. Accurate predictions
+on small data with a tabular foundation model.Nature2025,637, 319–326. [CrossRef] [PubMed]
+15. Hoo, S.B.; Müller, S.; Salinas, D.; Hutter, F. The Tabular Foundation Model TabPFN Outperforms Specialized Time Series
+Forecasting Models Based on Simple Features.arXiv2025, arXiv:2501.02945.
+16. Chan, J.; Chen, Z.; Pan, E. Foundation models knowledge distillation for battery capacity degradation forecast.Reliab. Eng. Syst.
+Saf.2026,270, 112139. [CrossRef]
+17. Li, Z.; Teng, L.; Li, W.; Huo, W. A physics-informed residual correction framework for pretrained tabular foundation model based
+battery health prognostics.SSRN Prepr.2026, 6862081,under review.
+18. Zhang, Z.; Shang, Y.; Li, X.; Cheng, Z. Large battery model for multi-state co-estimation and intelligent recommendation using
+mixed data sources.Energy Storage Mater.2026,84, 104892. [CrossRef]
+19. Thomas, V .; Ma, J.; Hosseinzadeh, R.; Golestan, K.; Yu, G.; Volkovs, M.; Caterini, A. Retrieval & Fine-Tuning for In-Context
+Tabular Models. InProceedings of the Advances in Neural Information Processing Systems (NeurIPS); Curran Associates Inc.: Red
+Hook, NY, USA, 2024.
+20. Xu, D.; Cirit, O.; Asadi, R.; Sun, Y.; Wang, W. Mixture of In-Context Prompters for Tabular PFNs. In Proceedings of the
+International Conference on Learning Representations (ICLR), Singapore, 24–28 April 2025.
+21. Liu, G.F.; Lu, K.; Mogg, R.; Mallick, M.; Mehrotra, D.V . Should baseline be a covariate or dependent variable in analyses of change
+from baseline in clinical trials?Stat. Med.2009,28, 2509–2530. [CrossRef] [PubMed]
+22. Wooldridge, J.M.Econometric Analysis of Cross Section and Panel Data, 2nd ed.; MIT Press: Cambridge, MA, USA, 2010.
+23. Saxena, A.; Goebel, K.; Simon, D.; Eklund, N. Damage Propagation Modeling for Aircraft Engine Run-to-Failure Simulation. In
+Proceedings of the International Conference on Prognostics and Health Management (PHM), Denver, CO, USA, 6–9 October 2008.
+24. Fisher, R.A.The Design of Experiments; Oliver and Boyd: Edinburgh, UK, 1935.
+25. Good, P .I.Permutation, Parametric, and Bootstrap Tests of Hypotheses, 3rd ed.; Springer: New York, NY, USA, 2005.
+26. Lipsitch, M.; Tchetgen Tchetgen, E.; Cohen, T. Negative controls: A tool for detecting confounding and bias in observational
+studies.Epidemiology2010,21,3, 383–388. [CrossRef] [PubMed]
+27. Nosek, B.A.; Ebersole, C.R.; DeHaven, A.C.; Mellor, D.T. The preregistration revolution.Proc. Natl. Acad. Sci. USA2018,
+115, 2600–2606. [CrossRef] [PubMed]
+28. Zhu, J.; Wang, Y.; Huang, Y.; Bhushan Gopaluni, R.; Cao, Y.; Heere, M.; Mühlbauer, M.J.; Mereacre, L.; Dai, H.; Liu, X.; et al.
+Data-driven capacity estimation of commercial lithium-ion batteries from voltage relaxation.Nat. Commun.2022,13, 2261.
+[CrossRef] [PubMed]
+29. Ma, G.; Xu, S.; Jiang, B.; Cheng, C.; Yang, X.; Shen, Y.; Yang, T.; Huang, Y.; Ding, H.; Yuan, Y. Real-time personalized health status
+prediction of lithium-ion batteries using deep transfer learning.Energy Environ. Sci.2022,15, 4083–4094. [CrossRef]
+30. Attia, P .M.; Grover, A.; Jin, N.; Severson, K.A.; Markov, T.M.; Liao, Y.H.; Chen, M.H.; Cheong, B.; Perkins, N.; Yang, Z.; et al.
+Closed-loop optimization of fast-charging protocols for batteries with machine learning.Nature2020,578, 397–402. [CrossRef]
+[PubMed]
+31. Zhang, H.; Li, Y.; Zheng, S.; Lu, Z.; Gui, X.; Xu, W.; Bian, J. Battery lifetime prediction across diverse ageing conditions with
+inter-cell deep learning.Nat. Mach. Intell.2025,7, 270–277. [CrossRef]
+32. Wang, F. Compilation and Summary of Research Articles Utilizing the XJTU Battery Dataset. 2026. Available online: https:
+//github.com/wang-fujin/XJTU-Battery-Dataset-Papers-Summary (accessed on 8 August 2026).
+https://doi.org/10.3390/en19204805
+Energies2026,19, 4805 29 of 29
+33. Su, L.; Tao, S.; Li, W.; Sauer, D.U.; Zhou, G.; Zhang, X. Data sufficiency for transferable lithium-ion battery periodical state-of-
+health estimation under resource constraints.Cell Rep. Phys. Sci.2025,6, 102901. [CrossRef]
+34. Vapnik, V .; Vashist, A. A new learning paradigm: Learning using privileged information.Neural Netw.2009,22, 544–557.
+[CrossRef] [PubMed]
+Disclaimer/Publisher’s Note:The statements, opinions and data contained in all publications are solely those of the individual
+author(s) and contributor(s) and not of MDPI and/or the editor(s). MDPI and/or the editor(s) disclaim responsibility for any injury to
+people or property resulting from any ideas, methods, instructions or products referred to in the content.
+https://doi.org/10.3390/en19204805

@@ -1,0 +1,89 @@
+Download PDF
+Article
+Open access
+Published: 12 October 2026
+Longitudinal proxy pack benchmark generation for remaining useful life assessment of light electric vehicle battery packs in swapping systems
+Lu Zhu 1 , 2 ,
+Wangwang Zheng 3 &
+FengMin Zhang 1
+Scientific Reports
+( 2026 ) Cite this article
+Save article
+View saved research
+466 Accesses
+Metrics details
+We’re sharing this article early to provide faster access to peer-reviewed, accepted research. It is citable and carries a permanent DOI. This version is subject to further edits and will be replaced automatically by the final Version of Record. All legal disclaimers apply.
+Abstract
+Battery swapping enables rapid energy replenishment for light electric vehicles (LEVs), but high-turnover pack circulation requires reliable pack-level health and remaining useful life ( RUL ) assessment. Publicly reusable longitudinal ageing datasets for complete LEV packs remain scarce. We develop a proxy-pack data-generation and learning framework that organizes independently tested cell-ageing records into fixed-member trajectories representing a 48 V-class 16-series configuration. Each trajectory retains 16 physical-cell identities over their common-cycle sequence. Cycle-level member states are aggregated into pack features for predicting a conservative minimum-member proxy RUL, with test barcodes isolated before combinatorial augmentation. Across ten barcode-level splits in each of three source cohorts, same-source tests with endpoints within the augmented training lifetime range achieved a median R² of 0.909 and a median Spearman correlation of 0.997. Tests beyond this range retained strong degradation ordering but showed larger absolute errors. A secondary mixed-source audit of 80 held-out trajectories achieved a median R² of 0.714 and a median Spearman correlation of 0.992. A matched composition-control analysis yielded a median R² by change of -0.015 after balancing barcode reuse and limiting composition overlap, indicating limited sensitivity to training-composition sampling. A complementary physical audit using one fixed 12S3P pack confirmed cell-to-branch-to-pack electrical closure and revealed persistent voltage limitation and migration of the maximum-temperature location. Proxy-pack generation therefore provides a reproducible approach for constructing longitudinal member-aware benchmarks from cell-ageing records and evaluating pack-health and RUL models across varied compositions and lifetime conditions.
+Similar content being viewed by others
+Deep learning-based RUL and SOH prediction of lithium-ion batteries using LOCO
+Article
+Open access
+18 June 2026
+Degradation-aware PSO–MPC energy management for second-life battery prosumer microgrids
+Article
+Open access
+27 July 2026
+Decision-Flux Optimization-based energy management for battery-supercapacitor hybrid storage in electric vehicles: battery lifetime and efficiency enhancement
+Article
+Open access
+17 June 2026
+Explore related subjects
+Discover the latest articles and news in related subjects.
+Energy science and technology
+Engineering
+Mathematics and computing
+Lithium-Ion Battery Systems and Thermal Management Techniques
+Funding
+This work was supported by the Science Foundation of Donghai Laboratory under Grant L24QH005, and the Zhejiang Provincial Major Science and Technology Project under Grant 2026LDC01035(HY).
+Author information
+Authors and Affiliations
+Donghai Laboratory, Huifei Road 599, Zhoushan, 316021, Zhejiang, People’s Republic of China
+Lu Zhu & FengMin Zhang
+Anhui Vocational College of Defense Technology, No. 56, Meishan Middle Road, Lu’an, Anhui Province, People’s Republic of China
+Lu Zhu
+School of Mechanical Engineering, Hefei University of Technology, Hefei, 230009, Anhui, People’s Republic of China
+Wangwang Zheng
+Authors Lu Zhu View author publications
+Search author on: PubMed   Google Scholar
+Wangwang Zheng View author publications
+Search author on: PubMed   Google Scholar
+FengMin Zhang View author publications
+Search author on: PubMed   Google Scholar
+Corresponding author
+Correspondence to
+FengMin Zhang .
+Ethics declarations
+Competing interests
+The authors declare no competing interests.
+Declaration of generative AI and AI-assisted technologies in the writing process
+During revision, the authors used a generative AI language tool to assist with language editing, structural comparison and code review. All scientific decisions, analyses, numerical results, references and final wording were checked and approved by the authors, who take full responsibility for the content of the manuscript.
+Additional information
+Publisher’s note
+Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.
+Supplementary Information
+Below is the link to the electronic supplementary material.
+Supplementary Material 1 (download DOCX )
+Rights and permissions
+Open Access This article is licensed under a Creative Commons Attribution 4.0 International License, which permits use, sharing, adaptation, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if changes were made. The images or other third party material in this article are included in the article’s Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the article’s Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit http://creativecommons.org/licenses/by/4.0/ .
+Reprints and permissions
+About this article
+Cite this article
+Zhu, L., Zheng, W. & Zhang, F. Longitudinal proxy pack benchmark generation for remaining useful life assessment of light electric vehicle battery packs in swapping systems.
+Sci Rep (2026). https://doi.org/10.1038/s41598-026-73878-w
+Download citation
+Received : 23 July 2026
+Accepted : 25 September 2026
+Published : 12 October 2026
+DOI : https://doi.org/10.1038/s41598-026-73878-w
+Share this article
+Anyone you share the following link with will be able to read this content:
+Get shareable link Sorry, a shareable link is not currently available for this article.
+Copy shareable link to clipboard
+Provided by the Springer Nature SharedIt content-sharing initiative
+Keywords
+Light electric vehicle
+Battery swapping
+Remaining useful life
+Proxy pack benchmark
+Longitudinal data generation

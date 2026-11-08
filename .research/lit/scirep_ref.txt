@@ -1,0 +1,712 @@
+ARTICLE | Article in Press
+Scientific Reports https://doi.org/10.1038/s41598-026-73878-w
+Scientific Reports
+This Article in Press is shared early to give you faster access to new research. It is citable and carries a permanent DOI. 
+The final edited version will replace it automatically.
+Longitudinal proxy pack benchmark generation for 
+remaining useful life assessment of light electric vehicle 
+battery packs in swapping systems
+Lu Zhu · Wangwang Zheng · Fengmin M. Zhang
+Received: 23 July 2026 / Accepted: 25 September 2026
+© The Author(s) 2026
+Abstract
+Battery swapping enables rapid energy replenishment for light electric vehicles (LEVs), but high-turnover pack 
+circulation requires reliable pack-level health and remaining useful life (RUL) assessment. Publicly reusable 
+longitudinal ageing datasets for complete LEV packs remain scarce. We develop a proxy-pack data-generation 
+and learning framework that organizes independently tested cell-ageing records into fixed-member trajectories 
+representing a 48 V-class 16-series configuration. Each trajectory retains 16 physical-cell identities over their 
+common-cycle sequence. Cycle-level member states are aggregated into pack features for predicting a conser -
+vative minimum-member proxy RUL, with test barcodes isolated before combinatorial augmentation. Across 
+ten barcode-level splits in each of three source cohorts, same-source tests with endpoints within the augmented 
+training lifetime range achieved a median R² of 0.909 and a median Spearman correlation of 0.997. Tests 
+beyond this range retained strong degradation ordering but showed larger absolute errors. A secondary mixed-
+source audit of 80 held-out trajectories achieved a median R² of 0.714 and a median Spearman correlation 
+of 0.992. A matched composition-control analysis reduced the median R² by only 0.015 after balancing bar -
+code reuse and limiting composition overlap, indicating limited sensitivity to training-composition sampling. A 
+complementary physical audit using one fixed 12S3P pack confirmed cell-to-branch-to-pack electrical closure 
+and revealed persistent voltage limitation and migration of the maximum-temperature location. Proxy-pack 
+generation therefore provides a reproducible approach for constructing longitudinal member-aware benchmarks 
+from cell-ageing records and evaluating pack-health and RUL models across varied compositions and lifetime 
+conditions.
+Keywords Light electric vehicle · Battery swapping · Remaining useful life · Proxy pack benchmark · 
+Longitudinal data generation
+Article in Press
+Scientific Reports
+https://doi.org/10.1038/s41598-026-73878-w
+Introduction
+ Light electric vehicles (LEVs), including electric two-wheelers and other low-voltage mobility platforms, sup -
+port urban commuting, delivery services, and frequent short-distance travel. Compared with plug-in charging, 
+battery swapping shortens replenishment time and turns energy provision into a managed process of pack circu-
+lation, centralized charging, and station-side screening 1–3. In this setting, a swappable pack must be evaluated 
+beyond state of charge. Its operational value also depends on state of health (SOH), remaining useful life (RUL), 
+and suitability for future dispatch4–6.
+A central obstacle is data availability. Practical LEV swapping systems must balance low cost with limited 
+sensing and communication under high pack turnover. Station-side or edge systems may have access only to esti-
+mated internal resistance, temperature extrema, charge time, capacity summaries, or other cycle-level descriptors. 
+By contrast, pack-level lifetime labels are slow and expensive to obtain. Industrial pack records are also difficult 
+to release because of commercial specifications, product identifiers, operating traces, and data-authorization con-
+straints. Existing public vehicle-level and accelerated life-testing datasets provide useful references 7,8. A recent 
+pack-cycling dataset further provides member-cell voltages, branch currents, thermal measurements, and pack-
+level signals under vehicle-oriented dynamic profiles 9. However, these datasets differ from low-voltage LEV 
+swapping packs in their fields, protocols, configurations, application domains, or label definitions. Publicly reus-
+able full-life LEV pack benchmarks that jointly provide member-cell information and pack-level health or RUL 
+labels therefore remain scarce.
+Cell-level SOH estimation and RUL prediction have advanced through experimental characterization, 
+equivalent-circuit modelling, electrochemical modelling, data-driven learning, and physics-informed hybrid 
+approaches4–6. Among public benchmarks, the MIT–Stanford fast-charging dataset is widely used for early-cycle 
+lifetime prediction10. Subsequent studies have used this and related datasets to investigate data-efficient progno-
+sis, semi-supervised learning, degradation-stage detection, uncertainty-aware prediction, and broader data-driven 
+health estimation11–13. These studies show that cell-level cycling records contain strong degradation information 
+before severe capacity fade becomes visible. Their data organization nevertheless remains cell-centric: one cell, 
+one trajectory, and one lifetime label. This structure supports cell-level SOH and RUL prediction but does not 
+directly define a pack-level learning target.
+At pack level, health is not governed by an average cell alone. Cell-to-cell inconsistency, weakest-member 
+limits, resistance and temperature dispersion, and state-of-charge imbalance can constrain usable energy, power 
+capability, and ageing trajectories. New-pack assembly therefore generally seeks cells of the same specification 
+and a common production or procurement cohort, followed by screening or matching of capacity, resistance, 
+and other initial properties to reduce avoidable heterogeneity14,15. A common cohort nevertheless retains natural 
+cell-to-cell variation. Existing work has investigated inconsistency-aware SOH estimation, pack-level SOH pre-
+diction under variable configurations, generalized series-pack prognostics, experiment-free inconsistency mod -
+elling, and cell-to-pack degradation analysis 16–21. These studies establish that pack-level assessment requires 
+explicit aggregation rules and representations of intra-pack heterogeneity. Many approaches, however, depend 
+on physical pack experiments, richer sensing, predefined structures, or assumptions that are difficult to reproduce 
+from public cell-level data alone.
+A related question is whether member-aware health models remain reliable across source cohorts and operating 
+domains. Battery health models are sensitive to differences among cells, ageing protocols, operating conditions, 
+and target domains. Transfer learning, online correction, multi-domain adaptation, and limited-label calibration 
+have therefore been proposed to improve robustness22–26. Few studies, however, examine the intermediate setting 
+considered here: a member-aware learning object constructed from public cell records and evaluated under fixed-
+composition longitudinal holdout and cross-cohort stress tests.
+To address this gap, we develop a longitudinal proxy-pack benchmark generation and learning framework 
+for member-aware LEV battery assessment. The primary benchmark assigns 16 distinct cells from a common 
+
+Article in Press
+Scientific Reports
+https://doi.org/10.1038/s41598-026-73878-w
+source cohort to a fixed 48 V-class 16-series (16 S) composition and follows them over their exact common 
+cycle sequence. Each trajectory preserves member identity, ageing order, and the natural variation in capacity, 
+resistance, and degradation rate among nominally comparable cells. Controlled combinatorial reuse expands the 
+range of training compositions, while held-out cell barcodes remain isolated during evaluation. Complemen -
+tary cross-sectional and mixed-source experiments examine robustness to alternative construction settings and 
+source-cohort variation. For the ideal all-series configuration, current continuity and voltage additivity provide 
+the electrical basis for member aggregation. Because these circuit identities alone do not capture coupled pack 
+operation, measurements from a physical 12S3P pack are used to audit electrical closure and evolving member-
+level limitations.
+Three contributions distinguish this study from conventional cell-level RUL modelling. First, the framework 
+converts public cell-ageing records into reproducible longitudinal proxy-pack benchmarks that retain both mem-
+ber histories and pack-level aggregates. Second, it evaluates member-aware RUL prediction under barcode-dis -
+joint holdout and systematically examines endpoint coverage, composition sampling, feature and target choices, 
+series-member count, and cross-cohort shift. Third, the measured 12S3P analysis provides a separate physical 
+audit of cell-to-branch-to-pack aggregation and limiting-member dynamics. Although RUL prediction is the pri-
+mary demonstration, the retained member-level structure also provides a basis for future studies of pack SOH, 
+intra-pack dispersion, weak-member identification, abnormal compositions, and alternative maintenance-oriented 
+targets. Together, these elements establish an auditable data-generation and evaluation framework for developing 
+member-aware LEV battery-pack diagnostics.
+Problem formulation
+Light electric vehicle (LEV) swapping stations circulate, charge, grade, dispatch, and retire complete battery 
+packs. However, public longitudinal ageing datasets that jointly resolve pack-level outputs and individual mem-
+ber states remain scarce. Independently tested cell datasets, by contrast, contain substantially more complete 
+ageing trajectories. New battery packs are generally assembled from nominally comparable cells selected from a 
+common production or procurement cohort, often with additional screening for capacity, resistance, and other ini-
+tial properties14,15. We therefore investigate whether the natural cell-to-cell variation within a public source cohort 
+can be organized into fixed-member longitudinal proxy packs for member-aggregated remaining-life assessment. 
+Here, a public source cohort is an experimental grouping and is not assumed to be a verified manufacturing lot.
+This study focuses on compact all-series LEV packs containing tens of cells. A 48 V-class 16-series (16 S) con-
+figuration serves as the primary case, while 13–20 S configurations are examined in sensitivity analyses. Under 
+the ideal all-series condition, the same current passes through every member cell, and the pack terminal voltage 
+equals the sum of the member-cell voltages. These circuit identities provide a defined electrical basis for member 
+aggregation without introducing current allocation among parallel branches. They do not reproduce synchronized 
+pack trajectories, shared thermal fields, balancing actions, protection events, or electrically coupled degradation. 
+Battery systems containing hundreds or thousands of cells would be better represented using hierarchical cell-to-
+module-to-pack constructions rather than unchanged flat member aggregation.
+Let 𝑠𝑠(𝑐𝑐𝑐𝑐𝑐) denote the observed state vector of cell c at cycle t. For the kth fixed composition, 16 distinct cell 
+barcodes are assigned once and retained throughout their common observed cycle range. The corresponding 
+proxy-pack snapshot is defined as:
+ 𝒫𝒫(𝑝𝑝𝑝𝑝𝑝𝑝𝑝𝑝𝑝𝑝) (𝑘𝑘𝑘𝑘𝑘) = {𝒔𝒔(𝑐𝑐(𝑘𝑘𝑘𝑘) 𝑘𝑘𝑘),𝒔𝒔 (𝑐𝑐(𝑘𝑘𝑘𝑘) 𝑘𝑘𝑘),… ,𝒔𝒔 (𝑐𝑐(𝑘𝑘𝑘𝑘𝑘) 𝑘𝑘𝑘)} (1)
+The ordered sequence of these snapshots forms a fixed-member longitudinal proxy-pack trajectory. This con -
+struction preserves member identity, composition, and ageing order. Cross-sectional proxy instances serve a 
+secondary role by recombining member observations to expand the range of cell identities and degradation-state 
+
+Article in Press
+Scientific Reports
+https://doi.org/10.1038/s41598-026-73878-w
+combinations used for augmentation and stress testing. Both constructions produce correlated learning instances 
+rather than additional independent physical packs. The primary prediction target, stored as pack_rul_target, is the 
+minimum-member proxy RUL:
+ 𝑅𝑅𝑅𝑅𝑅𝑅(𝑐𝑐𝑐𝑐𝑐) = 𝐸𝐸𝐸𝐸𝑅𝑅 𝑐𝑐 −𝑡𝑡  (2)
+ 𝑦𝑦(𝑅𝑅𝑅𝑅𝑅𝑅) (𝑘𝑘𝑘𝑘𝑘) = 𝑚𝑚𝑚𝑚𝑚𝑚 (𝑖𝑖∈{ 1𝑘… 𝑘16})𝑅𝑅𝑅𝑅𝑅𝑅(𝑐𝑐(𝑘𝑘𝑘𝑖𝑖) 𝑘𝑘𝑘) (3)
+In Eqs. (2) and (3), 𝐸𝐸𝐸𝐸𝐸𝐸𝑐𝑐 denotes the observed end-of-life cycle of cell c, and t denotes its current cycle index. The 
+minimum-member proxy RUL is a conservative algorithmic target motivated by weak-member limitation and 
+cell inconsistency in series-connected systems 14,15,17–21,27,28. It is not assumed to represent every physical pack-
+retirement mechanism. Lower-decile and mean-member targets are therefore evaluated as alternative definitions. 
+The main supervised task is regression of 𝑦𝑦(𝑅𝑅𝑅𝑅𝑅𝑅) (𝑘𝑘𝑘𝑘𝑘) . Although RUL is the primary task, the retained trajectories allow 
+other member-aware pack targets to be defined from the same benchmark structure.
+The primary analysis evaluates RUL prediction from member-aggregated observations across complete fixed-
+member proxy-pack trajectories under barcode-disjoint same-source evaluation. Sensitivity analyses quantify the 
+effects of lifetime-range coverage, composition sampling, feature selection, target definition, and series-member 
+count. Mixed-source construction and cross-cohort testing examine robustness to compositional and distribution 
+shifts. Complementing these proxy-based analyses, measurements from one fixed physical 12S3P pack provide a 
+separate audit of electrical aggregation and limiting-member dynamics.
+Within this formulation, “pack-level” denotes the level of representation, aggregation, and prediction rather 
+than complete electrochemical or electrothermal pack simulation. Together, the proxy experiments and physical 
+audit provide an intermediate evidence base between public cell-ageing records and longitudinal validation on 
+multiple physical LEV packs.
+Methods
+Source cell cohorts and preprocessing
+The source corpus comprises 138 physical cell barcodes and 108,995 usable cycle records extracted from the 
+MIT–Stanford raw .mat files. The three public source cohorts contain 46, 48, and 44 cells, respectively, follow -
+ing the experimental grouping provided with the dataset. Each row represents one barcode at one valid cycle and 
+records the cycle index, discharge capacity, internal resistance, temperature summaries, charge time, and derived 
+health quantities. Records are retained if they occur after initialization, their cycle-summary fields are not all zero, 
+their reference capacity and SOH are defined, and their RUL is non-negative. All evaluation partitions are defined 
+at the physical-cell level using barcode identity. Within each evaluation fold, a barcode is assigned to only one 
+data subset.
+For cell 𝑐𝑐 at cycle 𝑡𝑡, the cell-level SOH is defined as the ratio between the current discharge capacity and a 
+reference capacity estimated from the early valid cycles of the same cell:
+ 
+SOH𝑐𝑐𝑐𝑐𝑐 =
+𝑄𝑄dis 𝑐𝑐𝑐𝑐𝑐
+𝑄𝑄ref𝑐𝑐  (4)
+where 𝑄𝑄dis 𝑐𝑐𝑐𝑐𝑐 is the discharge capacity at cycle 𝑡𝑡, and 𝑄𝑄ref 𝑐𝑐  is the reference discharge capacity of cell 𝑐𝑐. In the current 
+implementation, 𝑄𝑄ref 𝑐𝑐  is defined as the median discharge capacity over the first ten valid cycles of each cell.
+
+Article in Press
+Scientific Reports
+https://doi.org/10.1038/s41598-026-73878-w
+Proxy pack construction
+Same-source fixed-member longitudinal trajectories
+Within each predefined barcode split, the primary protocol operates within one public source cohort. Sixteen 
+distinct barcodes are assigned once to a fixed virtual 16 S test pack and excluded from the cohort-specific training 
+pool. The same 16 members are retained over all cycle indices observed in common. The remaining 28–32 cells 
+are used to generate 32 distinct fixed-member training compositions, each of which is followed over its common 
+observed cycle range. No interpolation, carry-forward imputation, or lifetime-ratio alignment is applied. Obser -
+vations are sampled at five-cycle intervals, and each trajectory receives equal total training weight. Training cells 
+may recur across compositions, whereas test barcodes remain excluded from every training trajectory.
+Reuse of training cells expands the range of member compositions available for model development. The 
+dependence introduced by this augmentation is quantified using the number of unique compositions, pairwise 
+barcode-overlap distributions, and barcode-use distributions. A matched composition-control analysis addition -
+ally balances barcode use and limits pairwise overlap to 12 members, as described in Sect.  3.5. Trajectories that 
+share source-cell barcodes are treated as correlated augmentation samples.
+Supporting proxy constructions
+Two supporting constructions test robustness beyond the primary same-source longitudinal setting. The mixed-
+source construction broadens the composition range while retaining member identity and common-cycle order. 
+Cross-sectional constructions test whether predictive patterns persist when member observations are recombined 
+at individual degradation stages, with and without lifetime-aligned pairing.
+In the lifetime-aligned same-stage construction, member observations are combined at individual degradation 
+stages rather than retained as fixed-member histories. Normalized cycle position, defined as cycle index divided 
+by eventual complete cycle life, is divided into 100 bins. Starting from an anchor bin, the candidate search 
+expands by at most ten bins. The nearest observation from each eligible barcode is retained, and 16 members are 
+sampled from a candidate pool containing at most 64 observations. Eventual cell lifetime is therefore used for 
+member pairing, although cycle-ratio features are excluded from model inputs.
+The random-stage construction provides a lifetime-independent alternative. It samples 16 distinct barcodes and 
+one observed cycle from each selected barcode without using eventual lifetime for pairing. Barcode identities 
+remain isolated across the training, validation, and test partitions in both cross-sectional constructions. Because 
+individual barcodes may recur across derived instances within a partition, these rows are treated as correlated 
+augmentation samples.
+Features and targets
+Member variables are converted into fixed-length statistical features at each longitudinal trajectory point and 
+for each supporting cross-sectional instance. Each trajectory point or cross-sectional combination is treated as 
+one proxy instance 𝑘𝑘. Let 𝑢𝑢𝑘𝑘𝑘𝑘𝑘𝑘𝑘𝑘 denote the 𝑗𝑗-th scalar feature of the 𝑖𝑖-th member in proxy pack 𝑘𝑘. Member-level 
+variables are summarized using selected statistics from the mean, minimum, maximum, and standard deviation:
+ 𝑧𝑧(𝑔𝑔) 𝑘𝑘𝑘𝑘𝑘 =𝑔𝑔 (𝑢𝑢𝑘𝑘𝑘𝑘𝑘𝑘𝑘,𝑢𝑢 𝑘𝑘𝑘𝑘𝑘𝑘𝑘,… ,𝑢𝑢 𝑘𝑘𝑘𝑘𝑘𝑘𝑘𝑘) ,𝑔𝑔 ∈ mean, min, max, std (5)
+The primary 27-feature leakage-controlled set comprises four discharge-capacity aggregates, four internal-resis-
+tance aggregates, four SOH aggregates, twelve temperature aggregates, and three charge-time aggregates. Mean 
+statistics describe the central member tendency, minima and maxima retain limiting or extreme observations, and 
+standard deviations characterize intra-pack dispersion. The 31-feature configuration additionally contains four 
+cycle-ratio aggregates. Because cycle ratio depends on eventual complete lifetime, these columns are excluded 
+
+Article in Press
+Scientific Reports
+https://doi.org/10.1038/s41598-026-73878-w
+from all leakage-controlled model fits. The 23-feature core set additionally removes SOH, whereas the 19-feature 
+low-sensing set removes both discharge capacity and SOH while retaining resistance, temperature, and charge-
+time descriptors.
+For a fixed-member trajectory, the endpoint is defined by the earliest observed end of life among its members:
+ 
+𝐸𝐸𝐸𝐸𝐸𝐸pack 𝑘𝑘 = min 𝑖𝑖 EOL𝑘𝑘𝑘𝑖𝑖 (6)
+At each common cycle t, the longitudinal target is the trajectory endpoint minus t and is therefore identical to the 
+minimum member RUL at that cycle. No separate pack-SOH target is fitted in the proxy-RUL experiments. To 
+test dependence on the chosen target, the cross-sectional sensitivity analysis also replaces the minimum with the 
+lower decile or mean of member RUL values; the minimum remains the primary conservative proxy target 𝑦𝑦RUL 𝑘𝑘 .
+Learning models and analytical tests
+Two tabular regression models are evaluated on the MIT–Stanford-derived proxy-pack benchmark. Ridge 
+regression is fitted after standardization using the training-data means and standard deviations. Its regulariza -
+tion parameter is selected from 0.1, 1, 10, and 100. The Random Forest search considers 200 or 400 trees, no 
+maximum-depth constraint or maximum depths of 8 or 16, and minimum leaf sizes of 1 or 5. Hyperparameters 
+are selected by validation-set MAE in the barcode-disjoint cross-sectional development experiment; test data are 
+not used. The selected 27-feature Random Forest model uses 400 trees, a maximum depth of 16, and a minimum 
+leaf size of 1. These values are fixed across all longitudinal experiments, repeated splits, and sensitivity analyses, 
+with no split-specific retuning. Performance is evaluated using MAE (cycles), RMSE (cycles), Spearman rank 
+correlation, and the coefficient of determination (R²).
+Grouped ablation and joint permutation analyses quantify the predictive information contributed by capacity 
+state (discharge capacity and SOH), internal resistance, temperature, and charge time. In the permutation analy -
+sis, all columns within a feature group are permuted together using a common row permutation. This procedure 
+preserves dependence among features within the group while breaking their association with the target. All fea -
+ture comparisons use the same locked model and matched barcode partitions.
+Member-count sensitivity is evaluated using 13, 14, 16, and 20 distinct cells under the random-stage all-series 
+proxy definition. This analysis changes only the number of aggregated series members and does not represent 
+parallel current sharing. Separately, fixed-member trajectories are used to track the cells with the lowest SOH, 
+lowest discharge capacity, and highest internal resistance. These identities are also calculated using causal trailing 
+25-cycle medians, with at least five observations required, to reduce sensitivity to cycle-level fluctuations. Each 
+estimate uses only information available at the current and preceding cycles.
+Evaluation and sensitivity analyses
+The primary evaluation uses same-source fixed-member longitudinal trajectories. For each source cohort, 16 cell 
+barcodes are assigned to one fixed test trajectory and excluded from the cells used for training. The remaining 
+cells are recombined into 32 augmented training trajectories. This procedure is repeated across ten barcode-level 
+splits for each of the three source cohorts, producing 30 cohort-by-split evaluations.
+Endpoint-support analysis compares the endpoint of each held-out trajectory with the endpoints represented by 
+its 32 augmented training trajectories. A held-out endpoint is classified as covered when it falls between the mini-
+mum and maximum training-trajectory endpoints. This analysis separates interpolation within the represented 
+lifetime range from prediction beyond that range.
+Composition-control sensitivity repeats the same 30 matched evaluations after balancing barcode use and lim-
+iting the overlap between any pair of 16 S training compositions to no more than 12 members. This comparison 
+
+Article in Press
+Scientific Reports
+https://doi.org/10.1038/s41598-026-73878-w
+isolates sensitivity to training-composition sampling. It does not treat trajectories sharing source cells as indepen-
+dent physical packs.
+A secondary mixed-source evaluation examines a broader range of cell compositions. For each predefined 
+regrouping seed, the 138 barcodes are shuffled and the first 128 are partitioned into eight mutually disjoint fixed 
+16-member trajectories. The remaining ten barcodes are unused in that regrouping. Each of the eight trajectories 
+is held out once, while the other seven are used for training. Ten regroupings therefore produce 80 held-out tra -
+jectory evaluations.
+The primary mixed-source result retains all selected cells, including the cell with the reported 148-cycle end -
+point. A separate sensitivity analysis excludes only the ten held-out trajectories containing that cell. This compari-
+son quantifies the influence of the short-lifetime endpoint without replacing the primary all-cell result.
+The cross-sectional same-stage and random-stage stress tests use ten predefined barcode-level partitions. Each 
+partition contains 97 training, 21 validation, and 20 test cell barcodes. The reported distributions and percentiles 
+quantify sensitivity to barcode composition within the finite 138-cell corpus. They are not interpreted as confi -
+dence intervals for independent physical battery packs.
+Strict leave-one-source-cohort-out evaluation is retained as an out-of-domain stress test rather than the primary 
+assembly setting. Target adaptation is evaluated using barcode-disjoint calibration. Calibration and evaluation 
+proxies are constructed from non-overlapping target-cell identities. Calibration budgets of 1, 5, 20, or 100 snap-
+shots are generated from a separate group of 16 fully labelled target cells.
+To characterize observable source-cohort shift at the physical-cell level, the first 100 cycles of each of the 138 
+barcodes were summarized using 14 early features: medians and interquartile ranges of discharge capacity, inter-
+nal resistance, minimum, mean and maximum temperature, and charge time, together with reference discharge 
+capacity and the number of valid early-cycle rows. SOH, feature slopes, and complete cycle life were excluded. 
+A standardized multinomial logistic-regression classifier was evaluated using repeated stratified fivefold cross-
+validation with ten repeats and compared with a class-prior dummy classifier. Figure 5a reports mean balanced 
+accuracy and the 2.5th–97.5th percentile range across the 50 validation folds. For each feature, source-cohort 
+effect size was calculated as η², defined as the between-cohort sum of squares divided by the total sum of squares; 
+the three largest η² values are highlighted in Fig. 5b. These quantities describe observable cohort and protocol 
+signatures and are not interpreted as causal effects.
+Statistical comparisons are summarized across matched barcode partitions rather than individual proxy rows 
+because cell barcodes recur across derived instances. Model, feature, and construction comparisons are there -
+fore reported descriptively across matched partitions. Figure 1 summarizes the analysis workflow and evidence 
+hierarchy.
+Physical 12S3P electrical closure and member dynamics
+A complementary physical analysis uses the public CC–CV/WLTP battery-pack dataset9. The proxy framework 
+represents a pack through member states and their aggregate behaviour. This analysis therefore tests electrical 
+closure across measured cell, branch, and pack signals and tracks limiting-member identities under coupled 
+operation. The dataset records one fixed 12S3P lithium-ion pack over 286 complete and consecutive cycles, span-
+ning cycles 125–410. These records comprise 217 WLTP cycles and 69 capacity-check cycles. Available mea -
+surements include 36 member-cell voltages, 72 top and bottom cell-surface temperatures, three branch currents, 
+three branch voltages, total pack current, and two pack-voltage measurements. The pack is analysed in its native 
+12S3P configuration, providing a physical audit of member-aware aggregation rather than a direct evaluation of 
+16 S proxy-RUL prediction.
+Electrical closure is evaluated at every timestamp using four classes of residual. These comprise total pack 
+current minus the sum of the three branch currents, and each branch voltage minus the sum of its twelve cell 
+voltages. They also include pack voltage minus the mean branch voltage and the difference between the two pack-
+voltage measurements. Pooled quantiles and graphical summaries use up to 1,000 regularly spaced timestamps 
+
+Article in Press
+Scientific Reports
+https://doi.org/10.1038/s41598-026-73878-w
+from each file. Per-cycle summaries are calculated from all available timestamps. Current-closure errors and 
+branch-current spread are additionally summarized during active operation, defined by an absolute pack current 
+above 0.2 A. Because parallel branches share a common terminal voltage but may carry unequal currents 29–31, 
+branch-current imbalance is quantified using the mean and 95th percentile of the instantaneous current spread.
+Member dynamics are evaluated during discharge, defined by a pack current below − 0.2 A. Cell voltages out-
+side 2–5 V and temperatures outside − 20–100 °C are treated as invalid or sentinel values. These measurements 
+are excluded before member identities are calculated.
+At each discharge timestamp, the member with the minimum cell voltage and the sensor with the maximum 
+temperature are identified. The dominant identity for each cycle is defined as the member or sensor occurring 
+most frequently in the corresponding timestamp-level sequence. The dominant fraction and the number of dis -
+tinct identities observed within each cycle are also recorded. Identity transitions between consecutive cycles are 
+counted separately for the WLTP and capacity-check records.
+Capacity-check capacity is calculated by integrating the measured pack current over elapsed time. Its associa-
+tion with cycle number and the consistency of the discharge-cutoff protocol are examined to assess its suitability 
+Table 1 Same-source-cohort fixed-member longitudinal results across ten barcode splits per cohort.
+Source cohort Feature set Splits Median MAE (cycles) R² range (2.5th–97.5th) Median Spearman Median R²
+2017-05-12 Full 27 10 24.05 0.760–0.991 0.999 0.971
+Low-sensing 19 10 50.68 0.294–0.916 0.959 0.816
+2017-06-30 Full 27 10 86.09 −9.501–0.853 0.975 −2.552
+Low-sensing 19 10 74.76 −29.193–0.740 0.866 −0.363
+2018-04-12 Full 27 10 76.86 −0.065–0.934 0.999 0.716
+Low-sensing 19 10 123.56 −0.412–0.821 0.965 0.339
+Fig. 1 Proxy-pack benchmark construction and evidence hierarchy. ( a) Source cohorts and barcode-disjoint partitioning. 
+(b) Same-source fixed-member longitudinal trajectory construction. ( c) Member aggregation and proxy-RUL learning. ( d) 
+Primary evaluation, robustness analyses and complementary 12S3P physical audit.
+ 
+
+Article in Press
+Scientific Reports
+https://doi.org/10.1038/s41598-026-73878-w
+as an external ageing indicator. Capacity is treated as a data-quality descriptor and is not used as a supervised 
+target for the proxy-RUL model.
+Results
+Same-source fixed-member longitudinal RUL assessment
+Same-source-cohort experiments defined the primary assembly-oriented setting: training and test members were 
+drawn from the same public source cohort but remained barcode-disjoint. For the full 27-feature model, median 
+R² values were 0.971, − 2.552 and 0.716 for the 2017-05-12, 2017-06-30 and 2018-04-12 cohorts, respectively. 
+The corresponding median Spearman correlations were 0.999, 0.975 and 0.999. The 19-feature low-sensing 
+model achieved median R² values of 0.816, − 0.363 and 0.339, with corresponding median Spearman correla -
+tions of 0.959, 0.866 and 0.965. Relative to the full model, performance declined in the first and third cohorts, 
+Evaluation subset Trajectories MAE (cycles) Spearman Median
+R²
+All held-out trajectories 80 57.34 0.992 0.714
+Endpoint within training range 60 50.88 0.991 0.775
+Endpoint below training range 10 154.30 0.992 −14.002
+Table 2 Mixed-source fixed-
+member longitudinal predic-
+tion and endpoint-support 
+audit.
+ 
+Fig. 2 Same-source-cohort fixed-member longitudinal prediction for 𝑦𝑦RUL 𝑘𝑘 , showing representative trajectories, split-level 
+absolute calibration, rank consistency, and endpoint-support effects.
+ 
+
+Article in Press
+Scientific Reports
+https://doi.org/10.1038/s41598-026-73878-w
+whereas absolute calibration remained poor under both feature sets in the second cohort. The low-sensing model 
+also showed broader split-level R² distributions, particularly in the 2017-06-30 cohort.
+Lifetime support and mixed-source composition stress test
+Retaining member identity over time converts the proxy object from a recombined row into a complete virtual-
+pack ageing trajectory. As a broader composition stress test, 128 pooled barcodes formed eight mutually disjoint 
+16-member packs per regrouping and each pack was held out once. Across 80 held-out trajectories, the full-
+feature Random Forest predicted the minimum-member proxy RUL with median MAE of 57.34 cycles, median 
+RMSE of 70.21 cycles, median Spearman correlation of 0.992 and median R² of 0.714. Member-aggregated 
+features therefore tracked degradation order consistently, while absolute endpoint prediction varied among held-
+out compositions.
+The dominant calibration failure was lack of lifetime support. Among 60 trajectories whose endpoints lay 
+within the training-pack range, median R² was 0.775 and median MAE was 50.88 cycles. The ten below-range 
+Construction Splits Median MAE Median RMSE Spearman Median R²
+Same-stage, 16 S 10 27.81 35.39 0.985 0.932
+Random-stage, 16 S 10 10.10 16.42 0.922 0.800
+Random-stage, 13 S 10 12.39 20.14 0.928 0.787
+Random-stage, 20 S 10 8.91 14.33 0.923 0.778
+Table 3 Repeated random-
+stage construction and 
+sensitivity summaries.
+ 
+Fig. 3 Lifetime-support and composition-control analyses. ( a) Test R², ( b) Spearman correlation, and ( c) MAE for the 80 
+mixed-source held-out trajectories, stratified by whether the test endpoint lay within, below, or above the training-endpoint 
+range. (d) Controlled-minus-original change in R² after balancing barcode reuse and limiting pairwise composition overlap 
+across ten matched tests per source cohort. Horizontal bars indicate medians.
+ 
+
+Article in Press
+Scientific Reports
+https://doi.org/10.1038/s41598-026-73878-w
+trajectories had median R² of − 14.002 despite median Spearman correlation of 0.992; every such trajectory con-
+tained the unique 148-cycle short-life cell. Its 147 trainable records covered consecutive cycles 2–148, discharge 
+capacity decreased smoothly from 1.072 to 0.878 Ah, and all records passed the predefined validity rules; 22 post-
+endpoint rows with negative RUL were already excluded. The cell was therefore retained as an extreme but valid 
+short-lifetime case rather than removed according to model performance. When its ten held-out trajectories were 
+omitted only as a sensitivity summary, median R² increased from 0.714 to 0.796 and median MAE decreased 
+from 57.34 to 49.45 cycles. The tree model preserved within-trajectory ordering but could not extrapolate an 
+endpoint below its training support.
+Lifetime support also explained the variation within the primary same-source setting. Across the 14 same-
+source tests whose endpoints lay inside the augmented training-endpoint range, median R² was 0.909 and median 
+Table 4 Barcode-disjoint target-cohort calibration audit.
+Calibration Snapshots Mean MAE Mean RMSE Spearman Mean R² Target-cell cost
+Source only 0 142.45 180.46 0.930 −1.748 None
+Target calibration 1 140.39 177.85 0.932 −1.732 16 labelled cells
+Target calibration 5 124.74 161.17 0.925 −1.360 16 labelled cells
+Target calibration 20 95.53 123.77 0.926 −0.439 16 labelled cells
+Target calibration 100 75.36 100.47 0.935 0.034 16 labelled cells
+Note: Each calibration condition uses a separate set of 16 target-cell barcodes with complete-life labels. Proxy snapshots are not independent 
+target packs.
+Fig. 4 Random-stage model, feature, and proxy-definition sensitivity. ( a) Test R² for the mean baseline, Ridge regression, 
+and Random Forest across ten barcode-level splits. ( b) Matched grouped feature ablation. ( c) Grouped permutation impor-
+tance measured by the loss in R² after joint permutation. (d) Sensitivity to series-member count and pack-level target defini-
+tion. Horizontal bars indicate medians. Panel c uses a symmetric-logarithmic horizontal scale, and panel d uses a symmetric-
+logarithmic vertical scale.
+ 
+
+Article in Press
+Scientific Reports
+https://doi.org/10.1038/s41598-026-73878-w
+Spearman correlation was 0.997. The nearest endpoint gap correlated with MAE at Spearman ρ = 0.722 and with 
+R² at ρ = −0.647. Drawing cells from one source cohort therefore reduces one domain shift, but it does not remove 
+the need for the training trajectories to cover the target lifetime range.
+Combinatorial augmentation, member-reuse sensitivity and proxy analysis
+We next examined whether the longitudinal result depended on how the augmented training compositions were 
+sampled and which member-level information carried the predictive signal. The analyses in this section therefore 
+progress from composition reuse to cross-sectional augmentation, grouped feature attribution and proxy-defini -
+tion sensitivity.
+The overlap-and-reuse sensitivity construction reduced dependence on repeatedly selected training cells with-
+out changing the central prediction finding. Across the three cohorts, the standard deviation of barcode reuse 
+counts decreased from 2.78 to 2.98 in the original unique random compositions to 0.43–0.45 under balanced 
+reuse, while all 32 training compositions per split remained unique and maximum pairwise overlap was limited 
+to 12 members. Across the 30 matched tests, the median controlled-minus-original change was − 0.0147 for R² 
+and + 0.0004 for Spearman correlation. The longitudinal result was therefore robust to substantially more even 
+use of the available training cells.
+The cross-sectional random-stage construction provides a stricter combinatorial stress test because eventual 
+complete lifetime is not used to pair members. Across ten barcode-level splits, it achieved median R² of 0.800 
+(2.5th–97.5th percentile, 0.548–0.848) and median Spearman correlation of 0.922 (0.829–0.967). The submitted 
+same-stage split reproduced R² = 0.9362 and Spearman = 0.9875, but repeated same-stage R² ranged from − 2.279 
+to 0.974 and was strongly associated with test-target composition. The random-stage result is therefore used as 
+the central cross-sectional estimate.
+Feature attribution shows that the signal is concentrated rather than broadly multiphysical. The 27 fitted col -
+umns contain no cycle-life, cycle-ratio, RUL or target field. Nevertheless, discharge capacity and SOH are observ-
+able ageing proxies: removing these eight capacity-state features reduced median random-stage R² from 0.800 to 
+0.424, whereas the eight features alone achieved 0.764. Joint permutation caused a median R² loss of 1.352 for 
+capacity state, compared with 0.032 for resistance, 0.005 for charge time and approximately zero for temperature. 
+The model is consequently interpreted as capacity-state-dominated member aggregation.
+Within the all-series proxy definition, changing the member count from 13 to 14, 16 or 20 produced similar 
+median minimum-label R² values of 0.787, 0.789, 0.800 and 0.778. At 16 members, replacing the minimum target 
+with the lower decile or mean reduced median R² to 0.743 and 0.577, and minimum-versus-mean target concor-
+dance was only 0.259. These results support limited robustness to series-member count within the defined proxy 
+object while confirming that performance remains dependent on the chosen pack-level target.
+Cross-cohort domain-shift stress test
+The three source cohorts were strongly separable using early observable cell summaries. The standardized mul -
+tinomial classifier achieved mean balanced accuracy of 0.985 (2.5th–97.5th percentile, 0.903–1.000), compared 
+with 0.333 for the class-prior dummy baseline (Fig. 5a). The largest univariate cohort effects were minimum-
+temperature median (η² = 0.658), charge-time interquartile range (η² = 0.610), and internal-resistance median (η² 
+= 0.592; Fig. 5b). These signatures demonstrate observable cohort and protocol differences but do not distinguish 
+manufacturing, cell-composition, or test-protocol causes.
+Source-cohort shift remained severe when the model was required to extrapolate beyond the assembly-oriented 
+same-source setting. In the barcode-disjoint audit, source-only mean R² was − 1.748; calibration with 1, 5, 20 and 
+100 snapshots constructed from 16 separate labelled target cells yielded − 1.732, − 1.360, − 0.439 and 0.034. The 
+earlier 5–20% recovery was therefore an identity-overlapping, cohort-specific adjustment rather than evidence of 
+
+Article in Press
+Scientific Reports
+https://doi.org/10.1038/s41598-026-73878-w
+low-cost independent transfer. Figure 5 summarizes early-observable source-cohort separability and the absolute-
+calibration and degradation-ordering responses to barcode-disjoint target calibration.
+Physical 12S3P electrical aggregation and member dynamics
+The corrected external record contains one fixed 12S3P pack over 286 complete consecutive files: 217 WLTP 
+cycles and 69 capacity checks from cycle 125 to 410. Measured electrical closure was strong. The median 
+Table 5 Measured electrical closure and member dynamics in the fixed 12S3P pack.
+Quantity Scope Members Median |error| 95th percentile Identities Transitions
+Pack-current closure All rows 3 branches 0.149 A 0.600 A — —
+Pack–branch voltage All rows 3 branches 0.000 V 0.0667 V — —
+Branch–cell voltage All rows 36 cells 0.047–0.048 V 0.097 V — —
+Member dynamics Cycles 125–410 36 V / 72 T — — 2 V / 6 T 4 V / 37–72 T
+Note: Absolute residuals are summarized over 284,028 sampled rows. Member-identity counts refer to cycle-level discharge summaries.
+Fig. 5 Source-cohort observability and barcode-disjoint cross-cohort calibration. (a) Balanced accuracy of the early-observ-
+able cohort classifier relative to a class-prior dummy baseline. The classifier point and error bar denote the mean and 2.5th–
+97.5th percentile range across repeated stratified fivefold cross-validation with ten repeats. ( b) Cohort effect sizes (η²) for 
+the 14 early-observable features; orange markers identify the three largest effects. ( c) Absolute calibration (test R²) and (d) 
+degradation ordering (Spearman ρ) as the number of barcode-disjoint target-proxy calibration snapshots increases. Colors 
+denote the held-out target cohort, and lines connect matched cohort–seed evaluations across calibration budgets. The dotted 
+line in (c) indicates R² = 0.
+ 
+
+Article in Press
+Scientific Reports
+https://doi.org/10.1038/s41598-026-73878-w
+absolute residual between pack current and the sum of branch currents was 0.149 A (95th percentile, 0.600 A). 
+Pack voltage minus mean branch voltage had median absolute residual 0 V (0.0667 V), and the three branch-
+voltage-minus-cell-sum residuals had medians of 0.047, 0.047 and 0.048 V (approximately 0.097 V at the 95th 
+percentile).
+The measured topology also exposed behaviours that an all-series tabular proxy cannot reproduce. Median 
+branch-current spread was 0.088 A during capacity checks and 0.108 A during WLTP. P1S6 was the dominant 
+minimum-voltage member in all 69 capacity-check cycles and in 212 of 217 WLTP cycles; P2S6 dominated the 
+remaining five WLTP cycles, with four identity transitions. Thermal maxima were less stationary, involving six 
+sensors and 37 transitions during capacity checks and five sensors and 72 transitions during WLTP. Member-
+aware monitoring is therefore physically relevant even when the voltage-limiting member is persistent.
+The capacity checks do not supply an external RUL endpoint: measured capacity versus cycle number had 
+Spearman correlation 0.016, and the discharge-cutoff protocol changed within the record. The earlier early-win-
+dow capacity-prediction comparison is consequently withdrawn from the main evidence chain. The defensible 
+external result is direct physical evidence for cell-to-branch-to-pack aggregation consistency, parallel-current 
+imbalance and longitudinal member dynamics in one assembled pack.
+These measurements connect the two proxy experiments to physical pack behaviour without conflating their 
+targets. The longitudinal proxy tests whether aggregation features can follow fixed member compositions and 
+remaining-life order; the 12S3P reconstruction verifies the electrical hierarchy and shows which member identi-
+ties persist or migrate under coupled operation. Validation of absolute 16 S LEV RUL still requires multiple fixed 
+physical packs with complete ageing endpoints.
+Fig. 6 Physical reconstruction of one fixed 12S3P pack. ( a) Measured topology; (b) voltage and current closure; ( c) domi-
+nant minimum-voltage member; and (d) migration of the maximum-temperature location across capacity-check and WLTP 
+cycles.
+ 
+
+Article in Press
+Scientific Reports
+https://doi.org/10.1038/s41598-026-73878-w
+Discussion
+The central result is that same-source fixed-member proxy trajectories retain sufficient longitudinal information 
+for member-aggregated RUL learning across held-out compositions. This setting reflects the practical assembly 
+of nominally comparable cells while preserving natural variation in capacity, resistance and degradation rate. 
+High rank consistency across all three source cohorts shows that the aggregated observations contain a stable 
+degradation-order signal. Absolute RUL is more demanding because the held-out endpoint must be represented 
+by the augmented training compositions; this explains why strong Spearman correlation can coexist with poor or 
+negative R². Mixed-source holdout and cross-cohort transfer extend this test beyond the primary assembly setting 
+and expose additional distribution shift, but they are not required to justify the same-source use case.
+Combinatorial member reuse broadens the range of training compositions available from a finite cell corpus. 
+The matched sensitivity analysis showed that balancing barcode use and reducing composition overlap did not 
+materially change rank consistency or absolute RUL performance, indicating that the longitudinal result was not 
+driven by a small set of frequently selected cells. Because feasible overlap depends on source pool size, gener -
+ated benchmarks should report composition uniqueness, pairwise overlap and per-barcode use rather than adopt a 
+universal threshold. Barcode isolation between training and test members remains the essential safeguard against 
+identity leakage.
+The generated object is not limited to the RUL regression reported here. Compared with pack-only benchmarks 
+that do not expose member-cell states, each trajectory retains member identity and cycle summaries alongside 
+pack aggregates. The same structure can therefore support future pack-SOH, inconsistency-evolution, weak-
+member, abnormal-composition, and alternative-target studies. These are enabled uses of the data structure rather 
+than additional tasks validated here.
+The feature and target analyses clarify what the proxy model learns. Capacity-state descriptors carried most 
+of the predictive signal, while resistance, temperature, and charge-time summaries provided smaller incremental 
+contributions in this corpus. The minimum-member target is a conservative series-system label, but its disagree-
+ment with lower-decile and mean targets shows that it is not interchangeable with every physical retirement crite-
+rion14–15,17–21,27–28. The 12S3P reconstruction complements this statistical evidence by demonstrating current and 
+voltage closure, parallel-current imbalance, and longitudinal member dynamics 9,29–31. Multiple fixed physical 
+LEV packs with complete ageing endpoints are still required to evaluate absolute deployment-level RUL.
+The scope is also size-dependent. Member-wise construction is practical for compact LEV configurations with 
+tens of cells, for which individual members and their dispersion can be represented directly. Packs containing 
+hundreds or thousands of cells introduce module hierarchy, parallel current sharing, interconnect variation, and 
+spatial thermal gradients. Extension to those systems should therefore use hierarchical, topology-aware module 
+aggregation rather than merely increasing the member count.
+The retained 148-cycle cell illustrates why an extreme short-lifetime member should not be removed solely 
+because it degrades average model performance. In a physical pack, early degradation or abrupt cell-level anoma-
+lies would motivate BMS-assisted monitoring of member voltage, temperature and protection events, followed 
+by decisions such as continued service, derating, repair, repurposing or recycling. The present independently 
+tested-cell records demonstrate a short lifetime rather than an abrupt in-pack failure, and they contain no BMS 
+event stream. Accordingly, this case supports a lifetime-coverage stress test, not a claim that the proxy model has 
+already implemented physical fault diagnosis or intervention decisions.
+Conclusions
+This study develops fixed-member longitudinal proxy-pack trajectories as a reproducible bridge from cell-ageing 
+records to member-aware pack-level remaining-life assessment. In the same-source experiments, degradation 
+ordering remained strong across all three public source cohorts, and tests within the augmented training endpoint 
+
+Article in Press
+Scientific Reports
+https://doi.org/10.1038/s41598-026-73878-w
+range achieved median R² of 0.909 and median Spearman correlation of 0.997. Absolute error increased when 
+held-out lifetimes fell outside this range, identifying endpoint coverage as the principal calibration condition.
+Supporting analyses showed that the main result was robust to training-composition reuse, while mixed-source 
+and cross-cohort tests exposed the limits of domain transfer. The physical 12S3P reconstruction verified cell-to-
+branch-to-pack electrical closure and revealed both persistent voltage limitation and migrating thermal maxima. 
+Retained member histories also enable future extension to other member-aware targets. The present flat member-
+wise formulation is intended for compact packs with tens of cells; larger systems require hierarchical module-
+level extensions. Together, these results position proxy-pack generation as an auditable benchmark for algorithm 
+development from sparse pack-level evidence. Validation on multiple fixed physical LEV packs with complete 
+ageing endpoints remains the next requirement for deployment-level RUL assessment.
+Supplementary Information  The online version contains supplementary material available at https://doi.org/10.1038/
+s41598-026-73878-w.
+Acknowledgements The raw cell-cycling data used to construct the proxy-pack benchmark are publicly available from 
+the MATR data repository as the dataset associated with “Data-driven prediction of battery cycle life before capacity deg -
+radation” at https://data.matr.io/1/ (associated publication DOI: 10.1038/s41560-019-0356-8).The external 12S3P  b a t t e r y - p 
+a c k dataset, “Lithium-Ion Battery Pack Cycling Dataset with CC-CV Charging and WLTP/Constant Discharge Profiles,” 
+is publicly available from the CORA Research Data Repository at https://doi.org/10.34810/data2395.The raw third-party 
+datasets are not redistributed with this article and should be obtained directly from their original repositories. The processed 
+proxy-pack tables, extracted feature files, and analysis scripts generated during the current study are available from the cor-
+responding author upon reasonable request.
+Author contributions Lu Zhu: Conceptualization, Methodology, Software, Validation, Formal analysis, Investigation, Data 
+curation, Visualization, Writing – original draft, Writing – review & editing. Wangwang Zheng: Resources, Data curation, 
+Writing – review & editing. Fengmin Zhang: Supervision, Resources, Funding acquisition, Project administration, Writing 
+– review & editing.
+Data availability The raw cell-cycling data used to construct the proxy-pack benchmark are publicly available from the 
+MATR data repository as the dataset associated with “Data-driven prediction of battery cycle life before capacity degrada -
+tion” at https://data.matr.io/1/ (associated publication DOI: 10.1038/s41560-019-0356-8).The external 12S3P battery-pack 
+dataset, “Lithium-Ion Battery Pack Cycling Dataset with CC-CV Charging and WLTP/Constant Discharge Profiles,” is pub-
+licly available from the CORA Research Data Repository at https://doi.org/10.34810/data2395.The raw third-party datasets 
+are not redistributed with this article and should be obtained directly from their original repositories. The processed proxy-
+pack tables, extracted feature files, and analysis scripts generated during the current study are available from the correspond-
+ing author upon reasonable request.
+Declarations
+Competing interests The authors declare no competing interests.
+Declaration of generative AI and AI-assisted technologies in the writing process During revision, the authors used a genera-
+tive AI language tool to assist with language editing, structural comparison and code review. All scientific decisions, analy-
+ses, numerical results, references and final wording were checked and approved by the authors, who take full responsibility 
+for the content of the manuscript.
+Open Access  This article is licensed under a Creative Commons Attribution 4.0 International License, which permits use, 
+sharing, adaptation, distribution and reproduction in any medium or format, as long as you give appropriate credit to the 
+original author(s) and the source, provide a link to the Creative Commons licence, and indicate if changes were made. The 
+images or other third party material in this article are included in the article’s Creative Commons licence, unless indicated 
+otherwise in a credit line to the material. If material is not included in the article’s Creative Commons licence and your 
+intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly 
+from the copyright holder. To view a copy of this licence, visit http://creativecommons.org/licenses/by/4.0/.
+
+Article in Press
+Scientific Reports
+https://doi.org/10.1038/s41598-026-73878-w
+References
+ 1. Liang, Y ., Zhang, Q., An, D. & Zhao, X. Configuration and system operation for battery swapping stations in Beijing. 
+Energy 214, 118883 (2021).
+ 2. Zhan, W. et al. A Review of Siting, Sizing, Optimal Scheduling, and Cost-Benefit Analysis for Battery Swapping Stations. 
+Energy 258, 124723 (2022).
+ 3. Chen, X., Yang, Y ., Wang, J., Song, J. & He, G. Battery valuation and management for battery swapping station. Energy 
+279, 128120 (2023).
+ 4. Su, L., Xu, Y . & Dong, Z. State-of-health estimation of lithium-ion batteries: A comprehensive literature review from cell 
+to pack levels. Energy Convers. Econ. 5, 224–242 (2024).
+ 5. Li, H., Zhang, Z., Li, T. & Si, X. A review on physics-informed data-driven remaining useful life prediction: Challenges 
+and opportunities. Mech. Syst. Signal Process. 209, 111120 (2024).
+ 6. Li, Y . et al. Data-driven health estimation and lifetime prediction of lithium-ion batteries: A review. Renew. Sustain. 
+Energy Rev. 113, 109254 (2019).
+ 7. He, H. et al. EVBattery: A Large-Scale Electric Vehicle Dataset for Battery Health and Capacity Estimation.  h t t p s : / / a r x i 
+v . o r g / a b s / 2 2 0 1 . 1 2 3 5 8     (2022).
+ 8. Fricke, K. A., do Nascimento, R. G., Corbetta, M., Kulkarni, C. S. & Viana, F. A. C. An Accelerated Life Testing Dataset 
+for Lithium-Ion Batteries with Constant and Variable Loading Conditions. Int. J. Prognostics Health Manage. 14.  h t t p s : 
+/ / d o i . o r g / 1 0 . 3 6 0 0 1 / i j p h m . 2 0 2 3 . v 1 4 i 2 . 3 5 8 7     (2023).
+ 9. de la Vega Hernandez, J., Ortega-Redondo, J. A. & Riba, J. R. Lithium-Ion Battery Pack Cycling Dataset with CC-
+CV Charging and WLTP/Constant Discharge Profiles. Sci. Data. 12, 1942. https://doi.org/10.1038/s41597-025-06229-5 
+(2025).
+ 10. Severson, K. A. et al. Data-driven prediction of battery cycle life before capacity degradation. Nat. Energy. 4, 383–391 
+(2019).
+ 11. Che, Y . et al. Data efficient health prognostic for batteries based on sequential information-driven probabilistic neural 
+network. Appl. Energy. 323, 119663 (2022).
+ 12. Che, Y ., Stroe, D. I., Hu, X. & Teodorescu, R. Semi-Supervised Self-Learning-Based Lifetime Prediction for Batteries. 
+IEEE Trans. Industr. Inf. 19, 6471–6481 (2023).
+ 13. Zhao, M., Zhang, Y . & Wang, H. Battery degradation stage detection and life prediction without accessing historical 
+operating data. Energy Storage Mater. 69, 103441 (2024).
+ 14. Baumhöfer, T., Brühl, M., Rothgang, S. & Sauer, D. U. Production caused variation in capacity aging trend and correlation 
+to initial cell performance. J. Power Sources. 247, 332–338. https://doi.org/10.1016/j.jpowsour.2013.08.108 (2014).
+ 15. Xie, L. et al. A facile approach to high precision detection of cell-to-cell variation for Li-ion batteries. Sci. Rep. 10, 7182. 
+https://doi.org/10.1038/s41598-020-64174-2 (2020).
+ 16. Shu, X. et al. Flexible State-of-Health Prediction Scheme for Lithium-Ion Battery Packs With Long Short-Term Memory 
+Network and Transfer Learning. IEEE Trans. Transp. Electrification. 7, 2238–2248.  h t t p s : / / d o i . o r g / 1 0 . 1 1 0 9 / T T E . 2 0 2 1 . 3 
+0 7 4 6 3 8     (2021).
+ 17. Che, Y . et al. Joint Estimation of Inconsistency and State of Health for Series Battery Packs. Automot. Innov. 4, 103–116. 
+https://doi.org/10.1007/s42154-020-00128-8 (2021).
+ 18. Che, Y . et al. State of health prognostics for series battery packs: A universal deep learning method. Energy 238, 121857. 
+https://doi.org/10.1016/j.energy.2021.121857 (2022).
+ 19. An, F., Zhang, W., Sun, B., Jiang, J. & Fan, X. A novel battery pack inconsistency model and influence degree analysis 
+of inconsistency on output energy. Energy 271, 127032. https://doi.org/10.1016/j.energy.2023.127032 (2023).
+ 20. Fan, X., Qi, H., Zhang, W. & Zhang, Y . Experiment-free physical hybrid neural network approach for battery pack 
+inconsistency estimation. Appl. Energy. 358, 122569. https://doi.org/10.1016/j.apenergy.2023.122569 (2024).
+ 21. Che, Y . et al. Lifetime and Aging Degradation Prognostics for Lithium-Ion Battery Packs Based on a Cell to Pack 
+Method. Chin. J. Mech. Eng. 35, 4. https://doi.org/10.1186/s10033-021-00668-y (2022).
+ 22. Che, Y ., Deng, Z., Lin, X., Hu, L. & Hu, X. Predictive Battery Health Management With Transfer Learning and Online 
+Model Correction. IEEE Trans. Veh. Technol. 70, 1269–1277. https://doi.org/10.1109/TVT.2021.3055811 (2021).
+ 23. Che, Y ., Vilsen, S. B., Meng, J., Sui, X. & Teodorescu, R. Battery health prognostic with sensor-free differential 
+temperature voltammetry reconstruction and capacity estimation based on multi-domain adaptation. eTransportation 17, 
+100245. https://doi.org/10.1016/j.etran.2023.100245 (2023).
+ 24. Wang, Q., Ye, M., Cai, X., Sauer, D. U. & Li, W. Transferable data-driven capacity estimation for lithium-ion batteries 
+with deep learning: A case study from laboratory to field applications. Appl. Energy. 350, 121747.  h t t p s : / / d o i . o r g / 1 0 . 1 0 1 
+6 / j . a p e n e r g y . 2 0 2 3 . 1 2 1 7 4 7     (2023).
+ 25. Liu, C., Deng, Z., Zhang, X., Bao, H. & Cheng, D. Battery state of health estimation across electrochemistry and working 
+conditions based on domain adaptation. Energy 297, 131294. https://doi.org/10.1016/j.energy.2024.131294 (2024).
+ 26. Deng, Z. et al. Rapid health estimation of in-service battery packs based on limited labels and domain adaptation. J. 
+Energy Chem. 89, 345–354. https://doi.org/10.1016/j.jechem.2023.10.056 (2024).
+
+Article in Press
+Scientific Reports
+https://doi.org/10.1038/s41598-026-73878-w
+ 27. Kimball, J. W., Kuhn, B. T. & Krein, P. T. Increased performance of battery packs by active equalization. In IEEE Vehicle 
+Power and Propulsion Conference; pp. 323–327. https://doi.org/10.1109/VPPC.2007.4544145 (IEEE, 2007).
+ 28. Abdellahi, A., Atalay, S. & Rajan, A. Impact of cell variability on pack statistics for different vehicle segments. J. Power 
+Sources. 508, 230246. https://doi.org/10.1016/j.jpowsour.2021.230246 (2021).
+ 29. Bruen, T. & Marco, J. Modelling and experimental evaluation of parallel connected lithium ion cells for an electric 
+vehicle battery system. J. Power Sources. 310, 91–101. https://doi.org/10.1016/j.jpowsour.2016.01.001 (2016).
+ 30. Liu, X., Ai, W., Naylor Marlow, M., Patel, Y . & Wu, B. The effect of cell-to-cell variations and thermal gradients on the 
+performance and degradation of lithium-ion battery packs. Appl. Energy. 248, 489–499.  h t t p s : / / d o i . o r g / 1 0 . 1 0 1 6 / j . a p e n e r 
+g y . 2 0 1 9 . 0 4 . 1 0 8     (2019).
+ 31. Naylor Marlow, M., Chen, J. & Wu, B. Degradation in parallel-connected lithium-ion battery packs under thermal 
+gradients. Commun. Eng. 3, 2. https://doi.org/10.1038/s44172-023-00153-5 (2024).
+Publisher’s note Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional 
+affiliations.
+Authors and Affiliations
+Lu Zhu2 · Wangwang Zheng3 · Fengmin M. Zhang1
+ Fengmin M. Zhang
+zhangfengmin126@126.com
+1 Donghai Laboratory, Huifei Road 599, Zhoushan 316021, Zhejiang, People’s Republic of China
+2 Anhui V ocational College of Defense Technology, No. 56, Meishan Middle Road, Lu’an, Anhui Province, People’s 
+Republic of China
+3 School of Mechanical Engineering, Hefei University of Technology, Hefei 230009, Anhui, People’s Republic of 
+China
