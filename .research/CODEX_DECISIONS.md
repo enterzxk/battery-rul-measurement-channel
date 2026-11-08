@@ -78,6 +78,17 @@
 
 | CD-015 | 2026-11-08 | 现在能不能写稿 | **开始写，但不得宣称 TIM-ready**。缺的是「相对强竞争策略的、经校验的分配指南」。给了最终标题与三条可写主张 | review-stage/CD-015-scope.md | 已执行 |
 
+| CD-016 | 2026-11-08 | 目标应标记 blocked 还是改写 | **A：冻结实验，按未达成记录**。Codex 给出精确的 blocked 措辞，并指出「未建立」不等于「不存在」 | review-stage/CD-016-goal-status.md | 待执行 |
+
+## CD-016 的 blocked 措辞（原样采用）
+
+> **FIXED GOAL UNMET; CURRENT EXPERIMENTAL LINE EXHAUSTED.** M1 did not establish the preregistered single-donor row-axis saturation criterion. Subsequent experiments support estimator-dependent allocation findings, not the original donor-identity-floor claim. EXP-021/022 did not demonstrate improvement over the strongest fixed allocation/calibration strategy. The manuscript therefore does not fulfill the fixed objective; independent integrity review also remains outstanding. Freeze further experiments under this line. Reopen only following human-authorized scope revision, or materially new, independently reviewed evidence directly addressing the unmet gates. Additional seeds, cosmetic variants, and manuscript polishing are insufficient grounds.
+
+## CD-016 的两条纪律
+
+1. **措辞精度**：「floor not established」可辩护；「no floor exists」过度主张，因为只有三个配对单元。
+2. **停止幻想**：这条线上**没有任何**实验能补上缺口。要做前瞻性饱和研究或新的分配机制，都是**新项目**，不是这个 campaign 的延续。
+
 ## CD-015 定稿（2026-11-08 21:40）
 
 **标题**：
