@@ -20,7 +20,7 @@ K = 8
 MS = [1, 2]
 CALS = ["affine", "isotonic", "1nn", "1nn_resid"]
 
-z = np.load(r"C:\Users\Administrator\AppData\Local\Temp\isu_table.npz", allow_pickle=True)
+z = np.load(__import__("os").path.join(__import__("os").path.dirname(__import__("os").path.abspath(__file__)), "isu_table.npz"), allow_pickle=True)
 X = z["X"]; cells = z["cells"]
 grp = X[:, 0].astype(int); rpt = X[:, 1]; feat = X[:, 2:6]; soh = X[:, 6]
 eol = {}

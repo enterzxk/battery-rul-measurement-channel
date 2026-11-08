@@ -13,7 +13,7 @@ def holm(pvals):
         adj[idx] = min(1.0, running)
     return adj
 
-src = open(r"C:\Users\Administrator\AppData\Local\Temp\v2_main.py", encoding="utf-8").read().split("def main():")[0]
+src = open(__import__("os").path.join(__import__("os").path.dirname(__import__("os").path.abspath(__file__)), "v2_main.py"), encoding="utf-8").read().split("def main():")[0]
 exec(src)
 NDRAW = 200; K = 8; MS = [1, 2]
 CALS = ["affine", "isotonic", "1nn", "1nn_resid"]

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import json, zipfile, numpy as np, re, time
 Z = r"E:\桌面\rul\data\external\isu_raw\RPT_json.zip"
-OUT = r"C:\Users\Administrator\AppData\Local\Temp\isu_table.npz"
+OUT = __import__("os").path.join(__import__("os").path.dirname(__import__("os").path.abspath(__file__)), "isu_table.npz")
 z = zipfile.ZipFile(Z)
 names = sorted(n for n in z.namelist() if n.lower().endswith(".json"))
 print("cells:", len(names), flush=True)
