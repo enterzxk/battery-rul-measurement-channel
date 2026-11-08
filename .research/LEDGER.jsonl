@@ -12,3 +12,9 @@
 {"id":"L-0012","ts":"2026-11-08T00:20","phase":6,"event":"gate_passed","note":"G-D2a: 电芯不相交下 k=16 仍显著（−2.010, wilcoxon p=0.0049, 9/11），F1 未触发"}
 {"id":"L-0013","ts":"2026-11-08T00:22","phase":6,"event":"number_corrected","note":"49%→31%（leaky→strict）；k=8 不显著（p=0.196）"}
 {"id":"L-0014","ts":"2026-11-08T01:05","phase":0,"event":"config","note":"AGENTS.md 合并写入 git 仓库根；research-wiki 初始化并 seed"}
+{"id":"L-0015","ts":"2026-11-08T18:42","phase":6,"event":"gate_pass","note":"M0 协议锁定：漂移 0.018 < 0.03"}
+{"id":"L-0016","ts":"2026-11-08T18:48","phase":6,"event":"gate_fail","note":"P1 行轴地板未建立（Δ 0.03-0.15 超 ±0.05）"}
+{"id":"L-0017","ts":"2026-11-08T18:42","phase":6,"event":"gate_pass","note":"P2 供体轴通过联合闸门（+0.289, 11/11 双聚合）"}
+{"id":"L-0018","ts":"2026-11-08T18:48","phase":6,"event":"bug_found","note":"EXP-009 行预算不匹配（k=8/m=3 只得 6 行），由 Codex 读代码发现"}
+{"id":"L-0019","ts":"2026-11-08T19:12","phase":6,"event":"result_overturned","note":"估计器对照：供体效应只在仿射族存在，1-NN 下反向 −0.148"}
+{"id":"L-0020","ts":"2026-11-08T19:15","phase":7,"event":"direction_frozen","note":"CD-010：终止供体方法方向，转协议敏感性报告"}
