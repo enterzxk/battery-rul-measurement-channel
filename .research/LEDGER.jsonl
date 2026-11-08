@@ -23,3 +23,4 @@
 {"id":"L-0023","ts":"2026-11-08T19:05","phase":6,"event":"gate_pass","note":"EXP-013 修正复现：六项全部 Holm<0.001，方向重开"}
 {"id":"L-0024","ts":"2026-11-08T21:50","phase":6,"event":"manuscript","note":"v4.0 完成，72 个数值全部可追溯"}
 {"id":"L-0025","ts":"2026-11-08T22:40","phase":7,"event":"decision","note":"CD-016：冻结实验，目标按未达成记录；给出精确 blocked 措辞"}
+{"id":"L-0026","ts":"2026-11-08T23:00","phase":7,"event":"integrity_audit","note":"SERIOUS-ISSUES，1 FAIL + 9 WARN，全部修复；95 数值 0 无来源"}
