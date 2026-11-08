@@ -18,3 +18,6 @@
 {"id":"L-0018","ts":"2026-11-08T18:48","phase":6,"event":"bug_found","note":"EXP-009 行预算不匹配（k=8/m=3 只得 6 行），由 Codex 读代码发现"}
 {"id":"L-0019","ts":"2026-11-08T19:12","phase":6,"event":"result_overturned","note":"估计器对照：供体效应只在仿射族存在，1-NN 下反向 −0.148"}
 {"id":"L-0020","ts":"2026-11-08T19:15","phase":7,"event":"direction_frozen","note":"CD-010：终止供体方法方向，转协议敏感性报告"}
+{"id":"L-0021","ts":"2026-11-08T18:47","phase":6,"event":"replication","note":"ISU-ILCC 248 电芯 / 63 工况；isotonic +0.109 p=0.002，与 UConn 矛盾"}
+{"id":"L-0022","ts":"2026-11-08T18:55","phase":7,"event":"decision","note":"CD-011：暂不解冻，授权一次修正复现；撤回 affine-specific 解释"}
+{"id":"L-0023","ts":"2026-11-08T19:05","phase":6,"event":"gate_pass","note":"EXP-013 修正复现：六项全部 Holm<0.001，方向重开"}

@@ -73,7 +73,20 @@
 
 本项目的三次实现 bug（EXP-002 单次抽样、EXP-007 无 MC 循环、EXP-009 行预算不匹配）**全部由跨模型审稿读代码发现，无一次自查发现**。
 
-## CD-010 的结论原文
+| CD-011 | 2026-11-08 | ISU 复现与 CD-010 矛盾，是否解冻 | **暂不解冻，授权一次修正复现**。Codex 发现 ISU 脚本供体合格性不匹配、失败抽样静默移除电芯、MAE 与配对 Δ 用不同工况集；并**撤回「效应是仿射族伪影」这一解释** | review-stage/CD-011-replication.md | 已执行 |
+| CD-012 | 2026-11-08 | 修正复现（EXP-013）是否通过 CD-011 的判定规则 | **通过。六项全部 Holm < 0.001**（affine +0.156、isotonic +0.085、1-NN −0.063，57 工况）。按 CD-011 预置规则：**解冻，重开分配/敏感性研究** | .research/exp/EXP-013-isu-corrected.md | 已执行 |
+
+## CD-012：方向重开（2026-11-08 19:05）
+
+**冻结解除。** CD-010 的终止理由已被两个数据集的数据推翻。
+
+**可写的主张**（CD-011 措辞）：在 8 个标签预算下，分给两个供体电芯能小幅改善仿射与 isotonic 校准；仿射收益与 1-NN 的有害效应在两个数据集上复现。
+
+**Codex 原话**：「The 1-NN reversal belongs in its central result; a reproducible 4–6% gain alone is not a reason to stop.」
+
+**仍不可写**：供体身份的因果机制、普适多样性收益、原创方法。
+
+## CD-010 的结论原文（已被 CD-012 取代）
 
 > Is there a paper? **No—not currently a convincing Q1 methods paper.** There is an auditable negative result and material for a protocol-sensitivity report.
 
