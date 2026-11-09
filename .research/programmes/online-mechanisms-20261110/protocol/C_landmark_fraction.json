@@ -1,0 +1,50 @@
+[
+ {
+  "cohort": "UConn",
+  "f": 0.25,
+  "n_cells": 64,
+  "n_cond": 11,
+  "mean_nobs": 11.46875,
+  "cond_macro": 0.10123977659061083
+ },
+ {
+  "cohort": "UConn",
+  "f": 0.5,
+  "n_cells": 64,
+  "n_cond": 11,
+  "mean_nobs": 22.0,
+  "cond_macro": 0.08540208649248114
+ },
+ {
+  "cohort": "UConn",
+  "f": 0.75,
+  "n_cells": 64,
+  "n_cond": 11,
+  "mean_nobs": 32.296875,
+  "cond_macro": 0.08698256133236422
+ },
+ {
+  "cohort": "ISU",
+  "f": 0.25,
+  "n_cells": 185,
+  "n_cond": 49,
+  "mean_nobs": 4.448648648648649,
+  "cond_macro": 0.11248199888800853
+ },
+ {
+  "cohort": "ISU",
+  "f": 0.5,
+  "n_cells": 185,
+  "n_cond": 49,
+  "mean_nobs": 7.772972972972973,
+  "cond_macro": 0.06515326083216723
+ },
+ {
+  "cohort": "ISU",
+  "f": 0.75,
+  "n_cells": 185,
+  "n_cond": 49,
+  "mean_nobs": 11.027027027027026,
+  "cond_macro": 0.05983980658155877
+ }
+]
