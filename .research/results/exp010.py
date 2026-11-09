@@ -102,9 +102,9 @@ for k in KS:
 print("\n=== Holm over the frozen family ===")
 ps = [f[2] for f in family]
 order = np.argsort(ps)
-mtests = len(ps); adj = np.ones(mtests)
+mtests = len(ps); adj = np.ones(mtests); run = 0.0
 for rank, idx in enumerate(order):
-    adj[idx] = min(1.0, ps[idx] * (mtests - rank))
+    run = max(run, ps[idx] * (mtests - rank)); adj[idx] = min(1.0, run)
 print("  " + "  ".join("k=%d/%s p=%.4f adj=%.4f" % (family[i][0], family[i][1], family[i][2], adj[i])
                        for i in range(mtests)))
 json.dump({"family": [{"k": f[0], "agg": f[1], "p": f[2], "delta": f[3], "holm": float(adj[i])}

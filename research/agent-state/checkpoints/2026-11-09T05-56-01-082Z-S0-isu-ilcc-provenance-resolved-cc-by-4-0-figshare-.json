@@ -1,0 +1,223 @@
+{
+  "schema": "autonomous-research-os/state@1",
+  "project_id": "battery-rul-donor-allocation",
+  "research_goal": "Finish submission preparation for the battery-RUL donor-allocation manuscript (docs/manuscripts/v4.0-tim.md): P0-1 verify the Peng 2026 Energies paper (doi:10.3390/en19204805) against the original text, and P0-2 re-run the integrity audit on the post-remediation manuscript. Then P1 submission form (LaTeX, figure caption).",
+  "status": "active",
+  "current_stage": "S0",
+  "stage_visits": {
+    "S0": 1
+  },
+  "stage_history": [],
+  "active_task": {
+    "detail": "P0 complete. Peng 2026 verified from the original 29-page PDF: the manuscript's Reference 5 title was fabricated, all cited numbers are correct, but Peng already contains a 2x2 factorial so the manuscript's differentiation claim fails. Integrity re-audit returned SERIOUS-ISSUES with three new FAILs: (A) the Section 5 +274% 'fit scope' effect is a single-draw Monte-Carlo artefact (matched-draw row-budget effect is +32%), (B) the ISU Section 5 scan compared 233 vs 223 evaluated cells, (C) Section 4.5 selection is not nested leave-one-out. 16 items fixed; 7 remain blocking.",
+    "id": "5da5b164",
+    "title": "Close the remaining integrity blockers before any submission work"
+  },
+  "completed_tasks": [],
+  "next_actions": [
+    "Finish the common-support ISU re-run (isu_budget_common.py) and fold the corrected numbers into Section 5",
+    "Re-run Section 4.5 selection with proper nesting: for each outer fold g use only the model trained without g",
+    "Recompute the Ridge donor-effect Holm family using training-fold-internal standardisation (utility2.py), not controls.py",
+    "Recompute the Section 4.3 cell-macro condition-improvement counts, or mark 2/11 and 0/11 as unverified",
+    "State the MDE in cycle units or label it as RPT-scale",
+    "Redraw Figure 1 without the withdrawn fit-scope and row-allocation labels",
+    "Trim the abstract to 250 words (currently 287) before LaTeX conversion",
+    "Record the reset, preserve the corrected donor results and falsified claims, classify v4.1 as exploratory and not submission-ready, stop manuscript polishing as the main activity",
+    "Time-box a 48-hour discovery cycle on the EOL-value question against full primary sources, including the most recent six months",
+    "Produce a four-axis comparison: problem assumptions, mechanism, required information, demonstrated result",
+    "Define the operational decision (which donor tests to continue, when calibration may occur, what deployment deadline) before selecting any method",
+    "Require independent literature and novelty review before any experiment",
+    "Freeze the cohort manifest, event definition, causal features, descriptor distance, randomisation, metric and stopping rule before any fitting",
+    "Audit event and feature construction: full-life quantities may define outcomes but must not enter predictors or procurement decisions",
+    "Run the complete matched experiment once on CPU and retain every arm, condition, draw and query-level prediction",
+    "If the gate fails, archive and stop the headline; if it passes, preregister the next budget comparison and a feasible UConn analogue",
+    "Correct the EXP-031 result record to downgrade it from a citable negative to an as-run exploratory record (done)",
+    "Complete the data-admission audit: locate the 248-cell ISU source, or mark every ISU-based conclusion as provenance-untraced",
+    "Do not run any further experiment on the ISU table until its source is identified",
+    "If reconstruction is pursued, use UConn (descriptors + timestamps recoverable) but note it has only 11 conditions, insufficient for a condition-level allocation study"
+  ],
+  "selected_idea": null,
+  "research_decisions": [
+    {
+      "ts": "2026-11-08T17:55:21.705Z",
+      "kind": "decision",
+      "level": "L2",
+      "source": "codex",
+      "question": "After verifying Peng 2026 from the original, does the manuscript's Section 5 contribution (a five-decision sensitivity ranking with fit scope and evaluation population dominant) survive as an IEEE TIM contribution?",
+      "decision": "NO-GO for IEEE TIM in the present framing. Reposition the manuscript as a bounded empirical study of estimator- and population-dependence in fixed-budget donor allocation; withdraw the Section 5 dominance ranking and interaction claims pending correction. Correct Reference 5's fabricated title.",
+      "rationale": "Codex returned NO-GO and, independently, identified implementation defects in the sensitivity scripts. I read budget.py, joint.py, strat.py and isu_budget.py and confirmed every structural claim: the 'fit scope' factor is not implemented as a scope change, the 'row allocation' factor is mathematically inactive at K=8, the interaction has no inferential test, and the two sections use different quartile definitions.",
+      "evidence": [
+        "Original Peng 2026 PDF (29 pp, .research/peng2026/peng2026.txt): real title is 'Deployable Self-Referenced Features for Cross-Cell Battery State-of-Health Estimation: Randomized Pairing Controls and Benchmarking'; the manuscript's Reference 5 title is fabricated",
+        "Peng 2026 full text: 'interaction' 0 hits, 'dominance'/'dominat' 0 hits, 'multiverse' 0 hits; but Peng DOES run a 2x2 factorial (feature richness x normalization), contradicting manuscript line 37",
+        "Peng 2026 numbers verified verbatim: 108% (max +107.8%), -5.3%->+4.5%, offline -16.8%/-19.1% -> strict online +4.3%/+10.4%",
+        ".research/results/budget.py:60-65 and isu_budget.py:57-62: scope=='condition' branch uses ALL donor rows (not 8), bypasses the NDRAW loop, and fits per evaluated cell - not a shared per-condition fit",
+        ".research/results/budget.py:69-73 and isu_budget.py:66-70: exact and floor(k/m) allocate identical rows for K=8, m in {1,2} - the row-allocation factor is a null operation measuring only RNG drift",
+        ".research/results/budget.py:53-59 and isu_budget.py:50-56: eligibility via len(donors)<m differs between arms, so evaluated cell sets differ",
+        ".research/results/joint.py:98-99: interaction computed from four aggregate deltas with no condition-level interval or test",
+        ".research/results/strat.py:44 uses global RUL quartiles; budget.py:48-50 and isu_budget.py:47-53 use condition-specific quartiles - different populations",
+        "Codex thread 01a1bc45-9a60-7e12-a6da-0691484168ca (gpt-6.1-sol, xhigh)"
+      ],
+      "rejected_options": [
+        "Keep the five-decision ranking as the lead contribution (rejected: the leading factor is mislabelled and one factor is inactive)",
+        "Lead with the 2x2 interaction test (rejected: no condition-level test, and Peng already uses a factorial)",
+        "Lead with ranking instability across datasets (rejected: ordering change is a boundary, not a contribution)"
+      ],
+      "scientific_risks": [
+        "The 'evaluation population reverses sign on both datasets' claim may survive, but it is a condition-specific quartile in Section 5 and a global quartile in Section 4.3",
+        "The null row-allocation factor suggests the Monte-Carlo noise floor is 10-28% of the contrast, which shrinks the apparent effect of the other two 'small' decisions",
+        "Repositioning may leave no TIM-level contribution at all, requiring a venue change"
+      ],
+      "next_actions": [
+        "Verify the alleged defects numerically with a targeted probe before writing anything into the manuscript",
+        "Fix Reference 5 title and the Section 2 Peng sentence",
+        "Re-run the integrity audit on the post-remediation manuscript (P0-2)",
+        "Rewrite Section 5 as a conditional sensitivity scan, or move it to a correction/negative-result framing"
+      ],
+      "falsification_criteria": [
+        "If a corrected scope implementation (one shared affine fit per condition, exactly 8 rows, common evaluated cells) reproduces the +274%/+140% scope dominance, the ranking claim is restored",
+        "If the late-life sign reversal disappears when all-query and late-life summaries reuse the same calibrated predictions on common support, withdraw it as the replicated population result",
+        "If the null row-allocation factor turns out to be a coding slip rather than a design feature, the 'five decisions' framing can be restored with four"
+      ],
+      "codex_thread_id": "01a1bc45-9a60-7e12-a6da-0691484168ca",
+      "stage": "S0"
+    },
+    {
+      "ts": "2026-11-09T03:57:05.943Z",
+      "kind": "decision",
+      "level": "L2",
+      "source": "codex",
+      "question": "The human authorized a full scope reset. What should the new research programme be?",
+      "decision": "Select D: reset the main programme to a new research problem. First target: the value of obtaining mature lifetime outcomes - when is continuing donor-cell tests to end-of-life worth the extra testing effort versus using already-available partial histories and survival information? Options A (direct mechanism measurement) and C (single-draw sensitivity) are sections at present scope; B is a separate meta-research project.",
+      "rationale": "The old line's headline (a sensitivity ranking) is invalid and its differentiation from Peng 2026 fails. The surviving donor-count effect is small (1.7-4.2%) and the mechanism is inferred. Codex judged that A-C are sections, not papers, and that a new problem is the strongest route. The EOL-value question is deployment-relevant, matches data the project already holds, and is narrower than generic active learning or censored transfer.",
+      "evidence": [
+        "Codex thread 01a1be6b-2a43-7333-8a92-065769b6ec79 (gpt-6.1-sol, xhigh)",
+        "Key reframing: RUL = donor EOL - observation age means all rows from one donor share one eventual lifetime outcome, so a row budget is an information restriction, not a count of independently purchased lifetime labels",
+        "Surviving effect sizes: UConn/HGB 1.67%, UConn/Ridge 4.17%, ISU 2.83% relative reduction",
+        "Close precedents to clear: Zhu et al. 2022 RESS (active learning selects incomplete tests to run to failure, incl. a battery experiment); Sekeran et al. 2022 Energies 15(8):2930 (survival analysis EOL transfer); a 2026 cost-aware sequential BOED paper on battery life testing",
+        "Local contrary evidence: the same-query factorial attributed an apparent deployment reversal to evaluation population, not donor-pool restriction (.research/STATE.md, round 7)"
+      ],
+      "rejected_options": [
+        "A as the main paper (mechanism measurement: established variance decomposition applied to an already observed effect)",
+        "B as a standalone paper (would require an independently designed meta-research project)",
+        "C as a standalone paper (one implementation failure does not establish a general methodological contribution)",
+        "Any rescue campaign around k=8, m=2, a favourable calibrator, or a favourable query subset"
+      ],
+      "scientific_risks": [
+        "The narrow EOL-value question may already be answered by Zhu et al. 2022 or the 2026 cost-aware BOED paper",
+        "The retrospective archive may not support a real deployment clock or testing-cost reconstruction",
+        "Waiting until EOL can preferentially reveal short-lived cells, creating outcome-dependent selection",
+        "All previously inspected conditions are development evidence; repartitioning does not create untouched confirmation data"
+      ],
+      "next_actions": [
+        "Record the reset, preserve the corrected donor results and falsified claims, classify v4.1 as exploratory and not submission-ready, stop manuscript polishing as the main activity",
+        "Time-box a 48-hour discovery cycle on the EOL-value question against full primary sources, including the most recent six months",
+        "Produce a four-axis comparison: problem assumptions, mechanism, required information, demonstrated result",
+        "Define the operational decision (which donor tests to continue, when calibration may occur, what deployment deadline) before selecting any method",
+        "Require independent literature and novelty review before any experiment"
+      ],
+      "falsification_criteria": [
+        "If a named closest paper already answers the same operational decision under the same information constraints, reject the candidate's novelty claim",
+        "If label-release times and resource exposure cannot be reconstructed defensibly from the retrospective archive, reject calendar-time or economic claims and continue only with a narrower identifiable resource estimand",
+        "If an apparent benefit requires future EOL information, evaluation-cell labels, changed query populations, or outer-condition information entering inner selection, invalidate the result",
+        "If a candidate produces only another small MAE improvement on already-inspected data, do not advance it as the Q1 programme"
+      ],
+      "codex_thread_id": "01a1be6b-2a43-7333-8a92-065769b6ec79",
+      "stage": "S0"
+    },
+    {
+      "ts": "2026-11-09T04:32:38.080Z",
+      "kind": "decision",
+      "level": "L2",
+      "source": "codex",
+      "question": "Which of the six swept candidates should become the headline, and what single experiment could kill it?",
+      "decision": "Choose C3 (conditions-vs-replicates at a fixed completed-cell budget) as the headline, conditional on ONE preregistered development kill experiment. None of the six candidates currently merits an accepted Q1 headline. Do not combine with C1; do not revive the donor-calibration manuscript.",
+      "rationale": "The EOL-waiting candidate is dead. Of the six remaining, C3 is the only one whose decision is physical, whose asset (248 cells / 57 conditions) is uniquely suited, and whose killing experiment can be run once on CPU. C2 has too few development tasks for reliable meta-prediction; C1's budget conflates repeated views of one EOL outcome with independent acquisitions.",
+      "evidence": [
+        "Codex thread 01a1be8c-43b0-7722-9f33-814bd0b6766e (gpt-6.1-sol, xhigh)",
+        "C1 rejected because one exact target-cell RUL label gives T_EOL = age + RUL, so target rows are not a row budget but a lifetime acquisition",
+        "New occupants found by Codex: Frenander & Thiringer on replicates required for Li-ion degradation testing; Nagulapati et al. on training size and diversity; Stroebl et al. 279 cells / 71 conditions; Processes 13(7):2030 on reducing testing costs via sample optimization",
+        "Kill experiment specified: N=24 completed cells, arms A (24x1 maximin), B (12x2), C (6x4), D (24x1 random); outcome G = 1 - R_B/R_arm; continue only if both G_A and G_D >= 0.05 with simultaneous 95% lower bounds above 0",
+        "Surviving development findings (1.7-4.2% donor effect, NN reversal, late-life reversal) are not evidence for C3"
+      ],
+      "rejected_options": [
+        "C1 as headline (a target RUL label reveals T_EOL, so it is not a row budget)",
+        "C2 as immediate headline (about 57 development tasks is too thin for a meta-prediction rule)",
+        "C4/C5 as automatic fallbacks if C3 fails",
+        "C6 as a standalone headline",
+        "The dead EOL-waiting problem and the frozen donor-sensitivity headline"
+      ],
+      "scientific_risks": [
+        "C3 may yield only an expected diversity benefit, which is useful but thin",
+        "Condition count changes coverage geometry, so the experiment compares procurement strategies rather than isolating an abstract condition-count effect",
+        "A completed-cell budget is not an equal channel-hour, time, energy or money budget; no cost-saving claim without those measurements",
+        "RPT-count RUL can change the weighting and interpretation relative to cycle-count RUL",
+        "All inspected conditions remain development data"
+      ],
+      "next_actions": [
+        "Freeze the cohort manifest, event definition, causal features, descriptor distance, randomisation, metric and stopping rule before any fitting",
+        "Audit event and feature construction: full-life quantities may define outcomes but must not enter predictors or procurement decisions",
+        "Run the complete matched experiment once on CPU and retain every arm, condition, draw and query-level prediction",
+        "If the gate fails, archive and stop the headline; if it passes, preregister the next budget comparison and a feasible UConn analogue"
+      ],
+      "falsification_criteria": [
+        "The 12-condition x 2-cell strategy must reduce condition-macro error by at least 5% against BOTH maximum-coverage controls; an upper confidence bound below 5% rejects that magnitude",
+        "If the observed benefit is explained by simple coverage placement, do not claim a distinct replication-allocation mechanism",
+        "Target-EOL leakage, unequal target populations, outcome-dependent eligibility, or unequal completed-cell counts invalidate the comparison",
+        "A verified published result containing the same substantive budget exchange removes the claimed contribution"
+      ],
+      "codex_thread_id": "01a1be8c-43b0-7722-9f33-814bd0b6766e",
+      "stage": "S0"
+    },
+    {
+      "ts": "2026-11-09T05:52:06.383Z",
+      "kind": "decision",
+      "level": "L2",
+      "source": "codex",
+      "question": "The preregistered C3 kill experiment failed its gate, and an independent static audit found implementation defects. What next?",
+      "decision": "Close C3 for this programme. No additional fits, changed budgets, replacement primary arms, window searches, or automatic transition to C2/C4/C5. Move to a bounded data-reconstruction and eligibility audit; the negative is NEITHER a paper nor a citable section until weighting and interval defects are corrected.",
+      "rationale": "The gate failed mechanically: both primary gains are negative, which fails the point-estimate condition independent of interval labelling. The static audit further downgrades the result: equal per-cell weighting was not implemented and the intervals are marginal. Per the preregistration, no rescue is permitted. C2/C4/C5 were never granted succession rights.",
+      "evidence": [
+        "EXP-031: A=3.5844, B=3.6950, C=3.5872, D=3.6503; G_A=-0.0309 [-0.0620,+0.0006]; G_D=-0.0122 [-0.0514,+0.0258]; gate FAILED",
+        "Independent static audit found: no sample_weight in c3_kill.py:84,87 (equal per-cell weight not implemented); marginal not simultaneous intervals at c3_kill.py:140; no C-vs-A interval ever computed although the result record claimed one",
+        "Codex thread 01a1bed6-3d2e-72a2-a408-f5c88f4ee6e0 (gpt-6.1-sol, xhigh)",
+        "DATA-ADMISSION-20261109: UConn 64-cell source located with CyclingParameters.csv and raw 1Hz archives under CC BY 4.0; the 248-cell ISU dataset used by C3 is NOT in the UConn REIL collection and its source is unidentified"
+      ],
+      "rejected_options": [
+        "C3 rescue (corrected rerun, another budget, another predictor, promoting arm C)",
+        "A standalone Q1 negative-allocation paper from present assets",
+        "C2, C4, C5 or C6 as automatic next experiments",
+        "C1 (an exact RUL observation reveals final lifetime, so rows are not independently purchased outcomes)"
+      ],
+      "scientific_risks": [
+        "The reported bounds apply to the row-weighted analysis; results under the preregistered equal-cell-weight specification are unknown and their direction must not be assumed",
+        "Fixed lexicographic within-condition cell selection limits procurement generality",
+        "Neither 5040 fits nor 20 draws increases the number of independent conditions",
+        "Additional raw data can improve measurement while leaving novelty absent"
+      ],
+      "next_actions": [
+        "Correct the EXP-031 result record to downgrade it from a citable negative to an as-run exploratory record (done)",
+        "Complete the data-admission audit: locate the 248-cell ISU source, or mark every ISU-based conclusion as provenance-untraced",
+        "Do not run any further experiment on the ISU table until its source is identified",
+        "If reconstruction is pursued, use UConn (descriptors + timestamps recoverable) but note it has only 11 conditions, insufficient for a condition-level allocation study"
+      ],
+      "falsification_criteria": [
+        "C3 remains closed regardless of documentation corrections or recovered metadata",
+        "Reject a dataset if condition mappings or physical lifetime units require unverifiable assumptions, essential decision-time information is unavailable, or replication cannot support the proposed actions and evaluation separation",
+        "Do not authorize a confirmatory experiment without genuinely unused evaluation units and prospective power for a predefined useful effect",
+        "Reject a new candidate before fitting if its decision duplicates established work without a substantive distinction, or its selection rule requires target labels or final lifetime"
+      ],
+      "codex_thread_id": "01a1bed6-3d2e-72a2-a408-f5c88f4ee6e0",
+      "stage": "S0"
+    }
+  ],
+  "experiment_queue": [],
+  "running_jobs": [],
+  "last_git_commit": null,
+  "last_successful_checkpoint": "E:\\桌面\\rul\\rul_v4_20261107\\research\\agent-state\\checkpoints\\2026-11-09T05-52-18-892Z-S0-c3-gate-failed-three-implementation-defects-in-m.json",
+  "blocked_reason": null,
+  "resume_instructions": "Read research/agent-state/current_task.md, verify its artifacts still exist, then continue with next action 1.",
+  "notes": [],
+  "revision": 9,
+  "created_at": "2026-11-08T17:37:23.871Z",
+  "updated_at": "2026-11-09T05:52:18.895Z"
+}

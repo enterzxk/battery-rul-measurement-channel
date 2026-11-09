@@ -115,8 +115,9 @@ for cal in CALS:
         fam.append((cal, agg, p, float(dlt[okk].mean())))
 
 print("\n=== Holm over 6 tests (3 calibrators x 2 aggregations) ===")
-ps = [f[2] for f in fam]; order = np.argsort(ps); adj = np.ones(len(ps))
-for rank, idx in enumerate(order): adj[idx] = min(1.0, ps[idx] * (len(ps) - rank))
+ps = [f[2] for f in fam]; order = np.argsort(ps); adj = np.ones(len(ps)); run = 0.0
+for rank, idx in enumerate(order):
+    run = max(run, ps[idx] * (len(ps) - rank)); adj[idx] = min(1.0, run)
 for i, f in enumerate(fam):
     print("  %-10s %-6s p=%.4f Holm=%.4f %s" % (f[0], f[1], f[2], adj[i], "PASS" if adj[i] < 0.05 else "fail"))
 json.dump({"n_cond": len(valid_cond), "family": [{"cal": f[0], "agg": f[1], "p": f[2], "delta": f[3], "holm": float(adj[i])}

@@ -111,8 +111,9 @@ for cal in CALS:
         int((dlt[okk] > 0).sum()), okk.sum()), flush=True)
     fam.append((cal, p, float(dlt[okk].mean())))
 print("\nHolm over 4 calibrators:")
-ps = [f[1] for f in fam]; order = np.argsort(ps); adj = np.ones(len(ps))
-for rank, idx in enumerate(order): adj[idx] = min(1.0, ps[idx] * (len(ps) - rank))
+ps = [f[1] for f in fam]; order = np.argsort(ps); adj = np.ones(len(ps)); run = 0.0
+for rank, idx in enumerate(order):
+    run = max(run, ps[idx] * (len(ps) - rank)); adj[idx] = min(1.0, run)
 for i, f in enumerate(fam):
     print("  %-11s p=%.4f Holm=%.4f %s" % (f[0], f[1], adj[i], "PASS" if adj[i] < 0.05 else "fail"))
 json.dump({"n": len(valid), "fam": [{"cal": f[0], "p": f[1], "delta": f[2], "holm": float(adj[i])} for i, f in enumerate(fam)]},

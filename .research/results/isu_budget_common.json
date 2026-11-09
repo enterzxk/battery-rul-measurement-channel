@@ -1,0 +1,42 @@
+{
+ "baseline": {
+  "n": 57,
+  "delta": 0.13152450566554558,
+  "p": 0.00015163706944101044,
+  "better": 47,
+  "cells": {
+   "1": 223,
+   "2": 223
+  }
+ },
+ "aggregation -> query-pooled": {
+  "n": 57,
+  "delta": 0.12565573346038297,
+  "p": 6.748272932584294e-05,
+  "better": 47
+ },
+ "draw aggregation -> median": {
+  "n": 57,
+  "delta": 0.08204204460416853,
+  "p": 0.05943245654107394,
+  "better": 36
+ },
+ "population -> late-life quartile": {
+  "n": 57,
+  "delta": -0.15472598121104922,
+  "p": 4.115419699939767e-06,
+  "better": 13
+ },
+ "row allocation -> floor(k/m) [NULL = baseline re-run, seed 1]": {
+  "n": 57,
+  "delta": 0.15604934791798386,
+  "p": 0.0004749205954611418,
+  "better": 45
+ },
+ "baseline re-run, seed 2 [NULL]": {
+  "n": 57,
+  "delta": 0.1454709024239404,
+  "p": 8.854323150960476e-05,
+  "better": 47
+ }
+}

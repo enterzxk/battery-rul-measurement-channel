@@ -1,0 +1,82 @@
+{
+  "schema": "autonomous-research-os/state@1",
+  "project_id": "battery-rul-donor-allocation",
+  "research_goal": "Finish submission preparation for the battery-RUL donor-allocation manuscript (docs/manuscripts/v4.0-tim.md): P0-1 verify the Peng 2026 Energies paper (doi:10.3390/en19204805) against the original text, and P0-2 re-run the integrity audit on the post-remediation manuscript. Then P1 submission form (LaTeX, figure caption).",
+  "status": "active",
+  "current_stage": "S0",
+  "stage_visits": {
+    "S0": 1
+  },
+  "stage_history": [],
+  "active_task": {
+    "detail": "P0 complete. Peng 2026 verified from the original 29-page PDF: the manuscript's Reference 5 title was fabricated, all cited numbers are correct, but Peng already contains a 2x2 factorial so the manuscript's differentiation claim fails. Integrity re-audit returned SERIOUS-ISSUES with three new FAILs: (A) the Section 5 +274% 'fit scope' effect is a single-draw Monte-Carlo artefact (matched-draw row-budget effect is +32%), (B) the ISU Section 5 scan compared 233 vs 223 evaluated cells, (C) Section 4.5 selection is not nested leave-one-out. 16 items fixed; 7 remain blocking.",
+    "id": "5da5b164",
+    "title": "Close the remaining integrity blockers before any submission work"
+  },
+  "completed_tasks": [],
+  "next_actions": [
+    "Finish the common-support ISU re-run (isu_budget_common.py) and fold the corrected numbers into Section 5",
+    "Re-run Section 4.5 selection with proper nesting: for each outer fold g use only the model trained without g",
+    "Recompute the Ridge donor-effect Holm family using training-fold-internal standardisation (utility2.py), not controls.py",
+    "Recompute the Section 4.3 cell-macro condition-improvement counts, or mark 2/11 and 0/11 as unverified",
+    "State the MDE in cycle units or label it as RPT-scale",
+    "Redraw Figure 1 without the withdrawn fit-scope and row-allocation labels",
+    "Trim the abstract to 250 words (currently 287) before LaTeX conversion"
+  ],
+  "selected_idea": null,
+  "research_decisions": [
+    {
+      "ts": "2026-11-08T17:55:21.705Z",
+      "kind": "decision",
+      "level": "L2",
+      "source": "codex",
+      "question": "After verifying Peng 2026 from the original, does the manuscript's Section 5 contribution (a five-decision sensitivity ranking with fit scope and evaluation population dominant) survive as an IEEE TIM contribution?",
+      "decision": "NO-GO for IEEE TIM in the present framing. Reposition the manuscript as a bounded empirical study of estimator- and population-dependence in fixed-budget donor allocation; withdraw the Section 5 dominance ranking and interaction claims pending correction. Correct Reference 5's fabricated title.",
+      "rationale": "Codex returned NO-GO and, independently, identified implementation defects in the sensitivity scripts. I read budget.py, joint.py, strat.py and isu_budget.py and confirmed every structural claim: the 'fit scope' factor is not implemented as a scope change, the 'row allocation' factor is mathematically inactive at K=8, the interaction has no inferential test, and the two sections use different quartile definitions.",
+      "evidence": [
+        "Original Peng 2026 PDF (29 pp, .research/peng2026/peng2026.txt): real title is 'Deployable Self-Referenced Features for Cross-Cell Battery State-of-Health Estimation: Randomized Pairing Controls and Benchmarking'; the manuscript's Reference 5 title is fabricated",
+        "Peng 2026 full text: 'interaction' 0 hits, 'dominance'/'dominat' 0 hits, 'multiverse' 0 hits; but Peng DOES run a 2x2 factorial (feature richness x normalization), contradicting manuscript line 37",
+        "Peng 2026 numbers verified verbatim: 108% (max +107.8%), -5.3%->+4.5%, offline -16.8%/-19.1% -> strict online +4.3%/+10.4%",
+        ".research/results/budget.py:60-65 and isu_budget.py:57-62: scope=='condition' branch uses ALL donor rows (not 8), bypasses the NDRAW loop, and fits per evaluated cell - not a shared per-condition fit",
+        ".research/results/budget.py:69-73 and isu_budget.py:66-70: exact and floor(k/m) allocate identical rows for K=8, m in {1,2} - the row-allocation factor is a null operation measuring only RNG drift",
+        ".research/results/budget.py:53-59 and isu_budget.py:50-56: eligibility via len(donors)<m differs between arms, so evaluated cell sets differ",
+        ".research/results/joint.py:98-99: interaction computed from four aggregate deltas with no condition-level interval or test",
+        ".research/results/strat.py:44 uses global RUL quartiles; budget.py:48-50 and isu_budget.py:47-53 use condition-specific quartiles - different populations",
+        "Codex thread 01a1bc45-9a60-7e12-a6da-0691484168ca (gpt-6.1-sol, xhigh)"
+      ],
+      "rejected_options": [
+        "Keep the five-decision ranking as the lead contribution (rejected: the leading factor is mislabelled and one factor is inactive)",
+        "Lead with the 2x2 interaction test (rejected: no condition-level test, and Peng already uses a factorial)",
+        "Lead with ranking instability across datasets (rejected: ordering change is a boundary, not a contribution)"
+      ],
+      "scientific_risks": [
+        "The 'evaluation population reverses sign on both datasets' claim may survive, but it is a condition-specific quartile in Section 5 and a global quartile in Section 4.3",
+        "The null row-allocation factor suggests the Monte-Carlo noise floor is 10-28% of the contrast, which shrinks the apparent effect of the other two 'small' decisions",
+        "Repositioning may leave no TIM-level contribution at all, requiring a venue change"
+      ],
+      "next_actions": [
+        "Verify the alleged defects numerically with a targeted probe before writing anything into the manuscript",
+        "Fix Reference 5 title and the Section 2 Peng sentence",
+        "Re-run the integrity audit on the post-remediation manuscript (P0-2)",
+        "Rewrite Section 5 as a conditional sensitivity scan, or move it to a correction/negative-result framing"
+      ],
+      "falsification_criteria": [
+        "If a corrected scope implementation (one shared affine fit per condition, exactly 8 rows, common evaluated cells) reproduces the +274%/+140% scope dominance, the ranking claim is restored",
+        "If the late-life sign reversal disappears when all-query and late-life summaries reuse the same calibrated predictions on common support, withdraw it as the replicated population result",
+        "If the null row-allocation factor turns out to be a coding slip rather than a design feature, the 'five decisions' framing can be restored with four"
+      ],
+      "codex_thread_id": "01a1bc45-9a60-7e12-a6da-0691484168ca",
+      "stage": "S0"
+    }
+  ],
+  "experiment_queue": [],
+  "running_jobs": [],
+  "last_git_commit": null,
+  "last_successful_checkpoint": "E:\\桌面\\rul\\rul_v4_20261107\\research\\agent-state\\checkpoints\\2026-11-08T17-37-23-876Z-S0-init.json",
+  "blocked_reason": null,
+  "resume_instructions": "Read research/agent-state/current_task.md, verify its artifacts still exist, then continue with next action 1.",
+  "notes": [],
+  "revision": 3,
+  "created_at": "2026-11-08T17:37:23.871Z",
+  "updated_at": "2026-11-08T18:27:48.918Z"
+}

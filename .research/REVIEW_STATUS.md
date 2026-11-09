@@ -1,18 +1,31 @@
-# REVIEW STATUS · 2026-11-08
+# REVIEW_STATUS · 审稿可用性
 
-## 跨模型审稿：UNAVAILABLE
+> AGENTS.md §8：Codex 有额度上限。额度耗尽时审稿降级为 same-family `provisional`，
+> 必须写进本文件，**不得当 `accepted`**。
 
-- `mcp__codex__codex` 返回：*You've hit your usage limit... try again at Nov 11th, 2026 6:38 PM*
-- 无其他跨模型审稿后端（MCP 仅配置了 comfyui_a40 / h3_a40 / qwen_image / windows_mcp / codex）
-- 结论：**本项目的所有审稿结论在 2026-11-11 之前只能是 same-family provisional，不能当 accepted**
+---
 
-## 降级方案
+## 2026-11-09 14:20 · Codex 额度耗尽
 
-- 用独立上下文子代理做对抗审稿 → 记为 `provisional`（run_state 的 mark-provisional）
-- 论文投稿前必须补一次真正的跨模型审稿，否则 Related Work 与新颖性主张未经独立审计
+**状态**：`DEGRADED`
 
-## 影响
+| 项 | 值 |
+|---|---|
+| Codex 返回 | `You've hit your usage limit ... try again at 4:47 PM` |
+| 恢复时间（据返回信息） | **16:47**（同日） |
+| 受影响任务 | 结项报告 `.research/reports/PROGRAMME-CLOSURE-20261109.md` 的独立完整性审计 |
+| 降级方案 | same-family subagent（DeepSeek），独立上下文，**标记 `provisional`** |
+| 不得视为 | `accepted`、`cross-family`、`independent` |
 
-- novelty-check 阶段无法给 `accepted`，只能给 `provisional`
-- research-review 阶段同上
-- 不阻塞实验，阻塞「可以投稿」这个结论
+### 降级规则（本轮适用）
+
+1. 本轮的审计结论一律标 **`provisional`**，不得写进 `CD-*` 当作已裁决。
+2. 任何依赖该审计的结论，若要在 16:47 之后用于对外交付，**必须重跑 cross-family 审计**。
+3. 若 Codex 在恢复后仍不可用，按 AGENTS.md §8 继续降级并在此登记，不得沉默跳过。
+
+### 历史记录
+
+| 时间 | 事件 |
+|---|---|
+| 2026-11-08 ~ 2026-11-09 14:14 | Codex（gpt-6.1-sol / xhigh）连续可用，完成 5 次 L2 裁决与 2 次独立静态审计 |
+| 2026-11-09 14:20 | **额度耗尽，降级至 same-family provisional** |

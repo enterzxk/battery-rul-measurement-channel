@@ -14,3 +14,8 @@ external/repos/
 
 # ARIS 运行期
 .aris/tools/*.pyc
+
+# regenerable descriptor caches
+*.npy
+# downloaded article PDF (CC BY 4.0); extracted text kept in-repo
+.research/peng2026/*.pdf
