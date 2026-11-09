@@ -1,0 +1,19 @@
+experiment_id,question,status,script,outputs,unit,n,cells,conditions,key_metric,value,notes
+E-A1,A,positive,code/build_uconn_online.py,protocol/uconn_online_tidy.csv;uconn_eol_intervals.csv;uconn_data_contract.json,cell,64,64,11,inspection cadence CV,0.091,""within-cell; the pooled 0.23 was a different quantity""
+E-A2,A,data-not-identifiable,code/arms.py,protocol/results_S0.csv;S1;S2,cell,64,64,11,G(rpt_naive vs exposure_naive),0.2-0.3%,arms algebraically equivalent on this data
+E-A3,A,negative,code/arms.py,protocol/results_S0.csv,cell,64,64,11,exposure_kf vs last_obs,+4% worse,kalman worse than the floor
+E-B1,B,positive,code/rebuild_isu_lifetime.py,protocol/isu_lifetime_raw.csv;isu_lifetime_interval.csv,cell,250,250,63,status counts,250 interval / 0 censored,rebuilt from raw JSON
+E-B2,B,positive,code/B_corrected.py,protocol/B_corrected.json,cell,249,249,63,rho(DoD,EOL_days) vs rho(DoD,EOL_EFC),-0.630 vs -0.795,normalisation sharpens the association
+E-B3,B,positive,code/B_corrected.py,protocol/B_corrected.json,cell,249,249,63,CV days vs EFC,0.633 vs 0.760,normalisation does not collapse spread
+E-B4,B,positive,code/B_corrected.py,protocol/B_corrected.json,condition,63,249,63,power law vs linear R2,0.590 vs 0.582,classical power law wins
+E-B5,B,negative,code/B_corrected.py,protocol/B_corrected.json,condition,63,249,63,log Cc coefficient p,0.14,not significant under clustering
+E-B6,B,positive,code/B_corrected.py,protocol/B_corrected_loco.csv,condition,63,249,63,LOCO stress vs pooled median,0.3181 vs 0.5753 (-44.7%),Wilcoxon p=1.2e-5
+E-B7,B,withdrawn,code/B_loco.py,protocol/B_loco_summary.csv,condition,53,211,53,hgb_all vs damage law,0.2625 vs 0.3465,VOIDED: wrong population and scoring
+E-C1,C,positive,code/C_thinning_uconn.py,protocol/C_thinning_uconn.csv,condition,11,64,11,error at 4x thinning,0.1094->0.1314 (+20.1%),Wilcoxon p=0.024
+E-C2,C,underpowered,code/C_thinning_uconn.py,protocol/C_thinning_uconn.csv,condition,11,64,11,error at 2x thinning,+5.7%,below MDE 10.7%
+E-C3,C,not-established,code/C_thinning_uconn.py,protocol/C_thinning_uconn.csv,condition,11,64,11,rank rho full vs 4x,0.855->0.900,only 11 conditions
+E-C4,C,withdrawn,code/C_stress_budget.py,protocol/C_stress_budget.csv,condition,52,204,52,rho(err,DoD),p>0.4,VOIDED: population drifted with N
+E-C5,C,positive,code/C_landmark_fraction.py,protocol/C_landmark_fraction.csv,condition,11/49,64/185,11/49,error at f=0.25,0.1012 UConn / 0.1125 ISU,cohorts agree at 25% of life
+E-C6,C,positive,code/C_landmark_fraction.py,protocol/C_landmark_fraction.csv,condition,49,185,49,ISU f=0.25->0.75,-46.8%,keeps improving
+E-C7,C,weakly-supported,code/C_landmark_fraction.py,protocol/C_landmark_fraction.csv,condition,11,64,11,UConn f=0.25->0.75,-14.1%,plateaus
+E-C8,C,not-established,code/C_landmark_both.py,protocol/C_landmark_both.csv,condition,11/50,64/186,11/50,cohort disagreement,VOIDED,N coupled to life fraction
