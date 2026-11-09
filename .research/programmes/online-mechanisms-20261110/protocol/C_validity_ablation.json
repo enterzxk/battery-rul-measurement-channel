@@ -1,0 +1,24 @@
+[
+ {
+  "cohort": "UConn",
+  "n_cells": 64,
+  "n_cond": 11,
+  "n_queries": 256,
+  "age": 0.26793100803440634,
+  "health": 0.26212883681563554,
+  "stress": NaN,
+  "age_stress": NaN,
+  "health_vs_age_stress_pct": NaN
+ },
+ {
+  "cohort": "ISU",
+  "n_cells": 199,
+  "n_cond": 51,
+  "n_queries": 722,
+  "age": 0.39521260103263584,
+  "health": 0.17179582710629168,
+  "stress": 0.2229051201927826,
+  "age_stress": 0.21312928838099823,
+  "health_vs_age_stress_pct": -19.39360919782045
+ }
+]
