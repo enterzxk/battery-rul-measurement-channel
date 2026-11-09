@@ -1,0 +1,86 @@
+[
+ {
+  "cohort": "UConn",
+  "N": 2,
+  "n_cells": 64,
+  "n_cond": 11,
+  "cond_macro": 0.3225476104577638
+ },
+ {
+  "cohort": "UConn",
+  "N": 3,
+  "n_cells": 64,
+  "n_cond": 11,
+  "cond_macro": 0.24780914063969756
+ },
+ {
+  "cohort": "UConn",
+  "N": 4,
+  "n_cells": 64,
+  "n_cond": 11,
+  "cond_macro": 0.24312166070771798
+ },
+ {
+  "cohort": "UConn",
+  "N": 6,
+  "n_cells": 64,
+  "n_cond": 11,
+  "cond_macro": 0.24224500785800662
+ },
+ {
+  "cohort": "UConn",
+  "N": 8,
+  "n_cells": 64,
+  "n_cond": 11,
+  "cond_macro": 0.24935257294936564
+ },
+ {
+  "cohort": "UConn",
+  "N": 12,
+  "n_cells": 64,
+  "n_cond": 11,
+  "cond_macro": 0.2912215610412268
+ },
+ {
+  "cohort": "ISU",
+  "N": 2,
+  "n_cells": 186,
+  "n_cond": 50,
+  "cond_macro": 0.262995082256089
+ },
+ {
+  "cohort": "ISU",
+  "N": 3,
+  "n_cells": 186,
+  "n_cond": 50,
+  "cond_macro": 0.26347899010314485
+ },
+ {
+  "cohort": "ISU",
+  "N": 4,
+  "n_cells": 186,
+  "n_cond": 50,
+  "cond_macro": 0.26497379545675387
+ },
+ {
+  "cohort": "ISU",
+  "N": 6,
+  "n_cells": 186,
+  "n_cond": 50,
+  "cond_macro": 0.2239695711635259
+ },
+ {
+  "cohort": "ISU",
+  "N": 8,
+  "n_cells": 186,
+  "n_cond": 50,
+  "cond_macro": 0.15747041074954554
+ },
+ {
+  "cohort": "ISU",
+  "N": 12,
+  "n_cells": 186,
+  "n_cond": 50,
+  "cond_macro": 0.11504026616383208
+ }
+]
