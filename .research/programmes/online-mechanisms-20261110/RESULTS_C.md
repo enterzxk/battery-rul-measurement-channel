@@ -134,3 +134,39 @@ python code/C_landmark_fraction.py
 输出：protocol/C_landmark_fraction.csv、C_landmark_fraction.json、C_landmark_frac_out.txt
 
 **作废**：第 3 部分（C_landmark_both.py）的「方向相反」结论——它固定 N，而 N 与寿命分数耦合。
+
+
+---
+
+# 附录 · UConn 循环轴缺陷已修复（T+01:45）
+
+`CORRECTIONS.md` C1 的缺陷（32/64 电芯 `num_cycles` 在 RPT 42 处为中段 NaN）已修复并复检。
+
+## 冻结的规则
+
+**缺失的段长用该电芯自身段长的中位数填补。** 理由：电芯内节奏规则（CV 0.091），
+一次缺失间隔是小幅、已声明的近似，而不是对轨迹形状的猜测。
+**不对 SOH 前向填充，不插值容量。** 全段长缺失的电芯排除（实际 0 个）。
+
+结果：32 个 NaN → 0；64 电芯 / 2855 行不变；EOL 仍 64/64 interval，宽度中位 131 循环（IQR [101,149]）不变。
+
+## 复检：C5 主张未受影响
+
+| f | UConn 修复后 | UConn 修复前 | ISU |
+|---:|---:|---:|---:|
+| 0.25 | **0.1011** | 0.1012 | **0.1125** |
+| 0.50 | 0.0898 | 0.0854 | 0.0652 |
+| 0.75 | 0.0883 | 0.0870 | 0.0598 |
+
+**结论不变**：25% 寿命处两队列一致（0.1011 vs 0.1125），之后 ISU 继续改善、UConn 平台化。
+
+## 判定更新
+
+| 项 | 原判定 | 现判定 |
+|---|---|---|
+| C1（中段 NaN 缺陷） | 已登记 | **FIXED**，规则已冻结 |
+| C5（25% 寿命 → 10–12%） | POSITIVE | **POSITIVE，经修复轴复检** |
+| C7（UConn 平台化） | WEAKLY-SUPPORTED | WEAKLY-SUPPORTED（−12.7%，仍仅 11 工况） |
+
+复算：`python code/fix_uconn_axis_and_recheck.py`
+输出：`protocol/uconn_tidy_fixed.csv`、`uconn_eol_fixed.csv`、`C_landmark_fixed.csv`、`fix_axis_out.txt`
