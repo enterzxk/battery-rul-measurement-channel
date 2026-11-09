@@ -19,3 +19,6 @@ external/repos/
 *.npy
 # downloaded article PDF (CC BY 4.0); extracted text kept in-repo
 .research/peng2026/*.pdf
+
+# downloaded journal PDFs (text extracts retained)
+.research/citations/*.pdf

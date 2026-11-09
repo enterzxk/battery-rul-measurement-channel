@@ -1,0 +1,65 @@
+[
+ {
+  "k": 1,
+  "n_queries": 583,
+  "n_cond": 51,
+  "cond_macro": 0.18550815969313966,
+  "rho": 0.9126784899413162,
+  "mean_nobs": 7.55746140651801,
+  "rel_vs_full": 0.0
+ },
+ {
+  "k": 2,
+  "n_queries": 423,
+  "n_cond": 50,
+  "cond_macro": 0.17030913443416862,
+  "rho": 0.9210450580661809,
+  "mean_nobs": 4.832151300236407,
+  "rel_vs_full": -0.08193184215784732
+ },
+ {
+  "k": 3,
+  "n_queries": 288,
+  "n_cond": 49,
+  "cond_macro": 0.15668005117687178,
+  "rho": 0.9008981612466114,
+  "mean_nobs": 4.010416666666667,
+  "rel_vs_full": -0.15540075737883552
+ },
+ {
+  "k": 4,
+  "n_queries": 172,
+  "n_cond": 34,
+  "cond_macro": 0.12687672625490334,
+  "rho": 0.8507679600014398,
+  "mean_nobs": 3.703488372093023,
+  "rel_vs_full": -0.31605851481262137
+ },
+ {
+  "k": 6,
+  "n_queries": 72,
+  "n_cond": 20,
+  "cond_macro": 0.13711592049388005,
+  "rho": 0.7804511278195487,
+  "mean_nobs": 3.361111111111111,
+  "rel_vs_full": -0.2608631301141048
+ },
+ {
+  "k": 8,
+  "n_queries": 0,
+  "n_cond": 0,
+  "cond_macro": NaN,
+  "rho": NaN,
+  "mean_nobs": 3.161290322580645,
+  "rel_vs_full": NaN
+ },
+ {
+  "k": 12,
+  "n_queries": 0,
+  "n_cond": 0,
+  "cond_macro": NaN,
+  "rho": NaN,
+  "mean_nobs": 3.0,
+  "rel_vs_full": NaN
+ }
+]

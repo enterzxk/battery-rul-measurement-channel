@@ -1,0 +1,372 @@
+[
+ {
+  "key": "10.1016/j.cie.2020.106418",
+  "doi": "10.1016/j.cie.2020.106418",
+  "s2": {
+   "title": "Fitting lifetime distributions to interval censored cyclic-aging data of lithium-ion batteries",
+   "year": 2020,
+   "venue": "Computers & industrial engineering",
+   "abstract": "Abstract In lifetime analysis of lithium-ion batteries, the failure of a battery is commonly defined as the time point at which the battery holds only a certain percentage of its initial storage capacity. Usually, lifetime experiments are carried out to record degradation up to a certain level, and thus do not offer an appropriate data base for fitting lifetime distributions to different end-of-life (EoL) criteria by means of residual capacity. However, for a second use of batteries, e.g. in a home energy storage system, lifetime modeling for long-term usage is of specific interest. Based on real data from long-term cyclic aging experiments with lithium-ion batteries, the fitting of three of the most popular lifetime distributions, namely Weibull, lognormal and inverse Gaussian distributions, is examined with respect to some particular EoL criteria. The impact of chosen lifetime distributions on confidence intervals (CIs) for the mean lifetime and certain quantiles is studied. Moreover, since data of capacity decline are commonly interval-censored, comparisons of resulting CIs under full and interval-censored information are made by means of simulations.",
+   "citationCount": 28,
+   "oaPdf": "",
+   "tldr": "Based on real data from long-term cyclic aging experiments with lithium-ion batteries, the fitting of three of the most popular lifetime distributions, namely Weibull, lognormal and inverse Gaussian distributions, is examined with respect to some particular EoL criteria."
+  },
+  "oa": {
+   "title": "Fitting lifetime distributions to interval censored cyclic-aging data of lithium-ion batteries",
+   "year": 2020,
+   "abstract": "",
+   "oa": null
+  }
+ },
+ {
+  "key": "10.1016/j.measurement.2026.122347",
+  "doi": "10.1016/j.measurement.2026.122347",
+  "s2_error": "<urlopen error [Errno 2] No such file or directory>",
+  "oa": {
+   "title": "An uncertainty-aware adaptive feedback ensemble framework for remaining useful life prediction of lithium-ion batteries",
+   "year": 2026,
+   "abstract": "",
+   "oa": null
+  }
+ },
+ {
+  "key": "10.1016/j.apenergy.2025.126880",
+  "doi": "10.1016/j.apenergy.2025.126880",
+  "s2": {
+   "title": "Uncertainty-aware deep learning with physics-informed bayesian sampling for lithium-ion battery prognostics",
+   "year": 2025,
+   "venue": "Applied Energy",
+   "abstract": null,
+   "citationCount": 10,
+   "oaPdf": "",
+   "tldr": null
+  },
+  "oa": {
+   "title": "Uncertainty-aware deep learning with physics-informed bayesian sampling for lithium-ion battery prognostics",
+   "year": 2025,
+   "abstract": "",
+   "oa": null
+  }
+ },
+ {
+  "key": "10.1016/j.egyai.2026.100771",
+  "doi": "10.1016/j.egyai.2026.100771",
+  "s2": {
+   "title": "Cross-dataset battery life forecasting with time-series foundation models: From zero-shot to prefix-adapted",
+   "year": 2026,
+   "venue": "Energy and AI",
+   "abstract": null,
+   "citationCount": 3,
+   "oaPdf": "https://doi.org/10.1016/j.egyai.2026.100771",
+   "tldr": null
+  },
+  "oa": {
+   "title": "Cross-dataset battery life forecasting with time-series foundation models: From zero-shot to prefix-adapted",
+   "year": 2026,
+   "abstract": "Reliable remaining useful life estimation is critical for safe and cost-effective battery management, enabling timely maintenance, warranty planning, and preventing unexpected failures in electrified transportation and energy storage systems. However, accurate reliable remaining useful life estimation of lithium-ion batteries is challenging due to distribution shifts across datasets and operating conditions. This work examines whether time-series foundation models can deliver capacity forecasting. We study TimesFM under six evaluation pipelines that span within-dataset and cross-dataset transfer, with and without source/target adaptation. Experiments on four public benchmarks use the first 30% of each target life as history and recursively predict the remaining 70%. Standard accuracy metrics are reported and compared with strong baselines. We further conduct a sensitivity analysis for TimesFM by varying target prefix ratios (30%, 20%, and 10%). Results show that TimesFM captures long-horizon degradation trends; source-adapted transfer yields the best performance when source and target are from the same dataset, while cross-dataset transfer degrades accuracy. Incorporating target-prefix fine-tuning yields a modest but consistent drop, and the sensitivity analysis preserves the same trend across split ratios.",
+   "oa": "https://doi.org/10.1016/j.egyai.2026.100771"
+  }
+ },
+ {
+  "key": "10.1360/ssi-2025-0356",
+  "doi": "10.1360/ssi-2025-0356",
+  "s2": {
+   "title": "Wiener-LSTM fusion framework for lithium-ion battery end-of-life interval estimation using multi-degradation features",
+   "year": 2025,
+   "venue": "Scientia Sinica Informationis",
+   "abstract": "Lithium-ion batteries (LIBs) have emerged as the dominant energy storage medium in electric vehicles and other applications, owing to their high energy density, low self-discharge rate, and superior performance characteristics. Accurate end-of-life (EOL) prediction is thus critical for system safety and reliability. Deep learning methods have become the primary solution for EOL estimation in big data environments. However, LIBs’ aging involves complex interactions among internal and external factors, introducing signiﬁcant uncertainty into the aging process, making the quantiﬁcation of the uncertainty in EOL estimation a core challenge. This paper proposes a Wiener-LSTM fusion framework that combines stochastic degradation models with deep learning to capture the randomness inherent in LIB degradation mechanisms systematically. The framework not only provides conﬁdence interval estimation for EOL, but also enables dynamic remaining-useful-life interval estimation with incomplete degradation data. Experiments on the NASA lithium battery dataset demonstrate that our method achieves superior accuracy in estimating the EOL interval, with consistent performance across diverse conditions and scenarios. By leveraging these precise estimations to control decision risks, our work oﬀers a viable technical pathway for predictive maintenance in battery management systems.",
+   "citationCount": 0,
+   "oaPdf": "",
+   "tldr": "A Wiener-LSTM fusion framework is proposed that combines stochastic degradation models with deep learning to capture the randomness inherent in LIB degradation mechanisms systematically, and enables dynamic remaining-useful-life interval estimation with incomplete degradation data."
+  },
+  "oa": {
+   "title": "Wiener-LSTM fusion framework for lithium-ion battery end-of-life interval estimation using multi-degradation features",
+   "year": 2026,
+   "abstract": "Lithium-ion batteries (LIBs) have emerged as the dominant energy storage medium in electric vehicles and other applications, owing to their high energy density, low self-discharge rate, and superior performance characteristics. Accurate end-of-life (EOL) prediction is thus critical for system safety and reliability. Deep learning methods have become the primary solution for EOL estimation in big data environments. However, LIBs' aging involves complex interactions among internal and external factors, introducing significant uncertainty into the aging process, making the quantification of the uncertainty in EOL estimation a core challenge. This paper proposes a Wiener-LSTM fusion framework that combines stochastic degradation models with deep learning to capture the randomness inherent in LIB degradation mechanisms systematically. The framework not only provides confidence interval estimation for EOL, but also enables dynamic remaining-useful-life interval estimation with incomplete degradation data. Experiments on the NASA lithium battery dataset demonstrate that our method achieves superior accuracy in estimating the EOL interval, with consistent performance across diverse conditions and scenarios. By leveraging these precise estimations to control decision risks, our work offers a viable technical pathway for predictive maintenance in battery management systems.",
+   "oa": null
+  }
+ },
+ {
+  "key": "10.3390/e28101108",
+  "doi": "10.3390/e28101108",
+  "s2": {
+   "title": "Reliability Analysis of Lithium-Ion Battery Aging Lifetime Based on Adaptive Progressive Type-II Censored Data",
+   "year": 2026,
+   "venue": "Entropy",
+   "abstract": "Lithium-ion battery accelerated aging tests are costly and use small samples, while conventional censoring ignores electrochemical degradation dynamics and biases lifetime estimates. The power Rayleigh distribution has a monotonically increasing hazard rate consistent with aging from solid electrolyte interphase thickening and lithium plating. We combine it with adaptive progressive Type-II censoring that stops early sample withdrawals once failure capacity crosses the end-of-life threshold, preserving right tail degradation information. Parameters are estimated by maximum likelihood with multiple starts and limited memory BFGS, and by hybrid Metropolis–Hastings Markov chain Monte Carlo Bayesian inference, validated by Monte Carlo simulation and NASA 4 °C cycling data. Mild censoring retains roughly 10% more right tail information than heavy censoring. For point estimation, maximum likelihood has slightly lower bias for the moderate sample (n = 66), whereas Bayesian estimation is more robust under small sample censoring (n = 40); the highest posterior density credible interval is on average 12% narrower than the asymptotic interval while keeping nominal coverage. Although this distribution reparametrizes the two-parameter Weibull family with identical fit indices, its Shannon entropy and quantile functions have elementary closed forms, avoiding nested numerical integration and delivering about 740 times faster Bayesian sampling per chain with better numerical stability for onboard computation. Sensitivity analysis shows removing one extreme cell weakens the fit, so the framework suits homogeneous cell subpopulations under uniform conditions. Validation remains limited to low-temperature cycling; extending it to combined temperature and charge rate stresses is our immediate priority.",
+   "citationCount": 0,
+   "oaPdf": "https://doi.org/10.3390/e28101108",
+   "tldr": null
+  },
+  "oa": {
+   "title": "Reliability Analysis of Lithium-Ion Battery Aging Lifetime Based on Adaptive Progressive Type-II Censored Data",
+   "year": 2026,
+   "abstract": "Lithium-ion battery accelerated aging tests are costly and use small samples, while conventional censoring ignores electrochemical degradation dynamics and biases lifetime estimates. The power Rayleigh distribution has a monotonically increasing hazard rate consistent with aging from solid electrolyte interphase thickening and lithium plating. We combine it with adaptive progressive Type-II censoring that stops early sample withdrawals once failure capacity crosses the end-of-life threshold, preserving right tail degradation information. Parameters are estimated by maximum likelihood with multiple starts and limited memory BFGS, and by hybrid Metropolis–Hastings Markov chain Monte Carlo Bayesian inference, validated by Monte Carlo simulation and NASA 4 °C cycling data. Mild censoring retains roughly 10% more right tail information than heavy censoring. For point estimation, maximum likelihood has slightly lower bias for the moderate sample (n = 66), whereas Bayesian estimation is more robust under small sample censoring (n = 40); the highest posterior density credible interval is on average 12% narrower than the asymptotic interval while keeping nominal coverage. Although this distribution reparametrizes the two-parameter Weibull family with identical fit indices, its Shannon entropy and quantile functions have elementary closed forms, avoiding nested numerical integration and delivering about 740 times faster Bayesian sampling per chain with better numerical stability for onboard computation. Sensitivity analysis shows removing one extreme cell weakens the fit, so the framework suits homogeneous cell subpopulations under uniform conditions. Validation remains limited to low-temperature cycling; extending it to combined temperature and charge rate stresses is our immediate priority.",
+   "oa": "https://doi.org/10.3390/e28101108"
+  }
+ },
+ {
+  "key": "10.1016/j.measurement.2026.122434",
+  "doi": "10.1016/j.measurement.2026.122434",
+  "s2": {
+   "title": "Signal-quality-aware adaptive prediction for lithium-ion battery remaining useful life under noisy and resource-constrained conditions",
+   "year": 2026,
+   "venue": "Measurement",
+   "abstract": null,
+   "citationCount": 2,
+   "oaPdf": "",
+   "tldr": null
+  },
+  "oa": {
+   "title": "Signal-quality-aware adaptive prediction for lithium-ion battery remaining useful life under noisy and resource-constrained conditions",
+   "year": 2026,
+   "abstract": "",
+   "oa": null
+  }
+ },
+ {
+  "key": "10.1016/j.measurement.2026.120921",
+  "doi": "10.1016/j.measurement.2026.120921",
+  "s2": {
+   "title": "A novel data-driven adaptive incremental battery remaining useful life prediction framework",
+   "year": 2026,
+   "venue": "Measurement",
+   "abstract": null,
+   "citationCount": 2,
+   "oaPdf": "http://dx.doi.org/10.2139/ssrn.4952359",
+   "tldr": null
+  },
+  "oa": {
+   "title": "A novel data-driven adaptive incremental battery remaining useful life prediction framework",
+   "year": 2026,
+   "abstract": "",
+   "oa": "http://dx.doi.org/10.2139/ssrn.4952359"
+  }
+ },
+ {
+  "key": "10.1016/j.measurement.2024.115312",
+  "doi": "10.1016/j.measurement.2024.115312",
+  "s2": {
+   "title": "A model-data-fusion method for real-time continuous remaining useful life prediction of lithium batteries",
+   "year": 2024,
+   "venue": "Measurement",
+   "abstract": null,
+   "citationCount": 20,
+   "oaPdf": "",
+   "tldr": null
+  },
+  "oa": {
+   "title": "A model-data-fusion method for real-time continuous remaining useful life prediction of lithium batteries",
+   "year": 2024,
+   "abstract": "",
+   "oa": null
+  }
+ },
+ {
+  "key": "10.1016/j.apenergy.2025.127026",
+  "doi": "10.1016/j.apenergy.2025.127026",
+  "s2": {
+   "title": "Life-decomposition-based battery remaining useful life estimation: From a probabilistic view",
+   "year": 2026,
+   "venue": "Applied Energy",
+   "abstract": null,
+   "citationCount": 5,
+   "oaPdf": "",
+   "tldr": null
+  },
+  "oa": {
+   "title": "Life-decomposition-based battery remaining useful life estimation: From a probabilistic view",
+   "year": 2025,
+   "abstract": "",
+   "oa": null
+  }
+ },
+ {
+  "key": "10.1016/j.measurement.2026.121900",
+  "doi": "10.1016/j.measurement.2026.121900",
+  "s2": {
+   "title": "State of health estimation and degradation analysis of lithium-ion battery pack through behavior analysis of electric vehicle driver",
+   "year": 2026,
+   "venue": "Measurement",
+   "abstract": null,
+   "citationCount": 1,
+   "oaPdf": "",
+   "tldr": null
+  },
+  "oa": {
+   "title": "State of health estimation and degradation analysis of lithium-ion battery pack through behavior analysis of electric vehicle driver",
+   "year": 2026,
+   "abstract": "",
+   "oa": null
+  }
+ },
+ {
+  "key": "10.1007/s11581-025-06470-3",
+  "doi": "10.1007/s11581-025-06470-3",
+  "s2": {
+   "title": "A distribution-free interval estimation method for lithium-ion battery state of health",
+   "year": 2025,
+   "venue": "Ionics (Kiel)",
+   "abstract": null,
+   "citationCount": 0,
+   "oaPdf": "",
+   "tldr": null
+  },
+  "oa": {
+   "title": "A distribution-free interval estimation method for lithium-ion battery state of health",
+   "year": 2025,
+   "abstract": "",
+   "oa": null
+  }
+ },
+ {
+  "key": "10.1088/1361-6501/aeb0bc",
+  "doi": "10.1088/1361-6501/aeb0bc",
+  "s2": {
+   "title": "Uncertainty-aware offline-calibrated sequential sparse-frequency electrochemical impedance spectroscopy for lithium-ion battery health estimation",
+   "year": 2026,
+   "venue": "Measurement science and technology",
+   "abstract": "Electrochemical impedance spectroscopy (EIS) is a sensitive diagnostic measurement for lithium-ion batteries, but traditional full-spectrum acquisition is often too slow for practical battery-management use because low-frequency points dominate measurement time. This paper develops sparse-frequency EIS as an uncertainty-aware, offline-calibrated sequential measurement protocol for state-of-health (SOH) estimation. Candidate frequencies are selected by balancing expected SOH-error reduction, 90% prediction-interval width and modelled frequency-dependent acquisition cost. The validation is retrospective: stored full-spectrum EIS archives are masked so that revealing one archived frequency represents a prospective sparse-frequency measurement. On Dataset A, the Proposed protocol uses six frequencies and obtains 2.12% mean absolute error (MAE), 0.80 empirical interval coverage and 0.145% modelled relative acquisition cost. On Dataset B, it uses three frequencies and obtains 1.52% MAE, 0.95 coverage and 0.426% cost. Dataset C shows the deployment trade-off most clearly: sparse frequencies calibrated on representative source cells remain close to full-spectrum EIS for point estimation (1.12% versus 1.09% MAE, 0.43% cost), but uncertainty transfer fails, with empirical 90% interval coverage of only 0.57. Objective ablation shows the cost–accuracy compromise: setting λw=λt=0 improves Dataset C MAE to 0.98% but increases cost to 12.18%. Thus, the protocol is not claimed to dominate baselines in point accuracy; its contribution is an auditable sparse-EIS measurement workflow that reports selected frequencies, modelled acquisition cost, SOH error, interval width and empirical coverage together. The main limitation is uncertainty transfer under domain shift, so conformal intervals should be treated as empirical reliability outputs rather than universal guarantees.",
+   "citationCount": 0,
+   "oaPdf": "https://iopscience.iop.org/article/10.1088/1361-6501/aeb0bc/pdf",
+   "tldr": null
+  },
+  "oa": {
+   "title": "Uncertainty-aware offline-calibrated sequential sparse-frequency electrochemical impedance spectroscopy for lithium-ion battery health estimation",
+   "year": 2026,
+   "abstract": "Abstract Electrochemical impedance spectroscopy (EIS) is a sensitive diagnostic measurement for lithium-ion batteries, but traditional full-spectrum acquisition is often too slow for practical battery-management use because low-frequency points dominate measurement time. This paper develops sparse-frequency EIS as an uncertainty-aware, offline-calibrated sequential measurement protocol for state-of-health (SOH) estimation. Candidate frequencies are selected by balancing expected SOH-error reduction, 90% prediction-interval width and modelled frequency-dependent acquisition cost. The validation is retrospective: stored full-spectrum EIS archives are masked so that revealing one archived frequency represents a prospective sparse-frequency measurement. On Dataset A, the Proposed protocol uses six frequencies and obtains 2.12% mean absolute error (MAE), 0.80 empirical interval coverage and 0.145% modelled relative acquisition cost. On Dataset B, it uses three frequencies and obtains 1.52% MAE, 0.95 coverage and 0.426% cost. Dataset C shows the deployment trade-off most clearly: sparse frequencies calibrated on representative source cells remain close to full-spectrum EIS for point estimation (1.12% versus 1.09% MAE, 0.43% cost), but uncertainty transfer fails, with empirical 90% interval coverage of only 0.57. Objective ablation shows the cost–accuracy compromise: setting λ w = λ t = 0 improves Dataset C MAE to 0.98% but increases cost to 12.18%. Thus, the protocol is not claimed to dominate baselines in point accuracy; its contribution is an auditable sparse-EIS measurement workflow that reports selected frequencies, modelled acquisition cost, SOH error, interval width and empirical coverage together. The main limitation is uncertainty transfer under domain shift, so conformal intervals should be treated as empirical reliability outputs rather than universal guarantees.",
+   "oa": "https://iopscience.iop.org/article/10.1088/1361-6501/aeb0bc/pdf"
+  }
+ },
+ {
+  "key": "10.1038/s41598-025-88703-z",
+  "doi": "10.1038/s41598-025-88703-z",
+  "s2": {
+   "title": "Hybrid Gaussian process regression with temporal feature extraction for partially interpretable remaining useful life interval prediction in Aeroengine prognostics",
+   "year": 2024,
+   "venue": "Scientific Reports",
+   "abstract": "The estimation of Remaining Useful Life (RUL) plays a pivotal role in intelligent manufacturing systems and Industry 4.0 technologies. While recent advancements have improved RUL prediction, many models still face interpretability and compelling uncertainty modeling challenges. This paper introduces an adapted Gaussian Process Regression (GPR) model for RUL interval prediction, tailored for the complexities of manufacturing process development. The adapted GPR predicts confidence intervals by learning from historical data and addresses uncertainty modeling in a more structured way. The approach effectively captures intricate time-series patterns and dynamic behaviors inherent in modern manufacturing systems by coupling GPR with deep adaptive learning-enhanced AI process models. Moreover, the model evaluates feature significance to ensure more transparent decision-making, which is crucial for optimizing manufacturing processes. This comprehensive approach supports more accurate RUL predictions and provides transparent, interpretable insights into uncertainty, contributing to robust process development and management.",
+   "citationCount": 21,
+   "oaPdf": "https://doi.org/10.1038/s41598-025-88703-z",
+   "tldr": "An adapted Gaussian Process Regression model for RUL interval prediction is introduced, tailored for the complexities of manufacturing process development and provides transparent, interpretable insights into uncertainty, contributing to robust process development and management."
+  },
+  "oa": {
+   "title": "Hybrid Gaussian process regression with temporal feature extraction for partially interpretable remaining useful life interval prediction in Aeroengine prognostics",
+   "year": 2025,
+   "abstract": "The estimation of Remaining Useful Life (RUL) plays a pivotal role in intelligent manufacturing systems and Industry 4.0 technologies. While recent advancements have improved RUL prediction, many models still face interpretability and compelling uncertainty modeling challenges. This paper introduces an adapted Gaussian Process Regression (GPR) model for RUL interval prediction, tailored for the complexities of manufacturing process development. The adapted GPR predicts confidence intervals by learning from historical data and addresses uncertainty modeling in a more structured way. The approach effectively captures intricate time-series patterns and dynamic behaviors inherent in modern manufacturing systems by coupling GPR with deep adaptive learning-enhanced AI process models. Moreover, the model evaluates feature significance to ensure more transparent decision-making, which is crucial for optimizing manufacturing processes. This comprehensive approach supports more accurate RUL predictions and provides transparent, interpretable insights into uncertainty, contributing to robust process development and management.",
+   "oa": "https://doi.org/10.1038/s41598-025-88703-z"
+  }
+ },
+ {
+  "key": "10.2139/ssrn.5688817",
+  "doi": "10.2139/ssrn.5688817",
+  "s2_error": "HTTP Error 404: Not Found",
+  "oa": {
+   "title": "Long-term Remaining Useful Life Prediction for Lithium-ion Battery with Online Missing Constructed Indicator Using Time-Series Large Language Model",
+   "year": 2025,
+   "abstract": "",
+   "oa": "https://doi.org/10.2139/ssrn.5688817"
+  }
+ },
+ {
+  "key": "10.2139/ssrn.7624745",
+  "doi": "10.2139/ssrn.7624745",
+  "s2_error": "HTTP Error 404: Not Found",
+  "oa": {
+   "title": "Direct Multi-Step Open-Loop Forecasting of Lithium-Ion Battery Capacity Trajectories and Remaining Useful Life",
+   "year": 2026,
+   "abstract": "",
+   "oa": "https://doi.org/10.2139/ssrn.7624745"
+  }
+ },
+ {
+  "key": "10.2139/ssrn.4814236",
+  "doi": "10.2139/ssrn.4814236",
+  "s2_error": "HTTP Error 404: Not Found",
+  "oa": {
+   "title": "A Probabilistic Estimation of Remaining Useful Life from Censored Time-to-Event Data",
+   "year": 2024,
+   "abstract": "",
+   "oa": "https://doi.org/10.2139/ssrn.4814236"
+  }
+ },
+ {
+  "key": "10.1109/ccdc69976.2026.11560581",
+  "doi": "10.1109/ccdc69976.2026.11560581",
+  "s2": {
+   "title": "Remaining Useful Life Prediction Method Based on Dynamic Failure Threshold Interval Adjustment",
+   "year": 2026,
+   "venue": "Chinese Control and Decision Conference",
+   "abstract": "Predicting the Remaining Useful Life of mechanical equipment is critical for ensuring system operational safety, with failure thresholds serving as the core basis for determining when equipment reaches its end-of-life. However, traditional prediction methods typically rely on fixed failure thresholds, neglecting the physical reality that residual strength gradually degrades due to cumulative damage under environmental influences. This leads to prediction bias and reduces the reliability of results. To address these issues, This study introduces a novel approach for RUL prediction based on dynamic failure threshold interval adjustment. Drawing upon the Paris law in fracture mechanics and cumulative damage theory, a power-law decay model incorporating residual strength is constructed. This yields a time-evolving dynamic threshold interval, enabling a more accurate characterization of the equipment's life distribution throughout its entire lifecycle. To validate the proposed method, experimental verification was conducted using the PHM2012 dataset. The normalized root mean square error of the method presented in this paper is 0.032, lower than mainstream benchmark methods, while the prediction interval coverage remains stable above 80%. These results demonstrate that our approach accurately captures the true degradation trajectory of equipment under realistic scenarios, providing a solid theoretical basis and technical support for fault prediction and health management under complex operating conditions.",
+   "citationCount": 0,
+   "oaPdf": "https://doi.org/10.1109/ccdc69976.2026.11560581",
+   "tldr": null
+  },
+  "oa": {
+   "title": "Remaining Useful Life Prediction Method Based on Dynamic Failure Threshold Interval Adjustment",
+   "year": 2026,
+   "abstract": "Predicting the Remaining Useful Life of mechanical equipment is critical for ensuring system operational safety, with failure thresholds serving as the core basis for determining when equipment reaches its end-of-life. However, traditional prediction methods typically rely on fixed failure thresholds, neglecting the physical reality that residual strength gradually degrades due to cumulative damage under environmental influences. This leads to prediction bias and reduces the reliability of results. To address these issues, This study introduces a novel approach for RUL prediction based on dynamic failure threshold interval adjustment. Drawing upon the Paris law in fracture mechanics and cumulative damage theory, a power-law decay model incorporating residual strength is constructed. This yields a time-evolving dynamic threshold interval, enabling a more accurate characterization of the equipment's life distribution throughout its entire lifecycle. To validate the proposed method, experimental verification was conducted using the PHM2012 dataset. The normalized root mean square error of the method presented in this paper is 0.032, lower than mainstream benchmark methods, while the prediction interval coverage remains stable above 80%. These results demonstrate that our approach accurately captures the true degradation trajectory of equipment under realistic scenarios, providing a solid theoretical basis and technical support for fault prediction and health management under complex operating conditions.",
+   "oa": "https://doi.org/10.1109/ccdc69976.2026.11560581"
+  }
+ },
+ {
+  "key": "10.1109/tte.2025.3547740",
+  "doi": "10.1109/tte.2025.3547740",
+  "s2": {
+   "title": "BatteryCDE: A Transferable Future Capacity Estimation Method for Battery Degradation With Irregular Sampling and Missing Data",
+   "year": 2025,
+   "venue": "IEEE Transactions on Transportation Electrification",
+   "abstract": "To overcome critical limitations in existing methods for battery capacity estimation, including long-term estimation, handling of irregular sampling and missing data, and transferability across different battery types, this study proposes a novel estimation method, termed batteryCDE, by integrating neural controlled differential equations (CDEs) with attention mechanisms. It first constructs a continuous data path using cubic spline interpolation, followed by neural CDEs that generate feature-wise and cycle-wise attention features to capture essential battery characteristics. These attention-weighted features are processed by another neural CDE to model differential relationships, leading to precise capacity estimations. This study also provides a theoretical analysis of the advantages of batteryCDE over conventional discrete models in terms of long-term estimation, handling of irregular sampling and missing data, and transferability. Extensive experiments evaluate batteryCDE’s performance, utilizing three scenarios: varying estimation horizons, missing data, and cross-battery transfer. Results show that batteryCDE outperforms traditional models like long short-term memory (LSTM), Transformer, and neural CDE networks. Even with 50% missing data, an estimation horizon of 100 cycles, and application to different batteries, batteryCDE maintains an estimation error below 0.05. Compared to other methods, batteryCDE reduces estimation errors by 6.59% for long-term predictions, 15.09% for handling missing data, and 17.01% for cross-battery transferability.",
+   "citationCount": 3,
+   "oaPdf": "",
+   "tldr": null
+  },
+  "oa": {
+   "title": "BatteryCDE: A Transferable Future Capacity Estimation Method for Battery Degradation With Irregular Sampling and Missing Data",
+   "year": 2025,
+   "abstract": "To overcome critical limitations in existing methods for battery capacity estimation, including long-term estimation, handling of irregular sampling and missing data, and transferability across different battery types, this study proposes a novel estimation method, termed batteryCDE, by integrating neural controlled differential equations (CDEs) with attention mechanisms. It first constructs a continuous data path using cubic spline interpolation, followed by neural CDEs that generate feature-wise and cycle-wise attention features to capture essential battery characteristics. These attention-weighted features are processed by another neural CDE to model differential relationships, leading to precise capacity estimations. This study also provides a theoretical analysis of the advantages of batteryCDE over conventional discrete models in terms of long-term estimation, handling of irregular sampling and missing data, and transferability. Extensive experiments evaluate batteryCDE’s performance, utilizing three scenarios: varying estimation horizons, missing data, and cross-battery transfer. Results show that batteryCDE outperforms traditional models like long short-term memory (LSTM), Transformer, and neural CDE networks. Even with 50% missing data, an estimation horizon of 100 cycles, and application to different batteries, batteryCDE maintains an estimation error below 0.05. Compared to other methods, batteryCDE reduces estimation errors by 6.59% for long-term predictions, 15.09% for handling missing data, and 17.01% for cross-battery transferability.",
+   "oa": null
+  }
+ },
+ {
+  "key": "10.2139/ssrn.7661699",
+  "doi": "10.2139/ssrn.7661699",
+  "s2_error": "HTTP Error 404: Not Found",
+  "oa": {
+   "title": "Zero-shot time-series foundation models for battery degradation forecasting: a leakage-aware multi-dataset benchmark with conformal uncertainty",
+   "year": 2026,
+   "abstract": "",
+   "oa": "https://doi.org/10.2139/ssrn.7661699"
+  }
+ },
+ {
+  "key": "10.36001/phme.2024.v8i1.3991",
+  "doi": "10.36001/phme.2024.v8i1.3991",
+  "s2": {
+   "title": "System-level Probabilistic Remaining Useful Life Prognostics and Predictive Inspection Planning for Wind Turbines",
+   "year": 2024,
+   "venue": "PHM Society European Conference",
+   "abstract": "Wind energy plays a crucial role in the energy transition. However, it is often seen as an unreliable source of energy, with many production peaks and lows. Some of the drivers of uncertainty in energy production are the unexpected wind turbine (WT) failures and associated unscheduled maintenance. \nTo support an effective health management and maintenance planning of WTs, we propose an integrated data-driven framework for Remaining Useful Life (RUL) prognostics and inspection planning of WTs. We propose a Long-short term memory (LSTM) neural network with Monte Carlo dropout to estimate the distribution of the RUL of WTs, i.e. we develop probabilistic prognostics. Different from existing studies focused on prognostics for single components, we consider the simultaneous health-monitoring of multiple components of the WTs, thus seeing the turbine as an integrated system. The obtained prognostics are further included into a stochastic planning model which determines optimal moments for inspections. For this, we pose the problem of WT inspections as a renewal reward process. We illustrate our framework for four offshore WTs which are continuously monitored by Supervisory Control and Data Acquisition (SCADA) systems. The results show that LSTMs are able to estimate well the RUL of the WTs, even in the early phase of their usage. We also show that the prognostics are informative for maintenance planning and are conducive to conservative inspections.",
+   "citationCount": 3,
+   "oaPdf": "http://dx.doi.org/10.36001/phme.2024.v8i1.3991",
+   "tldr": null
+  },
+  "oa": {
+   "title": "System-level Probabilistic Remaining Useful Life Prognostics and Predictive Inspection Planning for Wind Turbines",
+   "year": 2024,
+   "abstract": "Wind energy plays a crucial role in the energy transition. However, it is often seen as an unreliable source of energy, with many production peaks and lows. Some of the drivers of uncertainty in energy production are the unexpected wind turbine (WT) failures and associated unscheduled maintenance. To support an effective health management and maintenance planning of WTs, we propose an integrated data-driven framework for Remaining Useful Life (RUL) prognostics and inspection planning of WTs. We propose a Long-short term memory (LSTM) neural network with Monte Carlo dropout to estimate the distribution of the RUL of WTs, i.e. we develop probabilistic prognostics. Different from existing studies focused on prognostics for single components, we consider the simultaneous health-monitoring of multiple components of the WTs, thus seeing the turbine as an integrated system. The obtained prognostics are further included into a stochastic planning model which determines optimal moments for inspections. For this, we pose the problem of WT inspections as a renewal reward process. We illustrate our framework for four offshore WTs which are continuously monitored by Supervisory Control and Data Acquisition (SCADA) systems. The results show that LSTMs are able to estimate well the RUL of the WTs, even in the early phase of their usage. We also show that the prognostics are informative for maintenance planning and are conducive to conservative inspections.",
+   "oa": "http://dx.doi.org/10.36001/phme.2024.v8i1.3991"
+  }
+ },
+ {
+  "key": "10.31224/8145",
+  "doi": "10.31224/8145",
+  "s2_error": "HTTP Error 404: Not Found",
+  "oa": {
+   "title": "Auditing Operating-Condition Normalization in C-MAPSS Remaining Useful Life Evaluation",
+   "year": 2026,
+   "abstract": "NASA C-MAPSS is a canonical benchmark for turbofan remaining useful life (RUL) prediction, yet conclusions can depend on preprocessing and evaluation protocol in addition to model architecture. We present a protocol and reproducibility audit using compact MLP, temporal CNN, and LSTM baselines as controlled probes. A leakage-safe factorial grid varies the C-MAPSS subset, RUL cap, window length, normalization policy, architecture, and random seed, while enforcing and recording a fixed train/validation/final preprocessing fit policy. All 1080 planned canonical-grid runs completed, with no engine-split overlap or non-finite metrics. On single-regime FD001/FD003, global and per-condition normalization are intentionally equivalent in the harness and are used only as an implementation unit test; on multi-regime FD002/FD004, per-condition normalization lowers RMSE in every matched cell, with mean signed RMSE deltas of -4.39 and -7.40, respectively. A focused 720-run FD002/FD004 ablation further shows that jointly refitting the final model and normalizer on train+validation engines changes reported RMSE by -1.119 to -0.206 on average relative to train-only final fitting, depending on subset and normalization. Across the full grid, subset identity explains 60.8% of cell-mean RMSE variation; within multi-regime subsets, RUL cap and normalization are descriptively large among the evaluated protocol factors, with a seed-balanced sensitivity giving the same qualitative conclusion. These results extend prior PHM studies of operating-condition-specific standardization by quantifying matched protocol effects under a frozen audit contract and by making split unit, fit scope, regime assignment, score convention, and reproducibility records explicit.",
+   "oa": "https://engrxiv.org/preprint/download/8145/13229/11468"
+  }
+ }
+]

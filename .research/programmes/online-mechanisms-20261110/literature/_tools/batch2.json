@@ -1,0 +1,83 @@
+[
+ {
+  "key": "﻿10.1016/j.jpowsour.2014.02.012",
+  "title_query": "﻿10.1016/j.jpowsour.2014.02.012",
+  "s2_error": "HTTP Error 429: "
+ },
+ {
+  "key": "10.1016/j.jpowsour.2013.09.143",
+  "doi": "10.1016/j.jpowsour.2013.09.143",
+  "s2": {
+   "title": "Calendar and cycle life study of Li(NiMnCo)O2-based 18650 lithium-ion batteries",
+   "year": 2014,
+   "venue": "",
+   "abstract": null,
+   "citationCount": 762,
+   "oaPdf": "",
+   "tldr": null
+  },
+  "oa": {
+   "title": "Calendar and cycle life study of Li(NiMnCo)O2-based 18650 lithium-ion batteries",
+   "year": 2013,
+   "abstract": "",
+   "oa": null
+  }
+ },
+ {
+  "key": "10.1149/1945-7111/abae37",
+  "doi": "10.1149/1945-7111/abae37",
+  "s2": {
+   "title": "Degradation of Commercial Lithium-Ion Cells as a Function of Chemistry and Cycling Conditions",
+   "year": 2020,
+   "venue": "",
+   "abstract": "Energy storage systems with Li-ion batteries are increasingly deployed to maintain a robust and resilient grid and facilitate the integration of renewable energy resources. However, appropriate selection of cells for different applications is difficult due to limited public data comparing the most commonly used off-the-shelf Li-ion chemistries under the same operating conditions. This article details a multi-year cycling study of commercial LiFePO4 (LFP), LiNixCoyAl1-x-yO2 (NCA), and LiNixMnyCo1-x-yO2 (NMC) cells, varying the discharge rate, depth of discharge (DOD), and environment temperature. The capacity and discharge energy retention, as well as the round-trip efficiency, were compared. Even when operated within manufacturer specifications, the range of cycling conditions had a profound effect on cell degradation, with time to reach 80% capacity varying by thousands of hours and cycle counts among cells of each chemistry. The degradation of cells in this study was compared to that of similar cells in previous studies to identify universal trends and to provide a standard deviation for performance. All cycling files have been made publicly available at batteryarchive.org, a recently developed repository for visualization and comparison of battery data, to facilitate future experimental and modeling efforts.",
+   "citationCount": 551,
+   "oaPdf": "https://doi.org/10.1149/1945-7111/abae37",
+   "tldr": null
+  },
+  "oa": {
+   "title": "Degradation of Commercial Lithium-Ion Cells as a Function of Chemistry and Cycling Conditions",
+   "year": 2020,
+   "abstract": "Energy storage systems with Li-ion batteries are increasingly deployed to maintain a robust and resilient grid and facilitate the integration of renewable energy resources. However, appropriate selection of cells for different applications is difficult due to limited public data comparing the most commonly used off-the-shelf Li-ion chemistries under the same operating conditions. This article details a multi-year cycling study of commercial LiFePO 4 (LFP), LiNi x Co y Al 1−x−y O 2 (NCA), and LiNi x Mn y Co 1−x−y O 2 (NMC) cells, varying the discharge rate, depth of discharge (DOD), and environment temperature. The capacity and discharge energy retention, as well as the round-trip efficiency, were compared. Even when operated within manufacturer specifications, the range of cycling conditions had a profound effect on cell degradation, with time to reach 80% capacity varying by thousands of hours and cycle counts among cells of each chemistry. The degradation of cells in this study was compared to that of similar cells in previous studies to identify universal trends and to provide a standard deviation for performance. All cycling files have been made publicly available at batteryarchive.org, a recently developed repository for visualization and comparison of battery data, to facilitate future experimental and modeling efforts.",
+   "oa": "https://doi.org/10.1149/1945-7111/abae37"
+  }
+ },
+ {
+  "key": "10.1016/j.jpowsour.2010.11.134",
+  "doi": "10.1016/j.jpowsour.2010.11.134",
+  "s2": {
+   "title": "Cycle-life model for graphite-LiFePO 4 cells",
+   "year": 2011,
+   "venue": "",
+   "abstract": null,
+   "citationCount": 1712,
+   "oaPdf": "",
+   "tldr": "Experimental results indicated that the capacity loss was strongly affected by time and temperature, while the DOD effect was less important, and attempts in establishing a generalized battery life model that accounts for Ah throughput, C-rate, and temperature are discussed."
+  },
+  "oa": {
+   "title": "Cycle-life model for graphite-LiFePO4 cells",
+   "year": 2010,
+   "abstract": "",
+   "oa": null
+  }
+ },
+ {
+  "key": "10.1109/eleco60389.2023.10415967",
+  "doi": "10.1109/eleco60389.2023.10415967",
+  "s2": {
+   "title": "Effect of the Depth of Discharge and C-Rate on Battery Degradation and Cycle Life",
+   "year": 2023,
+   "venue": "International Conference on Electrical and Electronics Engineering",
+   "abstract": "The performance and durability of rechargeable batteries are paramount in a wide range of contemporary applications. Depth of Discharge and C-Rate are pivotal factors in battery degradation. Deeper discharges and rapid charge/discharge rates subject batteries to increased stress, accelerating their wear and capacity loss. Understanding and carefully managing these factors are vital for extending battery lifespan and improving the performance of electric vehicles and renewable energy systems. This research delves into the complex interaction between Depth of Discharge and C-Rate, providing insights into their individual and combined effects on battery performance and aging mechanisms. By examining Depth of Discharge and C-Rate, this study offers valuable perspectives on the compromised energy storage capacity and long-term robustness. The simulation results demonstrate that elevated Depth of Discharge and C-Rate can expedite battery degradation while presenting prospects for customized applications through the careful equilibrium of energy demands and longevity.",
+   "citationCount": 16,
+   "oaPdf": "",
+   "tldr": null
+  },
+  "oa": {
+   "title": "Effect of the Depth of Discharge and C-Rate on Battery Degradation and Cycle Life",
+   "year": 2023,
+   "abstract": "The performance and durability of rechargeable batteries are paramount in a wide range of contemporary applications. Depth of Discharge and C-Rate are pivotal factors in battery degradation. Deeper discharges and rapid charge/discharge rates subject batteries to increased stress, accelerating their wear and capacity loss. Understanding and carefully managing these factors are vital for extending battery lifespan and improving the performance of electric vehicles and renewable energy systems. This research delves into the complex interaction between Depth of Discharge and C-Rate, providing insights into their individual and combined effects on battery performance and aging mechanisms. By examining Depth of Discharge and C-Rate, this study offers valuable perspectives on the compromised energy storage capacity and long-term robustness. The simulation results demonstrate that elevated Depth of Discharge and C-Rate can expedite battery degradation while presenting prospects for customized applications through the careful equilibrium of energy demands and longevity.",
+   "oa": null
+  }
+ }
+]

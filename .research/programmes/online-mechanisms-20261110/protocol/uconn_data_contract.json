@@ -1,0 +1,17 @@
+{
+ "cadence_cycles": {
+  "n_gaps": 2727,
+  "median": 98.0,
+  "q25": 84.0,
+  "q75": 119.0,
+  "min": 12.0,
+  "max": 197.0,
+  "cv": 0.22922529208181144
+ },
+ "n_rows_dedup": 2855,
+ "n_cells": 64,
+ "n_conditions": 11,
+ "eol_status": {
+  "interval": 64
+ }
+}

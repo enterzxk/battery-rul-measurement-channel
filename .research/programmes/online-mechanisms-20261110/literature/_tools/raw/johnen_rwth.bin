@@ -1,0 +1,592 @@
+<!-- AWNOCACHEBEGIN__AWNOCACHEBEGIN__AWNOCACHEBEGIN__AWNOCACHEBEGIN__AWNOCACHEBEGIN -->
+<!-- nocache,cw,0.asp --><!-- AWNOCACHEEND__AWNOCACHEEND__AWNOCACHEEND__AWNOCACHEEND__AWNOCACHEEND -->
+<!DOCTYPE html><!-- AWNOCACHEBEGIN__AWNOCACHEBEGIN__AWNOCACHEBEGIN__AWNOCACHEBEGIN__AWNOCACHEBEGIN -->
+<!-- nocache,cw,1.asp -->
+<html xml:lang="en-US" lang="en-US" class="notranslate" translate="no">
+<head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="format-detection" content="telephone=no" />
+<meta name="color-scheme" content="light only" />
+<meta name="google" value="notranslate" />
+<meta name="googlebot" value="notranslate" />
+<title>Fitting lifetime distributions to interval censored cyclic-aging data of lithium-ion batteries | Institute of Statistics | RWTH Aachen University | EN</title>
+<meta name="keywords" lang="en" content="Aachen, research, science, RWTH, academics, study, TH, technical, university, institutions, excellence initiative" />
+<meta name="robots" content="index,follow" />
+<meta name="author" content="Institute of Statistics" />
+<meta name="geo.placename" content="Templergraben 55, 52062 Aachen, Germany" />
+<meta name="geo.position" content="50.7776;6.0783" />
+<meta name="geo.region" content="DE-NW" />
+<meta name="ICBM" content="50.7776, 6.0783" />
+<meta property="og:title" content="Fitting lifetime distributions to interval censored cyclic-aging data of lithium-ion batteries | Institute of Statistics | RWTH Aachen University | EN" />
+<meta property="og:url" content="https://www.isw.rwth-aachen.de/cms/isw/forschung/publikationen/~oyda/details/?lidx=1&amp;file=789848" />
+<link rel="alternate" hreflang="de" href="https://www.isw.rwth-aachen.de/cms/isw/forschung/publikationen/~oyda/details/?file=789848" />
+<link rel="alternate" hreflang="en" href="https://www.isw.rwth-aachen.de/cms/isw/forschung/publikationen/~oyda/details/?file=789848&amp;lidx=1" />
+<link rel="canonical" href="https://www.isw.rwth-aachen.de/cms/isw/forschung/publikationen/~oyda/details/?lidx=1&amp;file=789848" />
+<link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png" />
+<link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png" />
+<link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png" />
+<link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png" />
+<link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png" />
+<link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png" />
+<link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png" />
+<link rel="icon" type="image/png" href="/favicon-196x196.png" sizes="196x196" />
+<link rel="icon" type="image/png" href="/favicon-192x192.png" sizes="192x192" />
+<link rel="icon" type="image/png" href="/favicon-160x160.png" sizes="160x160" />
+<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16" />
+<link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32" />
+<link rel="icon" type="image/png" href="/android-chrome-192x192.png" sizes="192x192" />
+<link rel="manifest" href="/manifest.json" />
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#00529f" />
+<meta name="msapplication-TileColor" content="#00529f" />
+<meta name="msapplication-TileImage" content="/mstile-144x144.png" />
+<meta name="theme-color" content="#00529f" />
+<link rel="contents" title="Inhaltsverzeichnis" href="https://www.isw.rwth-aachen.de/content" />
+<link rel="copyright" title="Impressum" href="https://www.isw.rwth-aachen.de/sitecredits" />
+<link rel="help" title="Feedback-Formular" href="https://www.isw.rwth-aachen.de/feedback" />
+<link rel="search" title="Suche auf dieser Webseite" href="https://www.isw.rwth-aachen.de/search" />
+<link rel="start" title="Startseite" href="https://www.isw.rwth-aachen.de/cms/~oyba/isw/lidx/1/" />
+<link rel="up" title="Up" href="/cms/isw/Forschung/~oyby/Publikationen/lidx/1/" />
+<meta name="date" content="D:20200522000000+01'00'" />
+<meta name="domain" content="www.isw.rwth-aachen.de" />
+<meta name="breadcrumb" content="ISW &gt; Research &gt; Publications" />
+<meta name="contentindicator" content="P" />
+<meta name="ipzone" content="[0]" />
+<link rel="stylesheet" type="text/css" href="/custom/rwth/resources/css/core.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="/custom/rwth/resources/css/print.css" media="print" />
+<script src="/custom/rwth/resources/js/_rwth.js"></script>
+<script type="text/x-mathjax-config">
+						MathJax.Hub.Config({
+							extensions: ["tex2jax.js"],
+							jax: ["input/TeX", "output/HTML-CSS"],
+							tex2jax: {
+								inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+								displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+								processEscapes: true
+							},
+							"HTML-CSS": { fonts: ["TeX"] }
+						});
+					</script>
+<script src="https://static.cms.rwth-aachen.de/mathjax-2.6.1/MathJax.js?config=TeX-AMS_HTML&amp;locale=de"></script>
+</head>
+<body>
+<!--googleoff: all-->
+<nav id="skip-navigation" aria-label="Skip Navigation">
+<ul>
+<li><a href="#main" class="animated not-smooth">Skip to Content</a></li>
+<li><a href="#main-nav-control" class="animated not-smooth">Skip to Main Navigation</a></li>
+<li><a href="#quick-start-control" class="animated not-smooth">Skip to Quick Access</a></li>
+<li><a href="#searchbar" class="animated not-smooth">Skip to Search</a></li>
+<li><a href="#footer" class="animated not-smooth">Skip to Footer</a></li>
+</ul>
+</nav>
+<div id="site-wrapper">
+<header id="header" class="hide-banderol instant">
+<div id="quick-start" aria-expanded="false" role="group" class="submenu quick-start-wrapper desktop-only">
+<div class="inner-wrapper">
+<div class="padding-wrapper scroller no-focus" tabindex="-1">
+<div>
+<h5>Tools</h5>
+<ul>
+<li><a href="https://online.rwth-aachen.de/" target="_blank" class="underline">RWTHonline</a></li>
+<li><a href="https://rwthcontacts.rwth-aachen.de/" target="_blank" class="underline">RWTHcontacts</a></li>
+<li><a href="https://moodle.rwth-aachen.de/" target="_blank" class="underline">RWTHmoodle</a></li>
+<li><a target="_blank" class="underline" href="https://intranet.rwth-aachen.de/en">Intranet</a></li>
+</ul>
+</div>
+<div>
+<h5>Services</h5>
+<ul>
+<li><a target="_blank" class="underline" href="https://www.studierendenwerk-aachen.de/en/eating-drinking/menus.html">Dining Hall Menus</a></li>
+<li><a target="_blank" class="underline" href="https://maps.rwth-aachen.de/navigator/?type=roadmap&amp;lang=en">RWTH Navigator</a></li>
+<li><a target="_blank" class="underline" href="https://www.rwth-aachen.de/cms/root/studium/~hzvj/beratung-hilfe/?lidx=1">Student Resources and Support</a></li>
+<li><a target="_blank" class="underline" href="https://www.rwth-aachen.de/cms/root/wir/aktuell/~xhf/amtliche-bekanntmachungen/?lidx=1">Official Announcements</a></li>
+</ul>
+</div>
+<div>
+<h5>Institutions</h5>
+<ul>
+<li><a target="_blank" class="underline" href="https://www.ub.rwth-aachen.de/cms/~hame/ub/?lidx=1">University Library</a></li>
+<li><a target="_blank" class="underline" href="https://www.itc.rwth-aachen.de/cms/~rbnjb/it-center/?lidx=1">IT Center</a></li>
+<li><a target="_blank" class="underline" href="https://cls.rwth-aachen.de/cms/~wqacp/cls/?lidx=1">Center for Teaching and Learning Services</a></li>
+<li><a target="_blank" class="underline" href="https://hochschulsport.rwth-aachen.de/cms/~icgi/HSZ/?lidx=1">Athletics and Recreation</a></li>
+<li><a target="_blank" class="underline" href="https://www.rwth-aachen.de/cms/root/Die-RWTH/Einrichtungen/~eoh/Verwaltung/?lidx=1">Central University Administration</a></li>
+<li><a target="_blank" class="underline" href="https://www.rwth-aachen.de/cms/root/Die-RWTH/Einrichtungen/Einrichtungen-A-Z/~bzwt/Liste-aller-Organisationseinheiten/?lidx=1">Search by Name</a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="top-bar">
+<a href="https://www.rwth-aachen.de/?lidx=1">RWTH Home</a>
+<div aria-controls="quick-start" aria-expanded="false" role="button" class="desktop-only skip-to-module opens-submenu" id="quick-start-control" tabindex="0" data-submenu-group="persona,main-nav">Quick Access</div>
+<a href="/cms/isw/forschung/publikationen/~oyda/details/?file=789848" class="language-changer" title="Deutsch">DE</a>
+</div>
+<div id="main-nav" aria-expanded="false" role="group" class="submenu">
+<div class="inner-wrapper">
+<div class="padding-wrapper">
+<div class="submenu-header">
+<div aria-controls="main-nav" aria-expanded="false" role="button" class="simple-button close-menu opens-submenu skip-to-module no-focus" tabindex="-1" data-submenu-group="mobile-quick-start,mobile-persona" title="Close Main Navigation"> </div>
+<h5>
+<a href="/cms/~oyba/isw/lidx/1/" class="underline unit-headline-link no-focus" tabindex="-1">Institute of Statistics</a>
+</h5>
+</div>
+<div class="submenu-scroller scroller no-focus" tabindex="-1">
+<div class="submenu-content">
+<ul class="top-tier desktop-only">
+<li>
+<button aria-controls="simplemenu-aaaaaaaaaaaoybb" aria-expanded="false" class="opens-simplemenu desktop underline no-decorations">
+<span>Academics</span>
+</button>
+</li>
+<li>
+<button aria-controls="simplemenu-aaaaaaaaaaaoybc" aria-expanded="false" class="opens-simplemenu desktop underline no-decorations in-path">
+<span>Research</span>
+</button>
+</li>
+<li>
+<button aria-controls="simplemenu-aaaaaaaaaaaoybe" aria-expanded="false" class="opens-simplemenu desktop underline no-decorations">
+<span>The Institute</span>
+</button>
+</li>
+<li class="faculties">
+<button aria-controls="simplemenu-faculties" aria-expanded="false" class="opens-simplemenu desktop underline no-decorations faculties">
+<span>Faculties</span>
+</button>
+</li>
+</ul>
+<ul class="main-view">
+<li class="level-1 simplemenu desktop has-submenu" aria-expanded="false" id="simplemenu-aaaaaaaaaaaoybb">
+<div>
+<a href="/cms/isw/~oybb/Studium/lidx/1/" class="underline">Academics</a>
+</div>
+<div aria-controls="simplemenu-mobile-aaaaaaaaaaaoybb" aria-expanded="false" role="button" class="opens-simplemenu icon-only parent-scroll mobile mobile-only" tabindex="0">Submenu: Academics</div>
+<ul class="simplemenu mobile" id="simplemenu-mobile-aaaaaaaaaaaoybb" aria-expanded="false">
+<li class="level-2">
+<div>
+<a href="/cms/isw/Studium/~braodd/Studieninformation/lidx/1/" class="underline">Study information</a>
+</div>
+</li>
+<li class="level-2">
+<div>
+<a href="/cms/isw/Studium/~pnar/Aktuelle-Lehrveranstaltungen/lidx/1/" class="underline">Current lectures</a>
+</div>
+</li>
+<li class="level-2">
+<div>
+<a href="/cms/isw/Studium/~pptz/Zukuenftige-Lehrveranstaltungen/lidx/1/" class="underline">Lectures in future</a>
+</div>
+</li>
+<li class="level-2">
+<div>
+<a href="/cms/isw/Studium/~oybp/Vergangene-Lehrveranstaltungen/lidx/1/" class="underline">Lectures in past years</a>
+</div>
+</li>
+<li class="level-2">
+<div>
+<a href="/cms/isw/Studium/~ppur/e-learning/lidx/1/" class="underline">e-learning</a>
+</div>
+</li>
+<li class="level-2">
+<div>
+<a href="/cms/isw/Studium/~btbogh/Studien-und-Abschlussarbeiten/lidx/1/" class="underline">Reserach Papers and Theses</a>
+</div>
+</li>
+<li class="level-2">
+<div>
+<a href="/cms/isw/Studium/~ppus/Mathematikerinnen-und-Mathematiker-in-de/lidx/1/" class="underline">Mathematicians in the Professional Practice</a>
+</div>
+</li>
+</ul>
+</li>
+<li class="level-1 simplemenu desktop has-submenu" aria-expanded="false" id="simplemenu-aaaaaaaaaaaoybc">
+<div>
+<a href="/cms/isw/~oybc/Forschung/lidx/1/" class="underline">Research</a>
+</div>
+<div aria-controls="simplemenu-mobile-aaaaaaaaaaaoybc" aria-expanded="false" role="button" class="opens-simplemenu icon-only parent-scroll mobile mobile-only in-path" tabindex="0">Submenu: Research</div>
+<ul class="simplemenu mobile" id="simplemenu-mobile-aaaaaaaaaaaoybc" aria-expanded="false">
+<li class="level-2">
+<div>
+<a href="/cms/isw/Forschung/~oyby/Publikationen/lidx/1/" class="underline">Publications</a>
+</div>
+</li>
+<li class="level-2">
+<div>
+<a href="/cms/isw/Forschung/~bqxszk/Lehrstuhl-fuer-Statistik-und-Data-Scienc/lidx/1/" class="underline">Chair of Statistics and Data Science</a>
+</div>
+</li>
+<li class="level-2">
+<div>
+<a href="/cms/isw/Forschung/~braimj/Lehrstuhl-fuer-Stochastik/lidx/1/" class="underline">Chair of Stochastic</a>
+</div>
+</li>
+<li class="level-2">
+<div>
+<a href="/cms/isw/Forschung/~brakzp/Lehr-und-Forschungsgebiet-Angewandte-St/lidx/1/" class="underline">Teaching and Research Area: Applied Stochastics</a>
+</div>
+</li>
+<li class="level-2">
+<div>
+<a href="/cms/isw/Forschung/~bramhg/Lehr-und-Forschungsgebiet-Computational/lidx/1/" class="underline">Teaching and Research Area: Computational Statistics</a>
+</div>
+</li>
+<li class="level-2">
+<div>
+<a href="/cms/isw/Forschung/~pxng/Dissertationen/lidx/1/" class="underline">Dissertationen</a>
+</div>
+</li>
+<li class="level-2">
+<div>
+<a href="/cms/isw/Forschung/~brsydg/Habilitationen/lidx/1/" class="underline">Habilitations</a>
+</div>
+</li>
+</ul>
+</li>
+<li class="level-1 simplemenu desktop has-submenu" aria-expanded="false" id="simplemenu-aaaaaaaaaaaoybe">
+<div>
+<a href="/cms/isw/~oybe/Das-Institut/lidx/1/" class="underline">The Institute</a>
+</div>
+<div aria-controls="simplemenu-mobile-aaaaaaaaaaaoybe" aria-expanded="false" role="button" class="opens-simplemenu icon-only parent-scroll mobile mobile-only" tabindex="0">Submenu: The Institute</div>
+<ul class="simplemenu mobile" id="simplemenu-mobile-aaaaaaaaaaaoybe" aria-expanded="false">
+<li class="level-2">
+<div>
+<a href="/cms/isw/Das-Institut/~qocb/Mitarbeiterinnen-und-Mitarbeiter/lidx/1/" class="underline">Staff</a>
+</div>
+</li>
+<li class="level-2">
+<div>
+<a href="/cms/isw/Das-Institut/~wizet/Institutsinformationen/lidx/1/" class="underline">General</a>
+</div>
+</li>
+<li class="level-2">
+<div>
+<a href="/cms/isw/Das-Institut/~bseexb/Buecher/lidx/1/" class="underline">Books</a>
+</div>
+</li>
+<li class="level-2">
+<div>
+<a href="/cms/isw/Das-Institut/~xkdom/Ehemalige/lidx/1/" class="underline">Former Staff</a>
+</div>
+</li>
+<li class="level-2">
+<div>
+<a href="/cms/isw/Das-Institut/~qoee/Consulting/lidx/1/" class="underline">Consulting</a>
+</div>
+</li>
+<li class="level-2">
+<div>
+<a href="/cms/isw/Das-Institut/~brdjqm/Statisches-Kolloquium/lidx/1/" class="underline">Statistical Colloquium</a>
+</div>
+</li>
+<li class="level-2">
+<div>
+<a href="/cms/isw/Das-Institut/~brnopg/Stellenangebote/lidx/1/" class="underline">Job Vacancies</a>
+</div>
+</li>
+<li class="level-2">
+<div>
+<a href="/cms/isw/Das-Institut/~oyci/Aktuelle-Meldungen/lidx/1/" class="underline">Announcements</a>
+</div>
+</li>
+</ul>
+</li>
+<li class="simplemenu desktop level-1 faculties has-submenu" id="simplemenu-faculties" aria-expanded="false">
+<span>Faculties</span>
+<div aria-controls="simplemenu-mobile-faculties" aria-expanded="false" role="button" class="opens-simplemenu mobile icon-only mobile-only parent-scroll" tabindex="0">Submenu: Faculties</div>
+<ul class="simplemenu mobile" id="simplemenu-mobile-faculties" aria-expanded="false">
+<li class="level-2 faculties">
+<div>
+<a href="https://www.fb1.rwth-aachen.de/cms/~fvp/Mathematik-Naturwissenschafen/lidx/1/" class="underline">
+<span class="name">Faculty 1</span><br />
+<span class="teaser">Mathematics and Natural Sciences</span>
+</a>
+</div>
+</li>
+<li class="level-2 faculties">
+<div>
+<a href="https://arch.rwth-aachen.de/cms/~gfa/Architektur/lidx/1/" class="underline">
+<span class="name">Faculty 2</span><br />
+<span class="teaser">Architecture</span>
+</a>
+</div>
+</li>
+<li class="level-2 faculties">
+<div>
+<a href="https://www.fb3.rwth-aachen.de/cms/~goh/Bauingenieurwesen/lidx/1/" class="underline">
+<span class="name">Faculty 3</span><br />
+<span class="teaser">Civil Engineering</span>
+</a>
+</div>
+</li>
+<li class="level-2 faculties">
+<div>
+<a href="https://www.maschinenbau.rwth-aachen.de/cms/~gxo/Maschinenbau/lidx/1/" class="underline">
+<span class="name">Faculty 4</span><br />
+<span class="teaser">Mechanical Engineering</span>
+</a>
+</div>
+</li>
+<li class="level-2 faculties">
+<div>
+<a href="https://www.fb5.rwth-aachen.de/cms/~hgv/Georessourcen/lidx/1/" class="underline">
+<span class="name">Faculty 5</span><br />
+<span class="teaser">Georesources and Materials Engineering</span>
+</a>
+</div>
+</li>
+<li class="level-2 faculties">
+<div>
+<a href="https://www.elektrotechnik.rwth-aachen.de/cms/~mp/Elektrotechnik-und-Informationstechnik/lidx/1/" class="underline">
+<span class="name">Faculty 6</span><br />
+<span class="teaser">Electrical Engineering and Information Technology</span>
+</a>
+</div>
+</li>
+<li class="level-2 faculties">
+<div>
+<a href="https://www.philosophische-fakultaet.rwth-aachen.de/cms/~hqc/Philosophie/lidx/1/" class="underline">
+<span class="name">Faculty 7</span><br />
+<span class="teaser">Arts and Humanities</span>
+</a>
+</div>
+</li>
+<li class="level-2 faculties">
+<div>
+<a href="https://www.wiwi.rwth-aachen.de/cms/~hzj/Wirtschaftswissenschaften/lidx/1/" class="underline">
+<span class="name">Faculty 8</span><br />
+<span class="teaser">Business and Economics</span>
+</a>
+</div>
+</li>
+<li class="level-2 faculties">
+<div>
+<a href="https://www.informatik.rwth-aachen.de/cms/~mxz/informatik/lidx/1/" class="underline">
+<span class="name">Faculty 9</span><br />
+<span class="teaser">Computer Science</span>
+</a>
+</div>
+</li>
+<li class="level-2 faculties">
+<div>
+<a href="https://www.medizin.rwth-aachen.de/cms/~iiq/Medizin/lidx/1/" class="underline">
+<span class="name">Faculty 10</span><br />
+<span class="teaser">Medicine</span>
+</a>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="submenu-footer mobile-only">
+<div aria-controls="mobile-quick-start" aria-expanded="false" role="button" class="skip-to-module opens-submenu is-in-submenu" id="mobile-quick-start-control" tabindex="0" data-submenu-group="mobile-persona">Quick Access</div>
+</div>
+<div id="mobile-quick-start" aria-expanded="false" role="group" class="submenu quick-start-wrapper mobile-only">
+<div class="inner-wrapper">
+<div class="padding-wrapper scroller no-focus" tabindex="-1">
+<div>
+<h5>Tools</h5>
+<ul>
+<li><a href="https://online.rwth-aachen.de/" target="_blank" class="underline">RWTHonline</a></li>
+<li><a href="https://rwthcontacts.rwth-aachen.de/" target="_blank" class="underline">RWTHcontacts</a></li>
+<li><a href="https://moodle.rwth-aachen.de/" target="_blank" class="underline">RWTHmoodle</a></li>
+<li><a target="_blank" class="underline" href="https://intranet.rwth-aachen.de/en">Intranet</a></li>
+</ul>
+</div>
+<div>
+<h5>Services</h5>
+<ul>
+<li><a target="_blank" class="underline" href="https://www.studierendenwerk-aachen.de/en/eating-drinking/menus.html">Dining Hall Menus</a></li>
+<li><a target="_blank" class="underline" href="https://maps.rwth-aachen.de/navigator/?type=roadmap&amp;lang=en">RWTH Navigator</a></li>
+<li><a target="_blank" class="underline" href="https://www.rwth-aachen.de/cms/root/studium/~hzvj/beratung-hilfe/?lidx=1">Student Resources and Support</a></li>
+<li><a target="_blank" class="underline" href="https://www.rwth-aachen.de/cms/root/wir/aktuell/~xhf/amtliche-bekanntmachungen/?lidx=1">Official Announcements</a></li>
+</ul>
+</div>
+<div>
+<h5>Institutions</h5>
+<ul>
+<li><a target="_blank" class="underline" href="https://www.ub.rwth-aachen.de/cms/~hame/ub/?lidx=1">University Library</a></li>
+<li><a target="_blank" class="underline" href="https://www.itc.rwth-aachen.de/cms/~rbnjb/it-center/?lidx=1">IT Center</a></li>
+<li><a target="_blank" class="underline" href="https://cls.rwth-aachen.de/cms/~wqacp/cls/?lidx=1">Center for Teaching and Learning Services</a></li>
+<li><a target="_blank" class="underline" href="https://hochschulsport.rwth-aachen.de/cms/~icgi/HSZ/?lidx=1">Athletics and Recreation</a></li>
+<li><a target="_blank" class="underline" href="https://www.rwth-aachen.de/cms/root/Die-RWTH/Einrichtungen/~eoh/Verwaltung/?lidx=1">Central University Administration</a></li>
+<li><a target="_blank" class="underline" href="https://www.rwth-aachen.de/cms/root/Die-RWTH/Einrichtungen/Einrichtungen-A-Z/~bzwt/Liste-aller-Organisationseinheiten/?lidx=1">Search by Name</a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="bottom-area">
+<div aria-controls="main-nav" aria-expanded="false" role="button" class="simple-button menu skip-to-module opens-submenu" id="main-nav-control" tabindex="0" data-submenu-group="quick-start,persona,mobile-quick-start,mobile-persona" title="Main Navigation"> </div>
+<div class="simple-button search" role="button" id="search-button" title="Search"> </div>
+<form method="get" action="/go/un/search_aaaaaaaaaaaoyba" accept-charset="ISO-8859-1" role="search" class="search-wrapper">
+<input id="lidx" name="lidx" type="hidden" value="1" />
+<label for="searchbar" class="aural">Search for</label>
+<input id="searchbar" name="search" type="text" class="skip-to-module autocomplete" data-source="/custom/rwth/resources/ajax/best-bets.asp?topfolder=aaaaaaaaaaaoyba&amp;lidx=1" placeholder="Search" />
+<button class="no-decorations">Search</button>
+</form>
+<div class="measure"> </div>
+<h5 class="unit-headline">Institute of Statistics</h5>
+<a class="logo-wrapper" href="/?lidx=1">
+<img class="logo" alt="Logo of Institute of Statistics" onload="triggerResize(true);" src="/global/show_picture.asp?id=aaaaaaaaaaxqbsj" />
+</a>
+</div>
+</header>
+<div id="header-background" aria-hidden="true"> </div>
+<div class="breadcrumb-wrapper">
+<nav id="breadcrumb" aria-label="Breadcrumb Navigation">
+<div class="aural">You Are Here:</div>
+<ol>
+<li><a href="/cms/~oyba/isw/lidx/1/" title="ISW">Start</a></li>
+<li><a href="/cms/isw/~oybc/Forschung/lidx/1/" title="ISW &gt; Research">Research</a></li>
+<li><a href="/cms/isw/Forschung/~oyby/Publikationen/lidx/1/" title="ISW &gt; Research &gt; Publications">Publications</a></li>
+<li><span>Fitting lifetime distributions to interval censored cyclic-aging data of lithium-ion batteries</span></li>
+</ol>
+</nav>
+<ul id="articlefunctions">
+<li>
+<a href="https://www.facebook.com/sharer.php?u=https%3A%2F%2Fwww.isw.rwth-aachen.de%2Fcms%2Fisw%2Fforschung%2Fpublikationen%2F~oyda%2Fdetails%2F%3Flidx%3D1%26file%3D%25RAW_HTML_FILEID%25" target="_blank" class="function facebook" title="Share on Facebook"> </a>
+</li>
+<li>
+<a href="https://www.xing.com/spi/shares/new?url=https%3A%2F%2Fwww.isw.rwth-aachen.de%2Fcms%2Fisw%2Fforschung%2Fpublikationen%2F~oyda%2Fdetails%2F%3Flidx%3D1%26file%3D%25RAW_HTML_FILEID%25" target="_blank" class="function xing" title="Share on Xing"> </a>
+</li>
+<li>
+<a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A%2F%2Fwww.isw.rwth-aachen.de%2Fcms%2Fisw%2Fforschung%2Fpublikationen%2F~oyda%2Fdetails%2F%3Flidx%3D1%26file%3D%25RAW_HTML_FILEID%25" target="_blank" class="function linkedin" title="Share on LinkedIn"> </a>
+</li>
+<li>
+<a href="javascript:self.print();" class="function print" title="Print"> </a>
+</li>
+</ul>
+</div>
+<main id="main" class="content-page">
+<!--googleon: all--><div class="module main-headline full-to-fourth"><h1>Publication</h1></div><div class="module image-text center full-to-fourth"><div class="between-wrapper"><div class="inner-wrapper"><div class="text-wrapper"><h2>Fitting lifetime distributions to interval censored cyclic-aging data of lithium-ion batteries</h2><div class="text"><p>Johnen, Marcus; Schmitz, Christian; Kateri, Maria (Corresponding author); Kamps, Udo</p><p><i>Amsterdam [u.a.] : Elsevier Science (2020)</i><br/>Journal Article</p><p><strong>In</strong><br/>Computers &amp; industrial engineering143, Page(s)/Article-Nr.: 106418</p><h3 class="Zwischenueberschrift">Institutions</h3><ul><li>Department of Mathematics [110000]</li><li>Chair of Statistics and Institute of Statistics and Mathematical Economics [116410]</li><li>Chair of Statistics and Data Science and Institute of Statistics and Mathematical Economics [116510]</li></ul></div></div></div></div></div><div class="module link-list full-to-third"><div class="inner-wrapper"><h2>Identifier</h2><ul class="links"><li class="link"><a href="https://doi.org/10.1016/j.cie.2020.106418" class="external" target="_blank">10.1016/j.cie.2020.106418</a><div class="text">DOI</div></li><li class="link"><a href="https://publications.rwth-aachen.de/record/789848" class="external" target="_blank">RWTH-2020-05485</a><div class="text">RWTH PUBLICATIONS</div></li></ul></div></div></main>
+<!--googleoff: all-->
+<footer id="footer">
+<div class="inner-wrapper">
+<h2 class="aural">Footer</h2>
+<div class="top-row">
+<div class="section">
+<h3 class="h5">RWTH</h3>
+<ul>
+<li>
+<a href="https://www.rwth-aachen.de/cms/~a/root/?lidx=1" title="RWTH Main Page (Footer)" class="external" target="_blank">RWTH Main Page</a>
+</li>
+<li>
+<a href="https://www.fb1.rwth-aachen.de/cms/~fvp/mathematik-naturwissenschaften/?lidx=1" title="Faculty of Mathematics and Natural Sciences (Footer)" class="external" target="_blank">Faculty of Mathematics and Natural Sciences</a>
+</li>
+<li>
+<a href="https://www.mathematik.rwth-aachen.de/cms/~mxy/mathematik/?lidx=1" title="Department of Mathematics (Footer)" class="external" target="_blank">Department of Mathematics</a>
+</li>
+</ul>
+</div>
+<div class="section">
+<h3 class="h5">Services</h3>
+<ul>
+<li>
+<a href="/cms/isw/Footer/Service/~oydu/Kontakt-Lageplaene-barrierefreie-Zugae/lidx/1/" title="Contact, Maps, Accessibility (Footer)">Contact, Maps, Accessibility</a>
+</li>
+<li>
+<a href="/cms/isw/Footer/Service/~oydv/Impressum/lidx/1/" title="Legal Notice (Footer)">Legal Notice</a>
+</li>
+<li>
+<a href="/cms/isw/Footer/Service/~oydw/Sitemap/lidx/1/" title="Site Map (Footer)">Site Map</a>
+</li>
+<li>
+<a href="/cms/isw/Footer/Service/~oydx/Datenschutzerklaerung/lidx/1/" title="Disclaimer (Footer)">Disclaimer</a>
+</li>
+<li>
+<a href="/go/id/oybg/lidx/1/" title="Feedback (Footer)">Feedback</a>
+</li>
+</ul>
+</div>
+<div class="section">
+<h3 class="h5">Other Resources</h3>
+<ul>
+<li>
+<a href="https://moodle.rwth-aachen.de/?lang=en" title="RWTHmoodle (Footer)" class="external" target="_blank">RWTHmoodle</a>
+</li>
+</ul>
+</div>
+</div>
+<div class="bottom-row">
+<div class="copyright">© 2026 RWTH Aachen University</div>
+</div>
+</div>
+</footer>
+</div>
+<div id="img-alt-popup" aria-hidden="true"> </div>
+<div id="video-data-protection-background" class="hidden" data-nosnippet="true">
+<div class="data-protection-wrapper module list-box third-to-fourth" tabindex="-1">
+<div class="inner-wrapper styled-links">
+<div class="jumper begin aural" aria-hidden="true" tabindex="0"> </div>
+<div id="video-data-protection-begin" class="aural" tabindex="0">Dialog window</div>
+<div class="data-protection text" data-type="youtube">
+<p>The content embedded in this web page will take you to web pages provided by the Google-operated video sharing platform YouTube – YouTube, LLC, 901 Cherry Ave., San Bruno, CA 94066, USA. Invoking this content makes it possible for YouTube to determine your IP address, the language setting of your system, and a number of browser-specific details.</p>
+<p>If you are logged in to your YouTube account, you make it possible for YouTube to tie your web browsing behavior directly to your personal profile. You can prevent this by logging out of your YouTube account.</p>
+<p>YouTube uses cookies and tracking tools. Information on YouTube's data processing activities and the purpose of these activities is available and can be viewed at <a href="https://policies.google.com/privacy" class="external" target="_blank">YouTube</a>.</p>
+<p>By clicking the "accept" button, you agree to use the content provided by the platform under the conditions outlined above.</p>
+<p>Please note that you give your consent for a one-time use of the web page only. When you visit the page again, you will again be asked for your consent.</p>
+</div>
+<div class="data-protection text" data-type="vimeo">
+<p>The content embedded in this web page will take you to web pages provided by the Vimeo – Vimeo LLC, 555 West 18th Street, New York, New York 10011. Invoking this content makes it possible for Vimeo to determine your IP address, the language setting of your system, and a number of browser-specific details.</p>
+<p>If you are logged in to your Vimeo account, you make it possible for Vimeo to tie your web browsing behavior directly to your personal profile. You can prevent this by logging out of your Vimeo account.</p>
+<p>Vimeo uses cookies and tracking tools. Information on Vimeo's data processing activities and the purpose of these activities is available and can be viewed at <a href="https://vimeo.com/privacy" class="external" target="_blank">Vimeo</a>.</p>
+<p>By clicking the "accept" button, you agree to use the content provided by the platform under the conditions outlined above.</p>
+<p>Please note that you give your consent for a one-time use of the web page only. When you visit the page again, you will again be asked for your consent.</p>
+</div>
+<div class="data-protection text" data-type="external">
+<p>The content embedded in this web page will take you to external web pages. Invoking this content makes it possible for the external platform to determine your IP address, the language setting of your system, and a number of browser-specific details.</p>
+<p>By clicking the "accept" button, you agree to use the content provided by the platform under the conditions outlined above.</p>
+<p>Please note that you give your consent for a one-time use of the web page only. When you visit the page again, you will again be asked for your consent.</p>
+</div>
+<div class="button-wrapper">
+<button class="decline">Decline</button>
+<button class="accept">Accept</button>
+</div>
+<div class="jumper end aural" aria-hidden="true" tabindex="0"> </div>
+</div>
+</div>
+</div>
+</body>
+</html>
+<!-- AWNOCACHEEND__AWNOCACHEEND__AWNOCACHEEND__AWNOCACHEEND__AWNOCACHEEND -->
+
+<!--
+page generated with activeWeb contentserver R6.9.2024.0803
+copyright (C) 1998 - 2020 activeWeb GmbH
+copyright (C) 2021 - 2026 RWTH Aachen University
+template script: asp
+template id: cw
+template version: 57
+template label: 
+cacheable minutes: 40320
+license info: 
+
+	License-Type: LIVE-ENTERPRISE
+	Created: 2011-12-12-11-2-45
+	Expires: 2032-6-24-12-2-45
+	Licensee: RWTH Aachen
+	Generated by: FTS
+
+-->
+
+<!--
+type: template
+codepage: 65001
+charset: utf-8
+id: oyda
+id-requests: 0
+duration: 0,03125 sec(s)
+node: CS3
+rendered: 09.11.2026 18:46:32
+PID: 17228
+errcount: 0
+FIFOSize: 462128 / 500000
+-->

@@ -1,0 +1,23 @@
+{
+ "rows": 2855,
+ "cells": 64,
+ "seg_pcts": {
+  "0": NaN,
+  "5": NaN,
+  "25": NaN,
+  "50": NaN,
+  "75": NaN,
+  "95": NaN,
+  "100": NaN
+ },
+ "seg_cv": NaN,
+ "percell_cv_median": 0.0908408759435607,
+ "cum_total_median": NaN,
+ "eol": {
+  "interval": 64
+ },
+ "bracket_cyc_median": 143.0,
+ "ah_min": 2837.839499377779,
+ "ah_median": 4417.033517555556,
+ "ah_max": 9273.816004266662
+}

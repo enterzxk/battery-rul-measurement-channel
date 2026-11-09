@@ -1,0 +1,84 @@
+﻿{
+    "programme":  "online-mechanisms-20261110",
+    "branch":  "research/online-mechanisms-20261110",
+    "base_sha":  "44d9a691678a7d9f05b3df3ad316ce45509a4010",
+    "t0_local":  "2026-11-10T01:36:16+08:00",
+    "window_hours":  10,
+    "window_end_local":  "2026-11-10T11:36:16+08:00",
+    "phase":  "P2-corrections-and-C",
+    "question_under_test":  "A: online degradation-state predictor advancing on real operating exposure, correcting only on real measurement arrival, with interval-censored EOL",
+    "fallbacks":  [
+                      "B: stress-conditioned cross-condition dynamics (ISU three-factor table)",
+                      "C: protocol/censoring infrastructure"
+                  ],
+    "input_fingerprints_sha256":  {
+                                      ".research/results/isu_table.npz":  "41D2C15AD22C6070A56B071E8C9A57DCAE7EC123CDBA22314B4F9A9993963805",
+                                      ".research/results/isu_conditions.csv":  "262DC2C34392CF02FFF7719CC35943C78FDCC0CFAD988DE8D034AE1FC769B2EC",
+                                      ".research/lit/isu_readme.txt":  "0B1B3A577FE3781713CB9D209E8472BC63C068F78D815683B92C33A270314303",
+                                      ".research/results/v2_main.py":  "F45E7084ED607DC928B6FAFC30F3C48EFAD3650553022664949D871F3BDA681C",
+                                      "data/external/uconn/data_cc_1.pkl":  "TO-BE-RECORDED",
+                                      "data/external/uconn/data_slowpulse_1.pkl":  "TO-BE-RECORDED"
+                                  },
+    "completed":  [
+                      {
+                          "item":  "repo located, branch created from closure BASE_SHA",
+                          "evidence":  "git branch research/online-mechanisms-20261110 at 44d9a69"
+                      },
+                      {
+                          "item":  "HISTORICAL_BOUNDARIES.md written (falsified / not-established / untested split)",
+                          "evidence":  ".research/programmes/online-mechanisms-20261110/HISTORICAL_BOUNDARIES.md"
+                      },
+                      {
+                          "item":  "UConn raw schema decoded",
+                          "evidence":  "6x storage artefact; num_cycles is a segment length; 64 cells / 11 conditions"
+                      },
+                      {
+                          "item":  "canonical tidy table + EOL intervals built",
+                          "evidence":  "protocol/uconn_online_tidy.csv (2855 rows), protocol/uconn_eol_intervals.csv (64 intervals)"
+                      },
+                      {
+                          "item":  "inspection cadence quantified as irregular",
+                          "evidence":  "protocol/uconn_data_contract.json: median 98 cycles, IQR [84,119], CV 0.23, max/min 16.4"
+                      },
+                      {
+                          "item":  "DATA_CONTRACT.md written with estimand + field-level leakage map",
+                          "evidence":  "protocol/DATA_CONTRACT.md"
+                      },
+                      {
+                          "item":  "3 independent subagents dispatched",
+                          "evidence":  "novelty d8ffc9b1, data 2c4ffc0b, red-team 8159b7f1"
+                      },
+                      {
+                          "item":  "three subagents delivered",
+                          "evidence":  "literature/PRIOR_ART_A.md; protocol/DATA_IDENTIFIABILITY.md; reviews/RED_TEAM_A.md"
+                      },
+                      {
+                          "item":  "8 errors found and registered",
+                          "evidence":  "CORRECTIONS.md (C1-C14)"
+                      },
+                      {
+                          "item":  "ISU lifetime rebuilt from raw JSON: 250 cells / 63 conditions / 0 right-censored",
+                          "evidence":  "code/rebuild_isu_lifetime.py -\u003e protocol/isu_lifetime_interval.csv"
+                      },
+                      {
+                          "item":  "B corrected: all 250 cells, cell-level correlations, clustered SE, both functional forms",
+                          "evidence":  "code/B_corrected.py -\u003e protocol/B_corrected.json"
+                      }
+                  ],
+    "running":  [
+                    {
+                        "id":  "pwsh-aa0c1c1f37b54c44",
+                        "role":  "C thinning curve",
+                        "status":  "running"
+                    }
+                ],
+    "next_action":  "collect thinning curve; test whether required inspection budget depends on stress; write RESULTS_C",
+    "blockers":  [
+
+                 ],
+    "not_established":  [
+                            "calendar time axis (needs rpt_data.zip 2.35GB, not downloaded)",
+                            "Ah-throughput (needs cycling_part1/2.zip 13.6GB, not downloaded)",
+                            "ISU real cycle counts (needs Cycling_json.zip 10.2GB, figshare path blocked)"
+                        ]
+}

@@ -1,0 +1,10 @@
+{
+ "n": 53,
+ "rank_spearman_throughput": 0.28181956249110945,
+ "p_throughput": 0.04091435388724424,
+ "rank_spearman_law": 0.8682486326659576,
+ "p_law": 3.802637507507712e-17,
+ "rank_spearman_dod": 0.665914000300854,
+ "top10_agree_throughput": 3,
+ "top10_agree_law": 6
+}
