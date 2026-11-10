@@ -1,0 +1,17 @@
+{
+ "mean_loss": {
+  "Candidate": 48.57281883393458,
+  "FixedEarly": 49.53798692572247,
+  "FixedEven": 44.24701760055264,
+  "FixedLate": 43.39283298731818,
+  "Random": 45.61753109525907,
+  "VoI": 44.346764410134526
+ },
+ "mean_wasted": 21.435711907990108,
+ "mean_failure_exposure": 24.516780067496807,
+ "early_share": 0.46647550516792136,
+ "mean_abs_log_ratio": 0.1841127159257782,
+ "within_cell_policy_spread_mean": 29.42100927978698,
+ "within_cell_policy_spread_median": 13.103112864507125,
+ "loss_level": 45.95249197548691
+}

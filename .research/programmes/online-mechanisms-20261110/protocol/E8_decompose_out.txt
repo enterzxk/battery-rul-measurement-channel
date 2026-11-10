@@ -1,0 +1,31 @@
+rows 906 | cells 151 | conditions 44 | policies ['Candidate', 'FixedEarly', 'FixedEven', 'FixedLate', 'Random', 'VoI']
+
+=== loss decomposition by policy (days) ===
+  policy      mean loss mean e     wasted     failure exp  early %    mean log(R/M)
+  Candidate   48.57     -17.2      22.4       5.2          46.2       -0.113
+  FixedEarly  49.54     -18.9      24.0       5.1          48.4       -0.128
+  FixedEven   44.25     -14.6      19.5       4.9          44.1       -0.086
+  FixedLate   43.39     -15.7      20.3       4.6          46.8       -0.098
+  Random      45.62     -16.4      21.3       4.9          46.7       -0.106
+  VoI         44.35     -16.4      21.1       4.7          47.5       -0.104
+
+=== how much of the loss is the same for every policy? ===
+  policy      mean Δ vs Even paired 95% CI              spread across policies
+  Candidate          +4.33 [   -0.01,    +9.34]      (cell level, n=151)
+  FixedEarly         +5.29 [   -1.74,   +13.11]      (cell level, n=151)
+  FixedEven          +0.00 [   +0.00,    +0.00]      (cell level, n=151)
+  FixedLate          -0.85 [   -2.97,    +1.27]      (cell level, n=151)
+  Random             +1.37 [   -1.95,    +5.22]      (cell level, n=151)
+  VoI                +0.10 [   -1.81,    +1.87]      (cell level, n=151)
+
+  within-cell spread of loss across the 6 policies: median 13.10 d, mean 29.42 d, 90th pct 62.17 d
+  mean loss level: 45.95 d  -> within-cell policy spread is 64.0% of it
+
+=== dominant term ===
+  mean wasted life (early replacement) : 21.4 d
+  mean failure exposure x 5          : 24.5 d
+  -> early replacement accounts for 46.6% of the total loss
+  mean |log(pred_R / M)| = 0.184  (median 0.124)
+  implied log-sd under a Gaussian quantile rule (tau=1/6, z=-0.967): median -0.087
+
+wrote E8_decomposition.csv / .json

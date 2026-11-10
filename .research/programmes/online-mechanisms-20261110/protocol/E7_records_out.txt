@@ -1,0 +1,29 @@
+T=63 N=2 ratio=5 | 151 cells / 44 conditions
+rows: 906  (cells 151, conditions 44, policies 6)
+
+mean loss by policy:
+              mean  median  size
+policy                          
+Candidate   48.573  27.705   151
+FixedEarly  49.538  24.640   151
+FixedEven   44.247  21.938   151
+FixedLate   43.393  22.435   151
+Random      45.618  23.409   151
+VoI         44.347  23.355   151
+
+example rows:
+cell     policy        insp_days     pred_R          M       loss
+G1C1  FixedEven  0.00|7.99|60.26 187.322806 346.194236 158.871430
+G1C1  FixedLate 0.00|51.97|60.26 187.322806 346.194236 158.871430
+G1C1 FixedEarly  0.00|7.99|15.94 181.784796 346.194236 164.409440
+G1C1     Random 0.00|42.72|51.97 187.228518 346.194236 158.965719
+G1C1        VoI       0.00|60.26 187.262916 346.194236 158.931320
+G1C1  Candidate  0.00|7.99|33.08 182.227693 346.194236 163.966543
+G1C2  FixedEven  0.00|7.99|60.26 187.394346 362.141834 174.747489
+G1C2  FixedLate 0.00|51.97|60.26 187.368883 362.141834 174.772951
+G1C2 FixedEarly  0.00|7.99|15.94 182.078788 362.141834 180.063046
+G1C2     Random 0.00|42.72|51.97 187.374898 362.141834 174.766936
+G1C2        VoI       0.00|60.26 187.316573 362.141834 174.825261
+G1C2  Candidate  0.00|7.99|33.08 182.216281 362.141834 179.925554
+
+wrote E7_inspection_records.csv / E7_records.json

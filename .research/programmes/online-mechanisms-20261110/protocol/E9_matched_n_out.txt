@@ -1,0 +1,27 @@
+=== (a) how often did an adaptive arm buy fewer than N=2? ===
+            mean  min  max  n_short    n  pct_short
+policy                                             
+Candidate   2.00    2    2        0  151       0.00
+FixedEarly  2.00    2    2        0  151       0.00
+FixedEven   2.00    2    2        0  151       0.00
+FixedLate   2.00    2    2        0  151       0.00
+Random      2.00    2    2        0  151       0.00
+VoI         1.74    1    2       40  151      26.49
+
+  -> the matched-N contract was violated for the adaptive arms above;
+     fixed arms are unaffected (they choose all N at once).
+
+=== (b) re-running T=63 N=2 ratio=5 with matched-N chooser ===
+  folds 44 | strongest fixed chosen: {'FixedEven': 44} | short-purchase counts: {}
+
+  policy      loss       Δ_CF         paired 95% CI            verdict
+  FixedEven   40.468           +0.000 [   +0.00,    +0.00]  NEGATIVE
+  FixedLate   39.076           +1.392 [   -0.73,    +3.71]  NEGATIVE
+  FixedEarly  44.222           -3.753 [  -13.32,    +3.52]  NEGATIVE
+  Random      41.166           -0.698 [   -6.08,    +3.19]  NEGATIVE
+  VoI         39.566           +0.902 [   -1.57,    +3.56]  NEGATIVE
+  Candidate   44.155           -3.687 [  -11.20,    +1.64]  NEGATIVE
+
+  margin = 4.25 d | J_fixed = 42.47 d
+
+wrote E9_matched_n.json

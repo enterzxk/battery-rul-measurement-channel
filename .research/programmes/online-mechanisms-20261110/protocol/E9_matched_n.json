@@ -1,0 +1,62 @@
+{
+ "T": 63,
+ "N": 2,
+ "ratio": 5.0,
+ "n_folds": 44,
+ "margin": 4.246831814308666,
+ "n_short": {
+  "FixedEven": 0,
+  "FixedLate": 0,
+  "FixedEarly": 0,
+  "Random": 0,
+  "VoI": 0,
+  "Candidate": 0
+ },
+ "results": {
+  "FixedEven": {
+   "loss": 40.468318143086655,
+   "delta": 0.0,
+   "lo": 0.0,
+   "hi": 0.0,
+   "verdict": "NEGATIVE"
+  },
+  "FixedLate": {
+   "loss": 39.076340607718855,
+   "delta": 1.3919775353678079,
+   "lo": -0.725853401777909,
+   "hi": 3.7093221141892174,
+   "verdict": "NEGATIVE"
+  },
+  "FixedEarly": {
+   "loss": 44.22178020448563,
+   "delta": -3.7534620613989604,
+   "lo": -13.316679189943699,
+   "hi": 3.5213435024045374,
+   "verdict": "NEGATIVE"
+  },
+  "Random": {
+   "loss": 41.166384123415384,
+   "delta": -0.6980659803287194,
+   "lo": -6.08106902239489,
+   "hi": 3.1867275123052843,
+   "verdict": "NEGATIVE"
+  },
+  "VoI": {
+   "loss": 39.56585205555489,
+   "delta": 0.9024660875317728,
+   "lo": -1.5659173965635989,
+   "hi": 3.5586308759215037,
+   "verdict": "NEGATIVE"
+  },
+  "Candidate": {
+   "loss": 44.15491321297469,
+   "delta": -3.6865950698880243,
+   "lo": -11.19889526458949,
+   "hi": 1.637262635161142,
+   "verdict": "NEGATIVE"
+  }
+ },
+ "fixed_chosen": {
+  "FixedEven": 44
+ }
+}
