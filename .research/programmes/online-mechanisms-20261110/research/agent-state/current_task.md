@@ -6,21 +6,17 @@
 
 ## Active task
 
-- **Stage E closed: timing policy NO-GO; both pivots fail their gates**
-- Pre-registered 18-cell temporal policy replay, nested LOCO, non-anticipating acquisition, R=max(T,exp(q_tau)). Result: 14 NEGATIVE / 4 INCONCLUSIVE / 0 SUPPORT. Primary setting (T=63,N=2,c_f/c_w=5): VoI delta_CF +0.23 d [-1.65,+2.28] vs margin 4.25 d; Candidate -3.69 d. Oracle hindsight gap 12.67 d (29.8% of total J) but the best online policy captures 3.0%. All six identifiability gates passed (I1-I6), so this is a negative result from an identified design, not an invalid experiment. Pivots: B (clock discrimination) structurally unidentifiable - ISU records have no cycle-count and no measured-throughput field, only a nominal throughput that is a per-condition rescaling of calendar days; A (design sets the error) downgraded to a diagnostic by Codex. Registered F-020 and F-021.
+- **Stage F closed: physical clock recovered and verified, no new identifiable question**
+- Official ISU-ILCC Cycling_json.zip (10,208,084,439 bytes, md5 27ac156b31f7c35d4f27a78267c0dd56) downloaded and byte-verified against the figshare manifest; RPT_json.zip independently md5-matches. 251 cells parsed (0 errors), release split 238/13 matches the official process_data.py batch2 list, 4,712 RPT rows aligned on absolute timestamps. Three of my own measurement errors were found by independent review and corrected: (1) the cycle-admission screen used a FULL-DEPTH nominal rate and wrongly rejected shallow-DoD cells - a DoD-aware rate admits 208/208; (2) reversal significance was argued on the wrong scale; (3) the nominal-EFC undercount claim compared two different quantities and is withdrawn. Design diagnostic passes numerically (rank 3/3, condition number 2.65, VIF<=2.23) but the contrast census shows ZERO cross-condition pairs at fixed cycle count, and the within-condition lever is downtime, so the physical calendar-vs-cycle decomposition is IDENTIFICATION NOT ESTABLISHED. Codex round 2: CLOSE the programme; answer to the owner's closing question is NO.
 
 ## Next actions
 
-1. Do not reopen the timing-policy direction without a new online policy class that reduces subset-selection variance without foreknowledge, tested under the same frozen contract
-2. To reopen pivot B, obtain the ISU Cycling_json.zip (10.2 GB, previously blocked) or a cohort whose cycles-per-day varies at fixed throughput; then build the Codex-required condition-level exposure map before any model comparison
-3. If pivot A is retained, first correct the target quantity (expected absolute error, not prediction sd), define held-out leverage excluding the test condition, pre-register the response surface and a training-only scale estimate, and include a constant-scale rival plus a median-lifetime rival
-4. Preserve the reusable asset: the six-gate identifiability audit (oracle ceiling, within-cell loss CV, policy Jaccard, feature-locality destruction test, subset enumerability) plus the nested non-anticipating replay harness
-5. All future experiments on campus-h3 or lab-server; local runs are void under the workspace compute rule
-6. Archive the timing programme; no further policy fits. Register F-020 and F-021
-7. To reopen pivot B, obtain the ISU Cycling_json.zip (10.2 GB, previously blocked) or a cohort whose cycles-per-day varies at fixed throughput; then build the condition-level exposure map before any model comparison
-8. If pivot A is retained, correct the target quantity to expected absolute error, define held-out leverage excluding the test condition, and add a constant-scale rival plus a median-lifetime rival
-9. Preserve the six-gate identifiability audit and the nested non-anticipating replay harness as the reusable assets
-10. Do not rescue the closed direction via budget points, seeds, favourable subsets or stacked modules
+1. Do not run the narrow predictive-information experiment; record it as NOT RUN with incremental value unknown, never as NO_GAIN or falsified
+2. Preserve the verified archive, the F1-F7 conversion code and the three-clock table as a measurement asset
+3. Never record the closed mechanism question as a disproved physical law; its status is IDENTIFICATION NOT ESTABLISHED UNDER THIS DESIGN
+4. Remove the word irreducible from any conclusion about predictive spread; the tested calibration and timing interventions failed, which is not a Bayes-error floor
+5. To reopen, require controlled or defensible operating contrasts that separate calendar duration, cycle count and charge dose under comparable stress with independent replication, plus a specific original mechanism with a falsifiable prediction these data can distinguish
+6. Insufficient to reopen: another feature encoding, regressor, seed, clock-axis change, or a significant association among the existing interval variables
 
 ## Selected idea
 
