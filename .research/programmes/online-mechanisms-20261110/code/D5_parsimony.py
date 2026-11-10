@@ -89,7 +89,8 @@ def run(name, cells, ages, stress, k_max):
         rec = dict(cohort=name, k=int(k), amp_med=float(Q.amp.median()),
                    base=float(cb.mean()))
         for arm, feats in LADDER.items():
-            ph = C.fit_loco(Q, base + feats)
+            used = []
+            ph = C.fit_loco(Q, base + feats, used=used)
             ok = okb & np.isfinite(ph)
             ch = C.cond_macro(np.abs(ph[ok] - Q.y.values[ok]), Q.cond.values[ok])
             g, lo, hi, p = C.paired_gain(cb, ch)
@@ -97,6 +98,7 @@ def run(name, cells, ages, stress, k_max):
             rec[arm + "_gain"] = g
             rec[arm + "_lo"] = lo
             rec[arm + "_hi"] = hi
+            rec[arm + "_nfeat"] = len(used[0]) if used else 0
             line += "%-9.4f %-12s" % (ch.mean(), "%+5.1f%%" % g)
             if arm == "full":
                 Qf = Q.loc[ok].copy()
@@ -124,7 +126,9 @@ def run(name, cells, ages, stress, k_max):
     for arm in ["two_point", "slope", "slope_se", "full"]:
         d = 100.0 * (out[-1][arm] / out[0][arm] - 1.0)
         verdict = "SATURATED" if abs(d) < 5 else ("improves" if d < 0 else "degrades")
-        print("    %-10s %+6.1f%%   %s" % (arm, d, verdict))
+        print("    %-10s %+6.1f%%   %s   (features k=%d: %d, k=%d: %d)" % (
+            arm, d, verdict, out[0]["k"], out[0][arm + "_nfeat"],
+            out[-1]["k"], out[-1][arm + "_nfeat"]))
     return out, (pd.concat(preds, ignore_index=True) if preds else None)
 
 

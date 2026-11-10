@@ -124,7 +124,9 @@ def eval_k(rows, k, stress):
     Q = pd.DataFrame(Q)
     base = C.AGE + (C.STRESS if stress is not None else [])
     pb = C.fit_loco(Q, base)
-    ph = C.fit_loco(Q, base + HEALTH_K)
+    used = []
+    ph = C.fit_loco(Q, base + HEALTH_K, used=used)
+    kept = used[0] if used else []
     ok = np.isfinite(pb) & np.isfinite(ph)
     y = Q.y.values[ok]
     eb, eh = pb[ok] - y, ph[ok] - y
@@ -139,6 +141,7 @@ def eval_k(rows, k, stress):
                n_queries=int(ok.sum()), span_med=float(Q[ok].span.median()),
                amp_med=float(Q[ok].amp.median()),
                life_frac_med=float(Q[ok].life_frac.median()),
+               n_feat_used=len(kept), feats_used="|".join(kept),
                mae_base=float(cb.mean()), mae_health=float(ch.mean()),
                mae_gain=g, mae_lo=lo, mae_hi=hi, mae_p=p,
                dec_base=float(ab.mean()), dec_health=float(ah.mean()),
@@ -173,11 +176,11 @@ def sweep(name, cells, ages, stress, k_max):
         if Q is not None:
             Q["cohort"] = name
             preds.append(Q)
-        print("  %-2d %-6d %-5d %-7.1f %-7.4f %-7.3f %-8.4f %-8.4f %+6.1f%% [%6.1f,%6.1f] | %-8.4f %-8.4f %+6.1f%% [%6.1f,%6.1f]" % (
+        print("  %-2d %-6d %-5d %-7.1f %-7.4f %-7.3f %-8.4f %-8.4f %+6.1f%% [%6.1f,%6.1f] | %-8.4f %-8.4f %+6.1f%% [%6.1f,%6.1f] | feat %d" % (
             r["k"], r["n_cells"], r["n_cond"], r["span_med"], r["amp_med"],
             r["life_frac_med"], r["mae_base"], r["mae_health"], r["mae_gain"],
             r["mae_lo"], r["mae_hi"], r["dec_base"], r["dec_health"],
-            r["dec_gain"], r["dec_lo"], r["dec_hi"]))
+            r["dec_gain"], r["dec_lo"], r["dec_hi"], r["n_feat_used"]))
     if len(out) >= 2:
         a, b = out[0], out[-1]
         print("  saturation check  k=%d -> k=%d :  MAE %+.1f%%   DECISION %+.1f%%   (health arm)" % (

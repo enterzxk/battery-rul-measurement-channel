@@ -1,0 +1,33 @@
+============================================================================================
+D7 · is any of this bigger than the model-variance floor?
+============================================================================================
+
+============================================================================================
+ISU · stability floor of the reported numbers
+============================================================================================
+  cohort: 180 cells / 50 conds / 331 rows
+  k=2 two_point  ref  -26.3% | order-perm [ -26.3,  -26.2] | HGB variants [ -28.4,  -22.6] | Ridge  -27.6% | TOTAL SPREAD 5.8 pp
+  k=2 full       ref  -23.0% | order-perm [ -23.1,  -22.8] | HGB variants [ -24.7,  -21.7] | Ridge  -27.9% | TOTAL SPREAD 6.2 pp
+  k=6 two_point  ref  -26.3% | order-perm [ -26.3,  -26.2] | HGB variants [ -28.4,  -22.6] | Ridge  -27.6% | TOTAL SPREAD 5.8 pp
+  k=6 full       ref  -23.6% | order-perm [ -23.6,  -23.4] | HGB variants [ -24.6,  -22.6] | Ridge  -27.8% | TOTAL SPREAD 5.2 pp
+
+============================================================================================
+UConn · stability floor of the reported numbers
+============================================================================================
+  cohort: 64 cells / 11 conds / 123 rows
+  k=2 two_point  ref   -0.2% | order-perm [  -0.2,   -0.2] | HGB variants [  -1.0,   +1.3] | Ridge   +3.3% | TOTAL SPREAD 4.2 pp
+  k=2 full       ref  -34.6% | order-perm [ -36.8,  -34.6] | HGB variants [ -34.6,  -33.1] | Ridge   +6.6% | TOTAL SPREAD 43.4 pp
+  k=6 two_point  ref   -0.2% | order-perm [  -0.2,   -0.2] | HGB variants [  -1.0,   +1.3] | Ridge   +3.3% | TOTAL SPREAD 4.2 pp
+  k=6 full       ref  -23.0% | order-perm [ -23.4,  -22.9] | HGB variants [ -23.8,  -21.5] | Ridge  +31.1% | TOTAL SPREAD 54.9 pp
+
+  VERDICT RULE: report a point estimate only if |ref_gain| exceeds the spread.
+  ISU   k=2 two_point  gain  -26.3%  spread 5.8 pp  -> STABLE
+  ISU   k=2 full       gain  -23.0%  spread 6.2 pp  -> STABLE
+  ISU   k=6 two_point  gain  -26.3%  spread 5.8 pp  -> STABLE
+  ISU   k=6 full       gain  -23.6%  spread 5.2 pp  -> STABLE
+  UConn k=2 two_point  gain   -0.2%  spread 4.2 pp  -> NOT IDENTIFIABLE
+  UConn k=2 full       gain  -34.6%  spread 43.4 pp  -> NOT IDENTIFIABLE
+  UConn k=6 two_point  gain   -0.2%  spread 4.2 pp  -> NOT IDENTIFIABLE
+  UConn k=6 full       gain  -23.0%  spread 54.9 pp  -> NOT IDENTIFIABLE
+
+wrote D7_stability.csv / .json

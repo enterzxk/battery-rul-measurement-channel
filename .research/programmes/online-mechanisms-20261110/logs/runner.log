@@ -1,0 +1,32 @@
+cwd: /home/user/dline/prog/code
+python: Python 3.13.9
+libs 2.5.4 1.18.1 1.9.1 3.1.1
+raw isu bytes: 929406930
+git HEAD of code: n/a
+launched D1_deconfound pid 2762414
+launched D4_budget_curve pid 2762415
+launched D5_parsimony pid 2762416
+launched D7_stability pid 2762417
+launched D8_audit pid 2762418
+waiting for: 2762414 2762415 2762416 2762417 2762418
+=== batch finished ===
+D1_deconfound ok
+as_sched_health      10        0.170545
+
+wrote D1_deconfound.csv / D1_deconfound.json / D1_predictions.csv
+D4_budget_curve ok
+  saturation check  k=2 -> k=6 :  MAE -0.8%   DECISION -2.1%   (health arm)
+
+wrote D4_budget_curve.csv / .json / D4_predictions.csv
+D5_parsimony ok
+    full        +17.8%   degrades   (features k=2: 5, k=6: 9)
+
+wrote D5_parsimony.csv / .json / D5_predictions.csv
+D7_stability ok
+  UConn k=6 full       gain  -23.0%  spread 54.9 pp  -> NOT IDENTIFIABLE
+
+wrote D7_stability.csv / .json
+D8_audit ok
+  -> equivalence at this margin: YES (EXPLORATORY, margin declared post hoc)
+
+wrote D8_audit.json / D8_eligibility.csv / D8_k2_vs_k6.csv / D8_predictions_k2_k6.csv

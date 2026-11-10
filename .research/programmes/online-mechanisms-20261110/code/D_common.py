@@ -31,7 +31,16 @@ import pandas as pd
 HERE = os.path.dirname(os.path.abspath(__file__))
 PROTO = os.path.join(HERE, "..", "protocol")
 RES = os.path.join(HERE, "..", "..", "..", "results")
-RAW_ISU = r"E:\桌面\rul\data\external\isu_raw\RPT_json.zip"
+
+# Paths are overridable so the identical code runs locally and on the compute
+# server. The workspace rule (2026-11-10) is that no experiment may run on the
+# Windows box, so every result reported from line D is produced remotely with
+# DLINE_DATA / DLINE_RES pointing at the server copies.
+RAW_ISU = os.environ.get("DLINE_RAW_ISU") or r"E:\桌面\rul\data\external\isu_raw\RPT_json.zip"
+if os.environ.get("DLINE_RES"):
+    RES = os.environ["DLINE_RES"]
+if os.environ.get("DLINE_PROTO"):
+    PROTO = os.environ["DLINE_PROTO"]
 
 MIN_OBS = 3
 EOL_SOH = 0.80
@@ -161,9 +170,42 @@ def build_queries(cells, ages, stress=None, min_obs=MIN_OBS):
     return pd.DataFrame(recs)
 
 
-def fit_loco(Q, feats, model=None):
-    """Leave-one-condition-out. Returns predictions aligned to Q.index."""
+def usable_features(Q, feats):
+    """Drop columns that carry no information for this query table.
+
+    Two cases, both of which must be handled explicitly rather than silently:
+
+      * all-NaN columns  -- e.g. ols_se_slope / ols_resid_sd / ols_curv at k=2,
+        where a residual degrees of freedom does not exist. The quantity is
+        undefined, not zero.
+      * constant columns -- e.g. UConn's soh_first, which is 1.0 for every cell
+        because the first reference test defines the normalization.
+
+    sklearn 1.9 raises ValueError('window shape cannot be larger than input array
+    shape') from _find_binning_thresholds -> sliding_window_view(distinct, 2)
+    when a column has fewer than two distinct values. Dropping such a column is
+    behaviour-preserving: a column with one distinct value cannot support a split,
+    so it contributed nothing to the fit. The kept set is reported by callers so
+    the feature count at each k stays visible.
+    """
+    keep = []
+    for f in feats:
+        v = np.asarray(Q[f].values, dtype=float)
+        fin = v[np.isfinite(v)]
+        if fin.size >= 2 and np.unique(fin).size >= 2:
+            keep.append(f)
+    return keep
+
+
+def fit_loco(Q, feats, model=None, used=None):
+    """Leave-one-condition-out. Returns predictions aligned to Q.index.
+
+    `used`, if a list, receives the feature names actually fitted.
+    """
     from sklearn.ensemble import HistGradientBoostingRegressor
+    feats = usable_features(Q, feats)
+    if used is not None:
+        used.append(list(feats))
     p = np.full(len(Q), np.nan)
     for held in sorted(Q.cond.unique()):
         te = (Q.cond == held).values

@@ -1,0 +1,27 @@
+====================================================================================
+D8 · audit required before any line-D claim
+====================================================================================
+
+=== 1. normalization reference timing ===
+  cells: 208
+  argmax index: {0: 202, 1: 6}
+  reference day: max 7.99, median 0.00, p95 0.00
+  earliest query age used: 21 days
+  cells whose reference is attained ON OR AFTER the earliest query: 0
+  -> NO future information enters the normalization
+
+=== 2. exact eligibility per query age ===
+  age   cells   conds   med n_obs t<L      
+  21    199     51      4.0       199      
+  35    192     51      6.0       192      
+  49    180     50      7.0       180      
+  63    151     44      9.0       151      
+
+=== 3. direct paired k=2 vs k=6 interval (same arm, same cohort) ===
+  fixed cohort: 188 cells / 50 conds / 435 rows
+  conditions: 50 | base MAE 0.1836 | k=2 0.1474 | k=6 0.1454
+  paired difference (k=6 minus k=2): -0.0020  [95% CI -0.0139, +0.0104]  Wilcoxon p=0.723
+  practical-equivalence margin: +/- 0.0184  (10% of base MAE)
+  -> equivalence at this margin: YES (EXPLORATORY, margin declared post hoc)
+
+wrote D8_audit.json / D8_eligibility.csv / D8_k2_vs_k6.csv / D8_predictions_k2_k6.csv

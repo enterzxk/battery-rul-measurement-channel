@@ -1,0 +1,147 @@
+{
+  "schema": "autonomous-research-os/state@1",
+  "project_id": "turn-the-programme-s-only-robust-positive-result",
+  "research_goal": "Turn the programme's only robust positive result (ISU: observed health trajectory improves EOL prediction by 19.4% over age+stress, CI [-27.4,-11.2]) into a genuine method contribution — a schedule/inspection-aware monitoring decision rule with an explicit decision loss, a sparsity or information metric, and a falsifiable threshold — or prove that it cannot be done and close the line with an auditable negative result.",
+  "status": "active",
+  "current_stage": "S2",
+  "stage_visits": {
+    "S0": 1,
+    "S1": 1,
+    "S2": 1
+  },
+  "stage_history": [
+    {
+      "from": "S0",
+      "to": "S1",
+      "at": "2026-11-10T06:27:33.204Z",
+      "reason": "Repository audit complete: read the six mandatory programme documents, inventoried all 17 A/B/C scripts and the protocol outputs, and located the data situation for both cohorts plus four candidate third cohorts.",
+      "evidence": [
+        "RESULTS_D.md §0 (compute rule and data provenance)",
+        "RESULTS_D.md §6 (third-cohort inventory: Severson 1 cell, Bayreuth 48 cells x exactly 74 cycles, CALCE CS2_21 1 cell, NASA PCoE 4 cells/subset)",
+        "protocol/D8_normalization_timing.csv (208 ISU cells profiled)",
+        "protocol/D8_eligibility.csv (per-age eligibility 199/192/180/151 cells)",
+        "read: NEXT_48H_PLAN.md, REVIEW_RESPONSE.md, CLAIM_EVIDENCE_MAP.md, RESULTS_C.md, CORRECTIONS.md, TEN_HOUR_FINAL_REPORT.md"
+      ],
+      "value_judgement": null
+    },
+    {
+      "from": "S1",
+      "to": "S2",
+      "at": "2026-11-10T06:27:42.416Z",
+      "reason": "Prior-art sweep complete. The inspection-scheduling and value-of-information framing is occupied: Kim/Choi/Kim 2022 and Morato 2022 cover uncertainty-reduction-driven inspection scheduling, Prakash 2026 covers sequential test-duration decisions with early stopping, Johnen 2020 covers inspection-interval design for interval-censored lifetimes.",
+      "evidence": [
+        "F-019: Kim, Choi & Kim 2022 derive inspection schedules from reducible prediction uncertainty on NASA battery data; Morato et al. 2022 optimise inspection/maintenance from updated uncertainty distributions",
+        "F-013: Prakash et al. 2026 (10.1016/j.jpowsour.2026.241525) cost-aware sequential BOED already selects how long a cell must be tested to predict its life with adequate certainty, with early stopping",
+        "literature/PRIOR_ART_A.md: Johnen et al. 2020 already studies inspection-interval design (equal-length vs equal-failure-probability) for interval-censored lifetime MLE",
+        "Codex thread 01a1c3f0-4f86-7af0-834b-3db2d161cc7c"
+      ],
+      "value_judgement": null
+    }
+  ],
+  "active_task": {
+    "detail": "Gap discovery concluded: no ownable gap on this line. (a) The assigned premise is refuted — C's health arm contained the pure schedule quantities span/n_obs; on ISU schedule adds +1.5% [-4.5,+8.0] p=0.249 while health-only adds -19.6% [-27.3,-11.0], and on UConn adding schedule alone costs +77.8%. (b) A third cohort is infeasible locally. (c) The reliability-stopping replacement is occupied (Kim 2022, Morato 2022) and its directional hypothesis was analytically inverted. (d) UConn is not identifiable (spread 43-55 pp, Ridge flips sign). Bounded negative recorded in RESULTS_D.md; F-016..F-019 registered. All numbers produced on campus-h3.",
+    "id": "line-D-closed",
+    "title": "Line D closed with an auditable negative result"
+  },
+  "completed_tasks": [],
+  "next_actions": [
+    "Do not report any inspection-budget, saturation or equivalence claim until a chronological held-out-condition policy replay exists",
+    "If reopening: loss-specific sequential acquisition model using only pre-purchase observations, benchmarked against the strongest fixed policy and an ordinary value-of-information arm at matched J = c_insp*N + c_err*decision_loss",
+    "Before any cross-cohort claim, resolve UConn identifiability: 11 conditions cannot support a point estimate whose estimator-family spread is 43-55 pp",
+    "Reuse the audit protocol as the asset: fixed population, prediction-time-only queries, stability floor, capacity placebo, direct paired interval, normalization-timing check",
+    "All future experiments must run on campus-h3 or lab-server; local runs are void under the workspace compute rule"
+  ],
+  "selected_idea": null,
+  "research_decisions": [
+    {
+      "ts": "2026-11-10T05:40:27.283Z",
+      "kind": "decision",
+      "level": "L2",
+      "source": "codex",
+      "question": "The assigned candidate (schedule-sparsity-aware monitoring decision rule) rests on a premise that D1 refuted. Is the replacement candidate — a reliability-based inspection stopping rule using rho = s2_between/(s2_between+s2_est) as the moderator of marginal inspection value — a Q1-level method, or another measurement? Should the line close with an auditable negative?",
+      "decision": "NO-GO / CLOSE_CURRENT_RELIABILITY_METHOD_CANDIDATE. Do not run the rho test. Retain the inspection-budget results as a bounded retrospective finding, explicitly NOT as a claim that additional inspections contain no information. Reopen only with a separately specified, loss-specific sequential acquisition model that beats a Bayesian value-of-information comparator in a chronological held-out-condition policy replay.",
+      "rationale": "Codex returned NO-GO and, independently, identified three defects in my own proposed test that I verified on reading: (1) D6's outcome arm is base+[soh_first,soh_last], which endpoint-preserving thinning leaves exactly invariant, so the correlation would be against a constant — the same error class as D3 v1; (2) my directional prediction was analytically inverted — for B~N(mu,tau^2) observed with noise v, reducing v to a*v gives relative risk reduction rho(1-a)/[rho+a(1-rho)], which increases with rho, so HIGH-reliability conditions benefit more, not less; (3) var(slope)=sigma^2/S_xx, and with fixed endpoints adding the midpoint changes neither S_xx nor the slope, so the v2=2*v4 conversion is unjustified. Codex also flagged unresolved normalization-reference timing in the ISU loader (ref = nanmax(v[:L]) uses the full trajectory) and directly relevant prior art: Kim, Choi & Kim 2022 derive inspection schedules from reducible prediction uncertainty and apply them to NASA battery data; Morato et al. 2022 optimise inspection/maintenance planning from updated uncertainty. Uncertainty-reduction plus an economic purchasing threshold is therefore occupied.",
+      "evidence": [
+        ".research/programmes/online-mechanisms-20261110/code/D6_reliability.py:76 - per_cond_gain fits base+[soh_first,soh_last] at k=2 and k=6, both invariant to endpoint-preserving thinning, so the gain is identically zero",
+        ".research/programmes/online-mechanisms-20261110/code/D4_budget_curve.py:47 - thin() always retains first and last observation",
+        ".research/programmes/online-mechanisms-20261110/code/D_common.py:95 - ref = np.nanmax(v[:L]) normalizes by the full-trajectory maximum",
+        ".research/programmes/online-mechanisms-20261110/protocol/D1_deconfound.csv - schedule arm +1.5% p=0.25 on ISU; +77.8% on UConn",
+        ".research/programmes/online-mechanisms-20261110/protocol/D4_budget_curve.csv - k=2 -23.6% vs k=6 -23.8%",
+        ".research/programmes/online-mechanisms-20261110/protocol/D5_parsimony.csv - capacity placebo +1.2% to +9.1% (negative)",
+        "Codex thread 01a1c3f0-4f86-7af0-834b-3db2d161cc7c (gpt-6.1-sol, xhigh)"
+      ],
+      "rejected_options": [
+        "Run D6 and promote a significant moderator correlation into a method (invalid test; observational moderator association would not establish a purchasing policy or novelty)",
+        "Declare saturation a property of the prediction problem (a finite descriptor/learner set cannot establish that unused observations carry no information; no practical-equivalence conclusion follows from nearby point estimates)",
+        "Treat the shuffled-feature placebo as a complete capacity control (it permutes columns independently, breaking their joint relationships, so it does not isolate every representation effect)",
+        "Conclude that inspection optimisation is universally unsalvageable (the current candidate fails; the broader decision problem remains open)"
+      ],
+      "scientific_risks": [
+        "A two-point secant is unbiased for a constant linear slope only under appropriate error assumptions; it need not estimate the future rate relevant to EOL, and extra observations can reveal curvature, knees or regime change",
+        "Endpoint-preserving thinning asks whether infilling an existing window helps, not whether to skip a future inspection; the two interventions differ",
+        "U is a reference-schedule DETECTION time, so a policy that inspects less detects EOL later and must not receive credit for that",
+        "The 3:1 asymmetric log-EOL penalty is a forecasting surrogate; HGB fits squared error, whose optimum is the mean, not the 0.25 quantile of that asymmetric loss",
+        "Eligibility uses eventual t<L, a retrospective survivor population; this does not establish deployment representativeness",
+        "ISU has already informed the hypothesis and descriptor choices, so within-ISU variation is not an untouched confirmation set"
+      ],
+      "next_actions": [
+        "Retire D6 as an invalid experiment design; record the LOW-rho-must-help claim as analytically rejected and empirical inspection-value heterogeneity as UNTESTED (not falsified)",
+        "Resolve normalization-reference timing: determine whether max(capacity) occurs before the earliest query for every cell, or rebuild with a reference fixed from pre-deployment information",
+        "Report exact age-specific eligibility counts and a direct paired condition-level interval for the saved k=2 vs k=6 predictions, with an explicitly stated practical-equivalence margin",
+        "Write the bounded closure statement for line D and record it in the ledger",
+        "Only if reopening: specify a loss-specific acquisition model using pre-purchase quantities, with a chronological held-out-condition policy replay against a Bayesian value-of-information comparator"
+      ],
+      "falsification_criteria": [
+        "The policy requires withheld measurements, future normalization, unavailable target-condition histories, or outcome-dependent eligibility",
+        "The upper confidence bound on held-out net benefit is below the prespecified minimum useful benefit",
+        "The apparent advantage disappears against the strongest fixed policy or an ordinary value-of-information comparator, or disappears when rho is ablated at matched budget",
+        "The gain depends on a policy-dependent detection endpoint rather than a common reference outcome, or fails sensitivity analysis for interval-censored EOL"
+      ],
+      "codex_thread_id": "01a1c3f0-4f86-7af0-834b-3db2d161cc7c",
+      "stage": "S0"
+    },
+    {
+      "ts": "2026-11-10T06:27:33.204Z",
+      "kind": "stage-advance",
+      "level": "L1",
+      "source": "deepseek",
+      "from": "S0",
+      "to": "S1",
+      "reason": "Repository audit complete: read the six mandatory programme documents, inventoried all 17 A/B/C scripts and the protocol outputs, and located the data situation for both cohorts plus four candidate third cohorts.",
+      "evidence": [
+        "RESULTS_D.md §0 (compute rule and data provenance)",
+        "RESULTS_D.md §6 (third-cohort inventory: Severson 1 cell, Bayreuth 48 cells x exactly 74 cycles, CALCE CS2_21 1 cell, NASA PCoE 4 cells/subset)",
+        "protocol/D8_normalization_timing.csv (208 ISU cells profiled)",
+        "protocol/D8_eligibility.csv (per-age eligibility 199/192/180/151 cells)",
+        "read: NEXT_48H_PLAN.md, REVIEW_RESPONSE.md, CLAIM_EVIDENCE_MAP.md, RESULTS_C.md, CORRECTIONS.md, TEN_HOUR_FINAL_REPORT.md"
+      ],
+      "value_judgement": null
+    },
+    {
+      "ts": "2026-11-10T06:27:42.416Z",
+      "kind": "stage-advance",
+      "level": "L1",
+      "source": "deepseek",
+      "from": "S1",
+      "to": "S2",
+      "reason": "Prior-art sweep complete. The inspection-scheduling and value-of-information framing is occupied: Kim/Choi/Kim 2022 and Morato 2022 cover uncertainty-reduction-driven inspection scheduling, Prakash 2026 covers sequential test-duration decisions with early stopping, Johnen 2020 covers inspection-interval design for interval-censored lifetimes.",
+      "evidence": [
+        "F-019: Kim, Choi & Kim 2022 derive inspection schedules from reducible prediction uncertainty on NASA battery data; Morato et al. 2022 optimise inspection/maintenance from updated uncertainty distributions",
+        "F-013: Prakash et al. 2026 (10.1016/j.jpowsour.2026.241525) cost-aware sequential BOED already selects how long a cell must be tested to predict its life with adequate certainty, with early stopping",
+        "literature/PRIOR_ART_A.md: Johnen et al. 2020 already studies inspection-interval design (equal-length vs equal-failure-probability) for interval-censored lifetime MLE",
+        "Codex thread 01a1c3f0-4f86-7af0-834b-3db2d161cc7c"
+      ],
+      "value_judgement": null
+    }
+  ],
+  "experiment_queue": [],
+  "running_jobs": [],
+  "last_git_commit": null,
+  "last_successful_checkpoint": "E:\\桌面\\rul\\rul_v4_20261107\\.research\\programmes\\online-mechanisms-20261110\\research\\agent-state\\checkpoints\\2026-11-10T06-27-42-421Z-S2-advance-s2.json",
+  "blocked_reason": null,
+  "resume_instructions": "Read NEXT_48H_PLAN.md, REVIEW_RESPONSE.md, CLAIM_EVIDENCE_MAP.md, RESULTS_C.md, CORRECTIONS.md, TEN_HOUR_FINAL_REPORT.md in .research/programmes/online-mechanisms-20261110/, then research_status and continue from next_actions[0]. Hard discipline: (1) fix the evaluation population; (2) never build query times from the eventual answer; (3) one statistical unit (condition for cluster inference); (4) always run the age baseline; (5) save per-cell predictions; (6) no fabrication. Every new contrast must first be checked for whether the 'change' is produced automatically by schedule or population structure.",
+  "notes": [],
+  "revision": 6,
+  "created_at": "2026-11-10T03:51:52.680Z",
+  "updated_at": "2026-11-10T06:27:51.562Z"
+}

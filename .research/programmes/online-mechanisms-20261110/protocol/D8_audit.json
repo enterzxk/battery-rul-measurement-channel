@@ -1,0 +1,25 @@
+{
+ "normalization": {
+  "n_cells": 208,
+  "argmax_counts": {
+   "0": 202,
+   "1": 6
+  },
+  "ref_day_max": 7.989502314814815,
+  "ref_day_median": 0.0,
+  "earliest_query": 21,
+  "n_leaking": 0
+ },
+ "k2_vs_k6": {
+  "n_cond": 50,
+  "base_mae": 0.1835651857702454,
+  "err_k2": 0.14744959367438656,
+  "err_k6": 0.14541126721311845,
+  "diff": -0.002038326461268114,
+  "ci_lo": -0.013862802851327492,
+  "ci_hi": 0.010409536915321291,
+  "wilcoxon_p": 0.7232586770768918,
+  "margin": 0.018356518577024538,
+  "equivalent_at_margin": true
+ }
+}
