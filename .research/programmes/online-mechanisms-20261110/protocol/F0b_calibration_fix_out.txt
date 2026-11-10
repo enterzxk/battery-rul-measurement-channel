@@ -1,0 +1,18 @@
+T=63 N=2 ratio=5 tau*=0.1667 | 151 cells / 44 conds
+
+  arm            coverage   loss       med log(R/M)
+  raw tau*       0.2450     36.291     -0.090
+  scale-shrunk   0.2450     36.356     -0.093
+  nested tau     0.2715     37.435     -0.082
+
+  lam chosen per fold : median 1.00  (range 1.00-1.05)
+  tau chosen per fold : {0.25: 35, 0.16666666666666666: 7, 0.3333333333333333: 2}
+
+=== Q3 verdict ===
+  scale-shrunk   change  +0.065 d  (+0.2%)
+  nested tau     change  +1.144 d  (+3.2%)
+
+  If nested-tau selection alone matches the calibration gain, then the
+  'early replacement' problem is a HYPERPARAMETER issue, not a mechanism.
+
+wrote F0b_calibration_fix.csv / .json

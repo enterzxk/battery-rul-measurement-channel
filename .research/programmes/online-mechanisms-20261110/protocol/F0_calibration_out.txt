@@ -1,0 +1,30 @@
+T=63 N=2 ratio=5 tau*=0.1667 | 151 cells / 44 conditions
+schedule held fixed = FixedEven, so only the predictive distribution varies
+
+  tau=0.0500  coverage=0.1523  mean loss=  35.451  med log(R/M)=-0.155  frac early=0.848
+  tau=0.1000  coverage=0.2185  mean loss=  33.565  med log(R/M)=-0.113  frac early=0.781
+  tau=0.1667  coverage=0.2450  mean loss=  36.291  med log(R/M)=-0.090  frac early=0.755
+  tau=0.2500  coverage=0.2914  mean loss=  37.513  med log(R/M)=-0.072  frac early=0.709
+  tau=0.3333  coverage=0.3576  mean loss=  39.761  med log(R/M)=-0.045  frac early=0.642
+  tau=0.5000  coverage=0.5099  mean loss=  45.479  med log(R/M)=+0.006  frac early=0.490
+  tau=0.7500  coverage=0.7152  mean loss=  80.883  med log(R/M)=+0.082  frac early=0.285
+
+=== Q1: is tau* = 0.1667 calibrated? ===
+  target coverage 0.1667  ->  empirical 0.2450  (gap +0.0784)
+  -> OVER-CONSERVATIVE: model replaces too early, calibration should help
+
+=== Q2: is loss monotone in coverage, i.e. is the optimum identifiable? ===
+  loss-minimising tau in the grid: 0.1000 (coverage 0.2185, loss 33.565)
+  loss at tau* 36.291 vs at the grid optimum 33.565  (difference 2.726 d)
+
+=== Q3: does split-conformal recalibration to tau* recover loss? ===
+  raw       coverage 0.2450  loss 36.291
+  conformal coverage 0.2450  loss 36.288  (change -0.002 d)
+
+=== decomposition of the loss at tau* ===
+  mean early (wasted life)      : 20.84 d  (57.4% of loss)
+  mean late x 5 (failure exp.) : 15.45 d  (42.6%)
+  NOTE: with a CALIBRATED tau* the early share is a property of the LOSS
+        function (risk aversion), not an error to be removed.
+
+wrote F0_calibration.csv / .json
