@@ -1,0 +1,38 @@
+RPT cells: 208 | cycling cells: 251
+
+=== A1/A2 alignment ===
+cells with cycling+RT paired: 208 | RPT rows: 4712
+RPTs with zero preceding cycles: 208 (4.41%)
+
+=== A3 cycles per day ===
+count    208.000000
+mean      29.034291
+std       21.745248
+min        4.797980
+25%       10.430688
+50%       21.445028
+75%       44.381061
+max       97.127239
+
+=== A4/A5 gaps and duplicates ===
+  cells with duplicated cycle timestamps: 0
+  cells with non-monotone timestamps    : 50
+  median gap (days) across cells        : 0.0402
+  max gap (days) p95                    : 9.326
+
+=== A6 cross-condition spread of cum_cycles at a FIXED calendar day ===
+  day<=21   cum_cycles across conditions: min     80  median    236  max    675  ratio 8.49x
+  day<=35   cum_cycles across conditions: min    115  median    428  max   1340  ratio 11.65x
+  day<=49   cum_cycles across conditions: min    184  median    613  max   1661  ratio 9.03x
+  day<=63   cum_cycles across conditions: min    184  median    872  max   2351  ratio 12.78x
+
+=== A7 measured Ah per cycle vs rated 0.250 Ah ===
+  median measured charge Ah per cycle   : 0.0659
+  median measured discharge Ah per cycle: 0.0663
+  -> partial-DoD conditions must fall below the rated capacity
+
+=== cross-check: measured cum_cycles vs nominal 24/(1/Cc+1/Cd) * day ===
+  measured / nominal cycles: median 1.366  IQR [0.939, 1.906]
+  (1.0 would mean the nominal formula is exact; deviation is real)
+
+wrote F2_cell_audit.csv / F2_rpt_alignment.csv

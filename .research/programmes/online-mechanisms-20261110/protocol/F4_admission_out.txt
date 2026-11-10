@@ -1,0 +1,31 @@
+admitted audit rows: 208
+=== admission rule: cycles_per_day / nominal <= 4.0 ===
+  nominal cycles/day across conditions: min 6.00  median 11.20  max 27.57
+  measured / nominal: median 1.77  IQR [1.06, 2.59]  max 7.3
+  cells admitted for the CYCLE clock : 200 / 208
+  cells excluded from the CYCLE clock: 8
+  excluded cells: ['G42C1', 'G42C2', 'G42C3', 'G42C4', 'G49C1', 'G49C2', 'G49C3', 'G59C4']
+
+=== impact on the D/E analysis cohort (208 cells) ===
+  cohort cells with an admitted cycle clock: 200 / 208 (96.2%)
+  cohort cells lost from cycle-clock analyses: ['G42C1', 'G42C2', 'G42C3', 'G42C4', 'G49C1', 'G49C2', 'G49C3', 'G59C4']
+  conditions affected: [42, 49, 59]
+  NOTE throughput and calendar clocks keep ALL 208 cohort cells.
+
+=== final clock table (D/E cohort) ===
+  rows 4712 | cells 208 | conditions 53
+  cum_cycles_admitted    non-null  4458 (94.6%)  median    1329.00  max     22069.00
+  cum_ah_ch              non-null  4712 (100.0%)  median     159.78  max       697.16
+  cum_ah_dis             non-null  4712 (100.0%)  median     158.50  max       686.11
+  day                    non-null  4712 (100.0%)  median      90.68  max       674.12
+
+=== are the clocks distinguishable? (the gate question) ===
+  pearson(day, cum_cycles_admitted) = 0.7914
+  pearson(day, cum_ah_ch) = 0.8961
+  pearson(cum_cycles_admitted, cum_ah_ch) = 0.8659
+  cycles/day across conditions: min 4.4  median 14.4  max 43.5  ratio 10.0x
+  Ah/day across conditions   : min 0.991  median 1.818  max 3.142  ratio 3.2x
+  -> cycle rate spans 10.0x while throughput rate spans 3.2x:
+     the two exposures are NOT a common rescaling of each other
+
+wrote F4_clock_table.csv / F4_admission.csv / F4_admission.json

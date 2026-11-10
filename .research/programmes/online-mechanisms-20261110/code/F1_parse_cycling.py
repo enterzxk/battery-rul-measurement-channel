@@ -126,12 +126,17 @@ def parse_one(args):
         rec["cycle_span_days"] = float(days[-1]) if len(days) else np.nan
         rec["cycle_days_nonmonotone"] = int((np.diff(days) < -1e-9).sum()) if len(days) > 1 else 0
         rec["_cycle_days"] = days
+        # absolute per-cycle timestamps as int64 ns, so downstream steps never
+        # need to re-parse the 10.2 GB archive
+        rec["_cycle_ts"] = np.array(
+            [x.astype("datetime64[ns]").astype("int64") for x in ct], dtype="int64")
     else:
         rec["first_cycle_dt"] = ""
         rec["last_cycle_dt"] = ""
         rec["cycle_span_days"] = np.nan
         rec["cycle_days_nonmonotone"] = -1
         rec["_cycle_days"] = np.array([])
+        rec["_cycle_ts"] = np.array([], dtype="int64")
 
     # cumulative measured throughput aligned to the per-cycle index
     if len(ch) and np.isfinite(ch).any():

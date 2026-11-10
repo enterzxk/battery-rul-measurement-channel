@@ -1,0 +1,32 @@
+{
+ "max_ratio": 4.0,
+ "n_cells": 208,
+ "n_cycle_admitted": 200,
+ "excluded": [
+  "G42C1",
+  "G42C2",
+  "G42C3",
+  "G42C4",
+  "G49C1",
+  "G49C2",
+  "G49C3",
+  "G59C4"
+ ],
+ "cohort": 208,
+ "cohort_cycle_admitted": 200,
+ "cohort_lost": [
+  "G42C1",
+  "G42C2",
+  "G42C3",
+  "G42C4",
+  "G49C1",
+  "G49C2",
+  "G49C3",
+  "G59C4"
+ ],
+ "conditions_affected": [
+  42,
+  49,
+  59
+ ]
+}

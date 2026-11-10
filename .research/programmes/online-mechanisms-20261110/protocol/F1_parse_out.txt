@@ -1,0 +1,25 @@
+cycling entries: 251  (releases: ['Cycling_json/Release 1.0', 'Cycling_json/Release 2.0'])
+  parsed 25/251
+  parsed 50/251
+  parsed 75/251
+  parsed 100/251
+  parsed 125/251
+  parsed 150/251
+  parsed 175/251
+  parsed 200/251
+  parsed 225/251
+  parsed 250/251
+
+=== parse summary ===
+cells: 251 | parse errors: 0
+  n_cap_charge       min     62.000  med   3122.000  max 172319.000  nan 0
+  n_cap_discharge    min     62.000  med   3122.000  max 172319.000  nan 0
+  n_ts_charge        min     62.000  med   3122.000  max 172319.000  nan 0
+  n_weeks            min      1.000  med     18.000  max     79.000  nan 0
+  cycle_span_days    min      6.863  med    144.918  max    673.110  nan 0
+  sum_ah_charge      min     14.526  med    245.694  max    697.155  nan 0
+  sum_ah_discharge   min     14.701  med    242.025  max    686.112  nan 0
+  cycle_days_nonmonotone>0: 53 cells
+  release counts: {'Cycling_json/Release 1.0': 238, 'Cycling_json/Release 2.0': 13}
+
+wrote F1_cycling_cells.csv and F1_cycling_arrays.pkl
