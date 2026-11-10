@@ -1,0 +1,15 @@
+{
+ "max_ratio": 4.0,
+ "dod_min": 0.17420000000000002,
+ "dod_max": 0.9808,
+ "n_cells": 208,
+ "n_admitted_full": 200,
+ "n_admitted_dod": 208,
+ "still_implausible": [],
+ "rev_over_gap_max": 10.2576687116356,
+ "rev_cells": 50,
+ "efc_withdrawn": true,
+ "efc_charge_median": 1031.9158869444452,
+ "efc_2sided_median": 1026.4500374722222,
+ "cycles_median": 3850.5
+}

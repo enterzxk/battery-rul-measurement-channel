@@ -1,0 +1,23 @@
+=== release composition ===
+               n  admitted  excl    cpd_med  ratio_med    span_med      ah_med
+release_tag                                                                   
+Release 1.0  196       191     5  20.424018   1.711003  146.485498  245.756822
+Release 2.0   12         9     3  46.683809   3.334843  281.060509  405.307722
+
+=== exclusion rate by release ===
+  Release 1.0  excluded 5 / 196 (2.6%)
+  Release 2.0  excluded 3 / 12 (25.0%)
+  excluded cells in Release 2.0: ['G49C1', 'G49C2', 'G49C3']
+  excluded cells in Release 1.0: ['G42C1', 'G42C2', 'G42C3', 'G42C4', 'G59C4']
+
+=== do the releases differ on the measured clocks? (admitted cells only) ===
+  cycles_per_day     R1 median      20.05 (n=191) | R2 median      49.17 (n=9)
+  ratio_to_nominal   R1 median       1.69 (n=191) | R2 median       2.94 (n=9)
+  span_days          R1 median     146.05 (n=191) | R2 median     281.06 (n=9)
+  sum_ah_ch          R1 median     243.98 (n=191) | R2 median     412.87 (n=9)
+
+=== do the releases occupy different conditions? ===
+  R2 conditions: [49, 50, 57, 58]
+  conditions appearing ONLY in R2: [49, 57]
+
+wrote F5_version.csv / F5_version.json

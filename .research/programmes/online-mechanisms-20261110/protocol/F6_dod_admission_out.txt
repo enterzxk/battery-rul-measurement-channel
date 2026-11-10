@@ -1,0 +1,43 @@
+=== DoD-aware repair of the cycle admission ===
+  DoD across conditions: min 17.42%  median 58.57%  max 98.08%
+  nominal_full (cycles/day): median 11.2
+  nominal_dod  (cycles/day): min 6.1  median 23.2  max 116.2
+
+  measured/nominal_FULL : median 1.77  max 7.29   -> 8 cells above 4x
+  measured/nominal_DOD  : median 0.80  max 2.65   -> 0 cells above 4x
+
+  ADMITTED (DoD-aware, <=4x): 208 / 208
+  -> every cell now has a physically plausible per-cycle clock
+
+  the previously excluded cells, re-judged:
+ cell  cond    dod  cycles_per_day  nominal_full  nominal_dod  ratio_full  ratio_dod  cycle_clock_admitted
+G42C1    42 0.3632       61.842304     13.330645    36.703318    4.639108   1.684924                  True
+G42C2    42 0.3632       72.136560     13.330645    36.703318    5.411333   1.965396                  True
+G42C3    42 0.3632       72.041880     13.330645    36.703318    5.404231   1.962817                  True
+G42C4    42 0.3632       97.127239     13.330645    36.703318    7.286012   2.646280                  True
+G49C1    49 0.1882       40.044610      9.572727    50.864651    4.183198   0.787278                  True
+G49C2    49 0.1882       41.323165      9.572727    50.864651    4.316760   0.812414                  True
+G49C3    49 0.1882       47.028437      9.572727    50.864651    4.912752   0.924580                  True
+G59C4    59 0.3164       89.964181     18.423810    58.229486    4.883039   1.544994                  True
+
+=== reversal audit at the correct scale (vs the inter-cycle gap) ===
+  cells with reversals: 50 / 208
+  largest reversal / median inter-cycle gap: median 0.00  p95 3.02  max 10.26
+  largest reversal (days): median 0.0000  max 0.0387
+  -> a reversal comparable to one inter-cycle gap means the ORDER of two
+     adjacent records is ambiguous, not that exposure is lost. Exposure
+     is assigned by timestamp, so an ordering ambiguity moves at most one
+     cycle's Ah across an RPT boundary.
+
+=== EFC claim: WITHDRAWN ===
+  F4 compared a MEASURED PARTIAL-CYCLE COUNT against a NOMINAL
+  FULL-EQUIVALENT-CYCLE rate. Those are different quantities, so the
+  '1.8x undercount' figure is not a bias estimate and is retracted.
+  Correct definitions, both reported below:
+    EFC_charge = cum charge Ah / Q_ref        : median 1032
+    EFC_2sided = (ch+dis) Ah / (2 Q_ref)      : median 1026
+    physical cycle count                      : median 3850
+  The earlier B-line conclusion about nominal EFC must be re-derived with
+  one of these explicit conventions, not reversed by assertion.
+
+wrote F6_admission_dod.csv / F6_reversal_audit.csv / F6_admission_dod.json

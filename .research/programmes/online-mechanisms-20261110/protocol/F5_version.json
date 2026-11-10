@@ -1,0 +1,21 @@
+{
+ "r1": 196,
+ "r2": 12,
+ "r1_excl": 5,
+ "r2_excl": 3,
+ "r2_excluded_cells": [
+  "G49C1",
+  "G49C2",
+  "G49C3"
+ ],
+ "r2_conditions": [
+  49,
+  50,
+  57,
+  58
+ ],
+ "r2_only_conditions": [
+  49,
+  57
+ ]
+}
