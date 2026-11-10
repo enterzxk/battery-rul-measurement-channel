@@ -1,0 +1,18 @@
+RPT cells kept: 250 (of 251) | total bad records dropped: 50
+cells that lost >=1 record: 40
+  worst: [(3, 'G26C4'), (3, 'G26C3'), (3, 'G26C2'), (3, 'G26C1'), (3, 'G25C4')]
+
+=== corrected cohort ===
+cells with >=3 usable RPTs: 250 | cells with an observed crossing: 250
+conditions represented: 63
+cells per condition: min 3 median 4 max 4
+  LOCO usable with >=1 cells/condition: 63
+  LOCO usable with >=2 cells/condition: 63
+  LOCO usable with >=3 cells/condition: 63
+  LOCO usable with >=4 cells/condition: 61
+
+=== DoD reconciliation (measured vs tabulated) ===
+  ratio measured/tabulated: median 0.631  IQR [0.183, 0.825]
+  conditions outside [0.6, 1.6]: 29 of 63
+
+wrote G0_cohort.csv / G0_cells.csv / G0_conditions.csv

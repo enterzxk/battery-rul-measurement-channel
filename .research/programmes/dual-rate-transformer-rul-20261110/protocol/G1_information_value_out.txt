@@ -1,0 +1,31 @@
+=== Gate 1 · information value ===
+cells with an observed 80% crossing: 208 | right-censored (no crossing): 0
+query rows: 2644 | cells: 207 | conditions: 53
+RUL in cycles: median 915  IQR [375, 2168]
+cells per condition: min 1  median 4  max 4
+  fitted E0       with  9 features: ['day', 'charge_C', 'discharge_C', 'DoD', 'soh_k', 'soh_0', 'rpt_slope', 'rpt_span', 'n_rpt']
+  fitted E1A_exp  with 10 features: ['day', 'charge_C', 'discharge_C', 'DoD', 'soh_k', 'soh_0', 'rpt_slope', 'rpt_span', 'n_rpt', 'cum_cycles']
+  fitted E1A_cap  with 12 features: ['day', 'charge_C', 'discharge_C', 'DoD', 'soh_k', 'soh_0', 'rpt_slope', 'rpt_span', 'n_rpt', 'cum_cycles', 'cum_ah_ch', 'cum_ah_dis']
+
+scored rows: 2644
+
+  arm              condMacro MAE  condMacro RMSE med |log err| vs E0
+  ConditionMedian  917.8          1084.5         0.892         +156.5% [+122.2,+210.3] n=53
+  E0               357.9          451.3          0.299         -
+  E1A_exp          349.9          448.0          0.289           -2.2% [  -5.9,  +1.0] n=53
+  E1A_cap          347.1          446.2          0.290           -3.0% [  -6.7,  +0.6] n=53
+
+=== pre-registered Gate 1 verdict (needs >= 5% AND CI upper < 0) ===
+  E1A_exp   gain  -2.22%  95% CI [ -5.93,  +1.00]  -> FAIL
+  E1A_cap   gain  -3.00%  95% CI [ -6.68,  +0.63]  -> FAIL
+
+=== concentration check (drop one condition, recompute the gain) ===
+  E1A_exp   gain range across leave-one-out: [-3.3, -1.2]  share still < 0: 100%
+  E1A_cap   gain range across leave-one-out: [-3.7, -2.0]  share still < 0: 100%
+
+=== censoring sensitivity (EOL at N_lo vs midpoint vs N_hi) ===
+  N_lo E0       condMacro MAE    355.7  N_lo E1A_exp  condMacro MAE    349.5
+  mid  E0       condMacro MAE    357.9  mid  E1A_exp  condMacro MAE    349.9
+  N_hi E0       condMacro MAE    383.5  N_hi E1A_exp  condMacro MAE    375.3
+
+wrote G1_queries.csv / G1_predictions.csv / G1_information_value.json
