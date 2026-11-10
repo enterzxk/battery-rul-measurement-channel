@@ -6,16 +6,21 @@
 
 ## Active task
 
-- **Line D closed with an auditable negative result**
-- Gap discovery concluded: no ownable gap on this line. (a) The assigned premise is refuted — C's health arm contained the pure schedule quantities span/n_obs; on ISU schedule adds +1.5% [-4.5,+8.0] p=0.249 while health-only adds -19.6% [-27.3,-11.0], and on UConn adding schedule alone costs +77.8%. (b) A third cohort is infeasible locally. (c) The reliability-stopping replacement is occupied (Kim 2022, Morato 2022) and its directional hypothesis was analytically inverted. (d) UConn is not identifiable (spread 43-55 pp, Ridge flips sign). Bounded negative recorded in RESULTS_D.md; F-016..F-019 registered. All numbers produced on campus-h3.
+- **Stage E closed: timing policy NO-GO; both pivots fail their gates**
+- Pre-registered 18-cell temporal policy replay, nested LOCO, non-anticipating acquisition, R=max(T,exp(q_tau)). Result: 14 NEGATIVE / 4 INCONCLUSIVE / 0 SUPPORT. Primary setting (T=63,N=2,c_f/c_w=5): VoI delta_CF +0.23 d [-1.65,+2.28] vs margin 4.25 d; Candidate -3.69 d. Oracle hindsight gap 12.67 d (29.8% of total J) but the best online policy captures 3.0%. All six identifiability gates passed (I1-I6), so this is a negative result from an identified design, not an invalid experiment. Pivots: B (clock discrimination) structurally unidentifiable - ISU records have no cycle-count and no measured-throughput field, only a nominal throughput that is a per-condition rescaling of calendar days; A (design sets the error) downgraded to a diagnostic by Codex. Registered F-020 and F-021.
 
 ## Next actions
 
-1. Do not report any inspection-budget, saturation or equivalence claim until a chronological held-out-condition policy replay exists
-2. If reopening: loss-specific sequential acquisition model using only pre-purchase observations, benchmarked against the strongest fixed policy and an ordinary value-of-information arm at matched J = c_insp*N + c_err*decision_loss
-3. Before any cross-cohort claim, resolve UConn identifiability: 11 conditions cannot support a point estimate whose estimator-family spread is 43-55 pp
-4. Reuse the audit protocol as the asset: fixed population, prediction-time-only queries, stability floor, capacity placebo, direct paired interval, normalization-timing check
-5. All future experiments must run on campus-h3 or lab-server; local runs are void under the workspace compute rule
+1. Do not reopen the timing-policy direction without a new online policy class that reduces subset-selection variance without foreknowledge, tested under the same frozen contract
+2. To reopen pivot B, obtain the ISU Cycling_json.zip (10.2 GB, previously blocked) or a cohort whose cycles-per-day varies at fixed throughput; then build the Codex-required condition-level exposure map before any model comparison
+3. If pivot A is retained, first correct the target quantity (expected absolute error, not prediction sd), define held-out leverage excluding the test condition, pre-register the response surface and a training-only scale estimate, and include a constant-scale rival plus a median-lifetime rival
+4. Preserve the reusable asset: the six-gate identifiability audit (oracle ceiling, within-cell loss CV, policy Jaccard, feature-locality destruction test, subset enumerability) plus the nested non-anticipating replay harness
+5. All future experiments on campus-h3 or lab-server; local runs are void under the workspace compute rule
+6. Archive the timing programme; no further policy fits. Register F-020 and F-021
+7. To reopen pivot B, obtain the ISU Cycling_json.zip (10.2 GB, previously blocked) or a cohort whose cycles-per-day varies at fixed throughput; then build the condition-level exposure map before any model comparison
+8. If pivot A is retained, correct the target quantity to expected absolute error, define held-out leverage excluding the test condition, and add a constant-scale rival plus a median-lifetime rival
+9. Preserve the six-gate identifiability audit and the nested non-anticipating replay harness as the reusable assets
+10. Do not rescue the closed direction via budget points, seeds, favourable subsets or stacked modules
 
 ## Selected idea
 

@@ -1,0 +1,32 @@
+JSON entries: 251
+
+=== top-level keys present in the first 12 cell records ===
+  capacity_discharge_C_5             12/12
+  capacity_discharge_C_2             12/12
+  capacity_charge_C_5                12/12
+  capacity_charge_C_2                12/12
+  QV_discharge_C_5                   12/12
+  QV_charge_C_5                      12/12
+  QV_discharge_C_2                   12/12
+  QV_charge_C_2                      12/12
+  start_stop_time                    12/12
+
+  cycle-count-like keys : NONE
+  throughput-like keys  : NONE
+
+=== cells with a stress descriptor: 208 ===
+  efc_per_day depends ONLY on (charge_C, discharge_C): 39 distinct values across 53 conditions
+
+=== condition-level exposure map (53 conditions) ===
+  corr(calendar days, nominal EFC-to-EOL) across conditions: pearson 0.611  spearman 0.612
+
+=== VERDICT: NOT IDENTIFIABLE ON THESE RECORDS ===
+  - no cycle-count field exists in the cell records
+  - no measured Ah-throughput field exists in the cell records
+  - nominal throughput = days * 24/(1/cc + 1/cd) is an algebraic function of the design factors, so it is a per-condition rescaling of calendar time, not an independent clock
+
+  What WOULD make it identifiable: measured per-cycle counts or measured
+  Ah throughput (ISU Cycling_json.zip, 10.2 GB, currently blocked), or a
+  cohort whose cycles-per-day varies at fixed throughput.
+
+wrote E5_exposure_map.csv / E5_clock_gate.json

@@ -1,0 +1,26 @@
+{
+ "keys": [
+  "QV_charge_C_2",
+  "QV_charge_C_5",
+  "QV_discharge_C_2",
+  "QV_discharge_C_5",
+  "capacity_charge_C_2",
+  "capacity_charge_C_5",
+  "capacity_discharge_C_2",
+  "capacity_discharge_C_5",
+  "start_stop_time"
+ ],
+ "n_sampled": 12,
+ "cycle_like": [],
+ "ah_like": [],
+ "n_cells_with_stress": 208,
+ "n_cond": 53,
+ "corr_days_efc_pearson": 0.610607336837035,
+ "corr_days_efc_spearman": 0.6116968762806313,
+ "verdict": "NOT IDENTIFIABLE ON THESE RECORDS",
+ "reasons": [
+  "no cycle-count field exists in the cell records",
+  "no measured Ah-throughput field exists in the cell records",
+  "nominal throughput = days * 24/(1/cc + 1/cd) is an algebraic function of the design factors, so it is a per-condition rescaling of calendar time, not an independent clock"
+ ]
+}
