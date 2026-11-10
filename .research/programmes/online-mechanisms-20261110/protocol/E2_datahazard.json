@@ -1,0 +1,28 @@
+{
+ "n_cells": 208,
+ "n_cond_with_cells": 53,
+ "cond_missing": [
+  20,
+  21,
+  22,
+  23,
+  24,
+  25,
+  26,
+  27,
+  28,
+  29
+ ],
+ "drop_gt": {
+  "5.0": 165,
+  "10.0": 76,
+  "20.0": 19
+ },
+ "cells_rule_differs": 1,
+ "cells_no_sustained": 0,
+ "conds_rule_differs": 1,
+ "rule": {
+  "SIMPLE": "first index with soh<=0.80",
+  "SUSTAINED": "first index from which all later observations are <=0.80"
+ }
+}

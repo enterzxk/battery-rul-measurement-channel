@@ -1,0 +1,128 @@
+ISU cells: 208
+
+=== I4/I7 · feature locality assertion ===
+  cells checked 60, violations 0 -> PASS
+
+==============================================================================
+T = 56 days · cohort 169 cells / 50 conditions
+==============================================================================
+
+  N=1  rows=1128  feats_used=9  median avail=7  median subsets/cell=7
+    I1 mean Jaccard: even/late 0.00  even/oracle 0.18  late/oracle 0.25  rand/oracle 0.16
+    I2 loss CV across subsets within cell: median 0.2110  p95 0.9422
+    I1 mean Jaccard: even/late 0.00  even/oracle 0.17  late/oracle 0.28  rand/oracle 0.12
+    oracle picks, relative position in the candidate window: median 0.60  IQR [0.17, 1.00]
+    I1 mean Jaccard: even/late 0.00  even/oracle 0.12  late/oracle 0.27  rand/oracle 0.13
+
+  N=2  rows=3219  feats_used=13  median avail=7  median subsets/cell=21
+    I1 mean Jaccard: even/late 0.33  even/oracle 0.29  late/oracle 0.20  rand/oracle 0.22
+    I2 loss CV across subsets within cell: median 0.2185  p95 1.0532
+    I1 mean Jaccard: even/late 0.33  even/oracle 0.35  late/oracle 0.27  rand/oracle 0.20
+    oracle picks, relative position in the candidate window: median 0.40  IQR [0.17, 0.83]
+    I1 mean Jaccard: even/late 0.33  even/oracle 0.39  late/oracle 0.27  rand/oracle 0.19
+
+  N=3  rows=5090  feats_used=13  median avail=7  median subsets/cell=35
+    I1 mean Jaccard: even/late 0.20  even/oracle 0.35  late/oracle 0.29  rand/oracle 0.31
+    I2 loss CV across subsets within cell: median 0.1872  p95 0.9850
+    I1 mean Jaccard: even/late 0.20  even/oracle 0.35  late/oracle 0.24  rand/oracle 0.35
+    oracle picks, relative position in the candidate window: median 0.33  IQR [0.17, 0.73]
+    I1 mean Jaccard: even/late 0.20  even/oracle 0.35  late/oracle 0.28  rand/oracle 0.31
+
+==============================================================================
+T = 63 days · cohort 151 cells / 44 conditions
+==============================================================================
+
+  N=1  rows=1152  feats_used=9  median avail=8  median subsets/cell=8
+    I1 mean Jaccard: even/late 0.00  even/oracle 0.13  late/oracle 0.26  rand/oracle 0.18
+    I2 loss CV across subsets within cell: median 0.2377  p95 1.0695
+    I1 mean Jaccard: even/late 0.00  even/oracle 0.15  late/oracle 0.28  rand/oracle 0.13
+    oracle picks, relative position in the candidate window: median 0.57  IQR [0.17, 1.00]
+    I1 mean Jaccard: even/late 0.00  even/oracle 0.15  late/oracle 0.30  rand/oracle 0.15
+
+  N=2  rows=3840  feats_used=13  median avail=8  median subsets/cell=28
+    I1 mean Jaccard: even/late 0.33  even/oracle 0.28  late/oracle 0.21  rand/oracle 0.17
+    I2 loss CV across subsets within cell: median 0.2097  p95 0.9745
+    I1 mean Jaccard: even/late 0.33  even/oracle 0.29  late/oracle 0.24  rand/oracle 0.18
+    oracle picks, relative position in the candidate window: median 0.43  IQR [0.14, 0.86]
+    I1 mean Jaccard: even/late 0.33  even/oracle 0.32  late/oracle 0.23  rand/oracle 0.14
+
+  N=3  rows=7304  feats_used=13  median avail=8  median subsets/cell=56
+    I1 mean Jaccard: even/late 0.20  even/oracle 0.28  late/oracle 0.25  rand/oracle 0.24
+    I2 loss CV across subsets within cell: median 0.2119  p95 0.8891
+    I1 mean Jaccard: even/late 0.20  even/oracle 0.29  late/oracle 0.24  rand/oracle 0.25
+    oracle picks, relative position in the candidate window: median 0.43  IQR [0.14, 0.71]
+    I1 mean Jaccard: even/late 0.20  even/oracle 0.30  late/oracle 0.25  rand/oracle 0.25
+
+==============================================================================
+I6 · ORACLE UPPER BOUND on the value of actively choosing inspection times
+==============================================================================
+  headroom = (J_strongest_fixed - J_oracle) / J_strongest_fixed
+  T    N   c_f    c_insp  J_fixed    J_oracle   headroom   best_fixed
+  56   1   2      0.5     27.26      21.18      0.223      FixedLate
+  56   1   2      1.0     27.76      21.68      0.219      FixedLate
+  56   1   2      2.0     28.76      22.68      0.211      FixedLate
+  56   1   5      0.5     28.65      22.62      0.210      FixedLate
+  56   1   5      1.0     29.15      23.12      0.207      FixedLate
+  56   1   5      2.0     30.15      24.12      0.200      FixedLate
+  56   1   10     0.5     46.31      36.94      0.202      FixedLate
+  56   1   10     1.0     46.81      37.44      0.200      FixedLate
+  56   1   10     2.0     47.81      38.44      0.196      FixedLate
+  56   2   2      0.5     26.78      19.85      0.259      FixedLate
+  56   2   2      1.0     27.78      20.85      0.249      FixedLate
+  56   2   2      2.0     29.78      22.85      0.233      FixedLate
+  56   2   5      0.5     35.34      26.16      0.260      FixedEven
+  56   2   5      1.0     36.34      27.16      0.253      FixedEven
+  56   2   5      2.0     38.34      29.16      0.239      FixedEven
+  56   2   10     0.5     50.03      35.28      0.295      FixedLate
+  56   2   10     1.0     51.03      36.28      0.289      FixedLate
+  56   2   10     2.0     53.03      38.28      0.278      FixedLate
+  56   3   2      0.5     28.28      19.94      0.295      FixedLate
+  56   3   2      1.0     29.78      21.44      0.280      FixedLate
+  56   3   2      2.0     32.78      24.44      0.254      FixedLate
+  56   3   5      0.5     38.49      27.55      0.284      FixedLate
+  56   3   5      1.0     39.99      29.05      0.273      FixedLate
+  56   3   5      2.0     42.99      32.05      0.254      FixedLate
+  56   3   10     0.5     43.78      29.59      0.324      FixedEarly
+  56   3   10     1.0     45.28      31.09      0.313      FixedEarly
+  56   3   10     2.0     48.28      34.09      0.294      FixedEarly
+  63   1   2      0.5     26.50      21.06      0.205      FixedLate
+  63   1   2      1.0     27.00      21.56      0.201      FixedLate
+  63   1   2      2.0     28.00      22.56      0.194      FixedLate
+  63   1   5      0.5     34.49      26.23      0.239      FixedLate
+  63   1   5      1.0     34.99      26.73      0.236      FixedLate
+  63   1   5      2.0     35.99      27.73      0.229      FixedLate
+  63   1   10     0.5     43.44      32.89      0.243      FixedEven
+  63   1   10     1.0     43.94      33.39      0.240      FixedEven
+  63   1   10     2.0     44.94      34.39      0.235      FixedEven
+  63   2   2      0.5     27.59      20.06      0.273      FixedLate
+  63   2   2      1.0     28.59      21.06      0.263      FixedLate
+  63   2   2      2.0     30.59      23.06      0.246      FixedLate
+  63   2   5      0.5     40.08      28.80      0.281      FixedLate
+  63   2   5      1.0     41.08      29.80      0.275      FixedLate
+  63   2   5      2.0     43.08      31.80      0.262      FixedLate
+  63   2   10     0.5     48.77      36.44      0.253      FixedLate
+  63   2   10     1.0     49.77      37.44      0.248      FixedLate
+  63   2   10     2.0     51.77      39.44      0.238      FixedLate
+  63   3   2      0.5     27.26      19.07      0.300      FixedEven
+  63   3   2      1.0     28.76      20.57      0.285      FixedEven
+  63   3   2      2.0     31.76      23.57      0.258      FixedEven
+  63   3   5      0.5     38.67      25.85      0.331      FixedLate
+  63   3   5      1.0     40.17      27.35      0.319      FixedLate
+  63   3   5      2.0     43.17      30.35      0.297      FixedLate
+  63   3   10     0.5     45.15      29.74      0.341      FixedEarly
+  63   3   10     1.0     46.65      31.24      0.330      FixedEarly
+  63   3   10     2.0     49.65      34.24      0.310      FixedEarly
+
+  MAX headroom across all pre-registered cells: 0.341 (34.1%)
+  pre-registered minimum useful benefit: 0.10 (10%)
+  I6 -> PASS (headroom exists)
+
+wrote E1_identifiability.csv / E1_gates.json
+
+=== GATE SUMMARY ===
+  I1_verdict   {'passed': True, 'min_even_oracle': 0.11834319526627218}
+  I2_verdict   {'passed': True, 'min_cv': 0.18721709341607218}
+  I3           {'range_rel': 0.6904270629240388, 'passed': True}
+  I4_I7        {'checked': 60, 'violations': 0, 'passed': True}
+  I5           {'passed': True, 'note': 'E0: at T=63 m=7-9 candidate times'}
+  I6           {'max_headroom': 0.34138782261909023, 'margin': 0.1, 'passed': True}

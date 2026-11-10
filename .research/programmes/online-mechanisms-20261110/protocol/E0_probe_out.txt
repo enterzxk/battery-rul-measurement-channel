@@ -1,0 +1,41 @@
+ISU cells loaded: 208
+
+=== 1. per-cell reference-test structure ===
+         count        mean        std       min        25%        50%         75%         max
+n_rpt    208.0   22.653846  11.690674  4.000000  16.000000  20.000000   29.000000   80.000000
+gap_med  208.0    8.178003   0.292360  7.989502   7.999826   8.006655    8.486042    9.023877
+gap_min  208.0    5.667458   1.537396  4.331910   4.612118   4.637836    7.691369    7.949850
+gap_max  208.0   10.844071   2.408401  8.112894   8.993701  10.007315   12.652465   16.192604
+L        208.0  103.211747  64.299023  0.000000  58.076771  90.383322  130.868961  390.152442
+U        208.0  111.685193  64.340645  7.949850  66.071849  98.765995  139.120347  398.154201
+width    208.0    8.473446   1.003433  7.691377   7.995394   8.016563    8.635093   13.432998
+
+  censoring interval width / life: median 0.0877  p95 0.2412
+  life (U) days: median 98.8  IQR [66.1, 139.1]
+
+=== 2. candidate action space per horizon T ===
+  T    eligible conds    m_med    m_min      m_max      subsets N=1/2/3 (median C(m,N))
+  42   187      51       6.0      5          7          6 / 15 / 20
+  49   180      50       7.0      6          7          7 / 21 / 35
+  56   169      50       8.0      7          8          8 / 28 / 56
+  63   151      44       9.0      7          9          9 / 36 / 84
+  70   131      43       10.0     8          10         10 / 45 / 120
+  84   112      34       11.0     10         12         11 / 55 / 165
+
+=== 3. is the RPT grid synchronised across cells? ===
+/home/user/dline/prog/code/E0_probe.py:89: RuntimeWarning: invalid value encountered in scalar divide
+  np.percentile(col, 75), np.std(col) / np.mean(col)))
+  RPT #0 : n=208  median    0.0 d  IQR [  0.0,   0.0]  CV nan
+  RPT #1 : n=208  median    4.6 d  IQR [  4.6,   8.0]  CV 0.343
+  RPT #2 : n=208  median    9.5 d  IQR [  9.5,  15.9]  CV 0.309
+  RPT #3 : n=208  median   18.0 d  IQR [ 18.0,  24.1]  CV 0.183
+  RPT #4 : n=204  median   26.0 d  IQR [ 26.0,  33.1]  CV 0.142
+  RPT #5 : n=204  median   34.1 d  IQR [ 34.0,  42.7]  CV 0.122
+  RPT #6 : n=201  median   42.0 d  IQR [ 41.8,  52.0]  CV 0.107
+  RPT #7 : n=198  median   50.1 d  IQR [ 50.0,  60.3]  CV 0.095
+
+=== 4. would a policy's choice actually change the observable history? ===
+  at T=63, candidate times per cell: median 9, min 7, max 9
+  -> a policy choosing N=1 of m has m distinct observable histories per cell
+
+wrote E0_feasibility.csv

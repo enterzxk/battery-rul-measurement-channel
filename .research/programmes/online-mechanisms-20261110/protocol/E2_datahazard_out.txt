@@ -1,0 +1,53 @@
+ISU cells loaded: 208   stress conditions in table: 63
+
+=== 1. single-step drop distribution (percentage points) ===
+count    208.000000
+mean      10.424171
+std        7.933328
+min        1.163864
+25%        5.276498
+50%        7.975647
+75%       13.039249
+max       52.397634
+  cells with a single-step drop >  5.0 pp : 165 (79.3%)  conditions: 49
+  cells with a single-step drop > 10.0 pp :  76 (36.5%)  conditions: 30
+  cells with a single-step drop > 20.0 pp :  19 (9.1%)  conditions: 9
+
+  worst offenders:
+ cell  cond  n_rpt  max_step_drop_pp  min_soh  last_soh
+ G5C4     5     10         52.397634 0.245167  0.245167
+ G5C2     5     16         49.370834 0.130677  0.130677
+G37C4    37     15         36.548076 0.301323  0.301323
+G35C4    35     13         34.640757 0.191014  0.191014
+ G5C1     5     14         33.281310 0.291058  0.291058
+G37C2    37     19         32.216170 0.302137  0.302137
+G38C1    38     14         30.968135 0.154082  0.154082
+ G5C3     5     16         29.679278 0.450560  0.450560
+
+=== 2. does a spurious dip break the EOL target? ===
+  cells where SIMPLE != SUSTAINED : 1 / 208 (0.5%)
+  cells with NO sustained crossing (never stays below 0.80): 0
+  affected conditions: 1
+
+  shift of the EOL interval when using the sustained rule (days):
+count     1.00000
+mean     22.06809
+std           NaN
+min      22.06809
+25%      22.06809
+50%      22.06809
+75%      22.06809
+max      22.06809
+
+  worst shifts:
+cell  cond  simple  sustained  shift_days  max_step_drop_pp       life
+G2C2     2      19         21    22.06809          3.391078 170.865833
+
+=== 3. condition reconciliation (63 in table vs 51 in the D-line analyses) ===
+  conditions with >=1 loaded cell : 53
+  conditions in the table but with 0 loaded cells: [20, 21, 22, 23, 24, 25, 26, 27, 28, 29]
+  cells per condition: min 2  median 4  max 4
+  NOTE: 250 raw cells -> 208 loaded here; the gap is the capacity/timestamp
+        admission filter in load_isu (L<4 or unparseable timestamps).
+
+wrote E2_datahazard_cells.csv / E2_crossing_rules.csv / E2_datahazard.json
