@@ -1,0 +1,226 @@
+{
+ "table": [
+  {
+   "cohort": "UConn",
+   "arm": "age",
+   "n_feat": 1,
+   "cond_macro_mae": 0.26793100803440634,
+   "n_cond": 11,
+   "n_queries": 256,
+   "n_cells": 64
+  },
+  {
+   "cohort": "UConn",
+   "arm": "age_sched",
+   "n_feat": 4,
+   "cond_macro_mae": 0.47641293111906063,
+   "n_cond": 11,
+   "n_queries": 256,
+   "n_cells": 64
+  },
+  {
+   "cohort": "UConn",
+   "arm": "age_health",
+   "n_feat": 4,
+   "cond_macro_mae": 0.220434533832613,
+   "n_cond": 11,
+   "n_queries": 256,
+   "n_cells": 64
+  },
+  {
+   "cohort": "UConn",
+   "arm": "age_sched_health",
+   "n_feat": 7,
+   "cond_macro_mae": 0.37039996827367716,
+   "n_cond": 11,
+   "n_queries": 256,
+   "n_cells": 64
+  },
+  {
+   "cohort": "ISU",
+   "arm": "age",
+   "n_feat": 1,
+   "cond_macro_mae": 0.39521260103263584,
+   "n_cond": 51,
+   "n_queries": 722,
+   "n_cells": 199
+  },
+  {
+   "cohort": "ISU",
+   "arm": "as",
+   "n_feat": 4,
+   "cond_macro_mae": 0.21312928838099823,
+   "n_cond": 51,
+   "n_queries": 722,
+   "n_cells": 199
+  },
+  {
+   "cohort": "ISU",
+   "arm": "as_sched",
+   "n_feat": 7,
+   "cond_macro_mae": 0.21638480174312177,
+   "n_cond": 51,
+   "n_queries": 722,
+   "n_cells": 199
+  },
+  {
+   "cohort": "ISU",
+   "arm": "as_health",
+   "n_feat": 7,
+   "cond_macro_mae": 0.17201025994342048,
+   "n_cond": 51,
+   "n_queries": 722,
+   "n_cells": 199
+  },
+  {
+   "cohort": "ISU",
+   "arm": "as_sched_health",
+   "n_feat": 10,
+   "cond_macro_mae": 0.1705180656279518,
+   "n_cond": 51,
+   "n_queries": 722,
+   "n_cells": 199
+  }
+ ],
+ "contrasts": [
+  {
+   "cohort": "UConn",
+   "arm": "age_sched",
+   "ref": "age",
+   "mae": 0.47641293111906063,
+   "ref_mae": 0.26793100803440634,
+   "gain_pct": 77.81179364572917,
+   "ci_lo": 48.31904374238008,
+   "ci_hi": 119.53122094278169,
+   "wilcoxon_p": 0.0048828125
+  },
+  {
+   "cohort": "UConn",
+   "arm": "age_health",
+   "ref": "age",
+   "mae": 0.220434533832613,
+   "ref_mae": 0.26793100803440634,
+   "gain_pct": -17.7271285433652,
+   "ci_lo": -35.049895725336256,
+   "ci_hi": 17.14263284070021,
+   "wilcoxon_p": 0.51953125
+  },
+  {
+   "cohort": "UConn",
+   "arm": "age_sched_health",
+   "ref": "age",
+   "mae": 0.37039996827367716,
+   "ref_mae": 0.26793100803440634,
+   "gain_pct": 38.24453204987468,
+   "ci_lo": 9.874583506237917,
+   "ci_hi": 71.37197769286585,
+   "wilcoxon_p": 0.0322265625
+  },
+  {
+   "cohort": "ISU",
+   "arm": "age",
+   "ref": "as",
+   "mae": 0.39521260103263584,
+   "ref_mae": 0.21312928838099823,
+   "gain_pct": 85.43326636841127,
+   "ci_lo": 54.45466523290256,
+   "ci_hi": 122.22916196166607,
+   "wilcoxon_p": 2.2057137775240066e-06
+  },
+  {
+   "cohort": "ISU",
+   "arm": "as_sched",
+   "ref": "as",
+   "mae": 0.21638480174312177,
+   "ref_mae": 0.21312928838099823,
+   "gain_pct": 1.5274828658480066,
+   "ci_lo": -4.549065468137413,
+   "ci_hi": 8.032985591182813,
+   "wilcoxon_p": 0.24867781556558077
+  },
+  {
+   "cohort": "ISU",
+   "arm": "as_health",
+   "ref": "as",
+   "mae": 0.17201025994342048,
+   "ref_mae": 0.21312928838099823,
+   "gain_pct": -19.2929975743511,
+   "ci_lo": -26.967948431300233,
+   "ci_hi": -11.304314253339593,
+   "wilcoxon_p": 0.000506006946424923
+  },
+  {
+   "cohort": "ISU",
+   "arm": "as_sched_health",
+   "ref": "as",
+   "mae": 0.1705180656279518,
+   "ref_mae": 0.21312928838099823,
+   "gain_pct": -19.993133312054677,
+   "ci_lo": -28.156274633273167,
+   "ci_hi": -11.258134268814628,
+   "wilcoxon_p": 0.000506006946424923
+  }
+ ],
+ "decisive": [
+  {
+   "cohort": "UConn",
+   "health_arm": "age_sched_health",
+   "base_arm": "age_sched",
+   "gain_pct": -22.25232690396678,
+   "ci_lo": -36.42954852909064,
+   "ci_hi": -12.11552284809015,
+   "wilcoxon_p": 0.001953125,
+   "excludes_zero": true
+  },
+  {
+   "cohort": "UConn",
+   "health_arm": "age_health",
+   "base_arm": "age",
+   "gain_pct": -17.7271285433652,
+   "ci_lo": -35.049895725336256,
+   "ci_hi": 17.14263284070021,
+   "wilcoxon_p": 0.51953125,
+   "excludes_zero": false
+  },
+  {
+   "cohort": "UConn",
+   "health_arm": "age_sched",
+   "base_arm": "age",
+   "gain_pct": 77.81179364572917,
+   "ci_lo": 48.31904374238008,
+   "ci_hi": 119.53122094278169,
+   "wilcoxon_p": 0.0048828125,
+   "excludes_zero": false
+  },
+  {
+   "cohort": "ISU",
+   "health_arm": "as_sched_health",
+   "base_arm": "as_sched",
+   "gain_pct": -21.19683810770594,
+   "ci_lo": -28.83768146084158,
+   "ci_hi": -12.871377343879336,
+   "wilcoxon_p": 0.00011692042093758798,
+   "excludes_zero": true
+  },
+  {
+   "cohort": "ISU",
+   "health_arm": "as_health",
+   "base_arm": "as",
+   "gain_pct": -19.2929975743511,
+   "ci_lo": -26.967948431300233,
+   "ci_hi": -11.304314253339593,
+   "wilcoxon_p": 0.000506006946424923,
+   "excludes_zero": true
+  },
+  {
+   "cohort": "ISU",
+   "health_arm": "as_sched",
+   "base_arm": "as",
+   "gain_pct": 1.5274828658480066,
+   "ci_lo": -4.549065468137413,
+   "ci_hi": 8.032985591182813,
+   "wilcoxon_p": 0.24867781556558077,
+   "excludes_zero": false
+  }
+ ]
+}
